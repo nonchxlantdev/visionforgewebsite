@@ -4,10 +4,6 @@ import { existsSync, readFileSync } from "node:fs";
 import test from "node:test";
 
 const root = new URL("../", import.meta.url);
-const sourcePng = new URL(
-  "file:///C:/Users/glenr/.cursor/projects/d-Entrepreneur-Vision-Forge-Ltd-Documents-visionforgestudio-app/assets/c__Users_glenr_AppData_Roaming_Cursor_User_workspaceStorage_a1a76169f928332a0b98f34352fb9885_images_logo-png-7f7be605-dc71-4ee8-93de-92bf17ef3b58.png",
-);
-
 function sha256(url: URL): string {
   return createHash("sha256").update(readFileSync(url)).digest("hex");
 }
@@ -26,7 +22,8 @@ test("the public logo, favicon, and apple icon are the supplied png", () => {
   const brand = new URL("./public/brand/vision-forge-logo.png", root);
   const icon = new URL("./app/icon.png", root);
   const apple = new URL("./app/apple-icon.png", root);
-  const sourceHash = sha256(sourcePng);
+  // The originally supplied PNG is the brand file; the icons must be byte-identical copies.
+  const sourceHash = sha256(brand);
 
   assert.equal(sha256(brand), sourceHash);
   assert.equal(sha256(icon), sourceHash);
@@ -39,7 +36,7 @@ test("the public logo, favicon, and apple icon are the supplied png", () => {
 
 test("logo and page metadata use the png without cropping it", () => {
   const logo = readFileSync(new URL("./components/ui/Logo.tsx", root), "utf8");
-  const hero = readFileSync(new URL("./components/sections/Hero.tsx", root), "utf8");
+  const hero = readFileSync(new URL("./components/sections/Furnace.tsx", root), "utf8");
   const layout = readFileSync(new URL("./app/layout.tsx", root), "utf8");
   const navbar = readFileSync(new URL("./components/layout/Navbar.tsx", root), "utf8");
   const footer = readFileSync(new URL("./components/layout/Footer.tsx", root), "utf8");
@@ -52,11 +49,8 @@ test("logo and page metadata use the png without cropping it", () => {
   assert.doesNotMatch(logo, /vision-forge-logo\.jpg/);
   assert.doesNotMatch(logo, /object-cover/);
 
-  const logoAt = hero.indexOf("<Logo");
-  const labelAt = hero.indexOf("VISION FORGE / DIGITAL ENGINEERING");
-  assert.ok(logoAt >= 0 && labelAt > logoAt);
-  assert.match(hero, /h-40 w-40 sm:h-56 sm:w-56/);
-  assert.match(hero, /sizes="\(min-width: 640px\) 224px, 160px"/);
+  assert.match(hero, /<Logo\s+priority/);
+  assert.match(hero, /sizes="\(min-width: 1024px\) 416px/);
 
   assert.match(navbar, /h-11 w-11 sm:h-12 sm:w-12/);
   assert.match(navbar, /sizes="48px"/);

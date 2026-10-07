@@ -23,6 +23,7 @@
 # misc
 .DS_Store
 *.pem
+*.key
 
 # debug
 npm-debug.log*
@@ -30,8 +31,15 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# env files — never commit secrets. .env.example stays committable.
+.env
+.env.*
+!.env.example
+
+# cloudflare local credentials and build output
+.wrangler
+.dev.vars
+.open-next
 
 # vercel
 .vercel

@@ -1,24 +1,36 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import localFont from "next/font/local";
+import { Ignition } from "@/components/forge/Ignition";
+import { SparksProvider } from "@/components/forge/SparkField";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { site } from "@/lib/site";
+import { ignitionScript } from "@/lib/storage";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const display = localFont({
+  src: "./fonts/big-shoulders-display.woff2",
+  variable: "--font-display-face",
+  weight: "100 900",
   display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const body = localFont({
+  src: "./fonts/instrument-sans.woff2",
+  variable: "--font-body-face",
+  weight: "400 700",
+  display: "swap",
+});
+
+const mono = localFont({
+  src: "./fonts/martian-mono.woff2",
+  variable: "--font-mono-face",
+  weight: "100 800",
   display: "swap",
 });
 
 export const viewport: Viewport = {
-  themeColor: "#050606",
+  themeColor: "#0B0907",
   colorScheme: "dark",
   width: "device-width",
   initialScale: 1,
@@ -66,6 +78,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
   name: site.name,
+  legalName: site.legal.registeredName,
   url: site.url,
   image: `${site.url}/brand/vision-forge-logo.png`,
   logo: `${site.url}/brand/vision-forge-logo.png`,
@@ -103,25 +116,29 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
+      className={`${display.variable} ${body.variable} ${mono.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-void font-sans text-ink antialiased">
+      <body className="min-h-full bg-forge font-sans text-chrome antialiased">
+        <script dangerouslySetInnerHTML={{ __html: ignitionScript }} />
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:bg-gold focus:px-4 focus:py-3 focus:text-[#1c1408]"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[70] focus:bg-molten focus:px-4 focus:py-3 focus:text-on-molten"
         >
           Skip to content
         </a>
-        <div className="atmosphere" aria-hidden />
-        <div className="grain" aria-hidden />
-        <div className="relative z-10 mx-auto min-h-dvh max-w-[1760px] border-x border-line bg-canvas">
+        <SparksProvider>
+          <div className="grain" aria-hidden />
           <Navbar />
-          <main id="main">{children}</main>
+          <main id="main" className="relative z-10">
+            {children}
+          </main>
           <Footer />
-        </div>
+          <Ignition />
+        </SparksProvider>
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
         />
       </body>
     </html>

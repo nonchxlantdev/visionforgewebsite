@@ -1,36 +1,40 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# visionforgestudio.app
 
-## Getting Started
+The Vision Forge Studio website: Next.js 16 + React 19 + Motion + Tailwind 4, deployed to Cloudflare Workers with OpenNext.
 
-First, run the development server:
+## Develop
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000
+npm test           # unit tests
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Preview exactly as Cloudflare will run it
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run preview    # builds with OpenNext and serves on http://localhost:8787
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deploy (GitHub → Cloudflare, automatic)
 
-## Learn More
+1. Push this repo to GitHub (commit `package-lock.json` too).
+2. In the Cloudflare dashboard go to **Workers & Pages → Create → Import a repository**, pick the repo.
+3. Build settings:
+   - Project / Worker name: `visionforgestudio` (must match `name` in `wrangler.jsonc`)
+   - Build command: `npx @opennextjs/cloudflare build`
+   - Deploy command: `npx @opennextjs/cloudflare deploy`
+   - Root directory: `/`
+4. Save and deploy. Every push to `main` now deploys, and other branches get preview URLs.
+5. **Custom domain:** in the Worker, open **Settings → Domains & Routes → Add → Custom domain** and enter `visionforgestudio.app` (add `www.visionforgestudio.app` too if you want it).
+   If the domain isn't on Cloudflare yet, first add it under **Websites → Add a domain** and switch the nameservers at your registrar to the two Cloudflare gives you. HTTPS is issued automatically (`.app` requires it).
 
-To learn more about Next.js, take a look at the following resources:
+Manual deploy from your machine instead: `npx wrangler login` once, then `npm run deploy`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Notes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Next.js is pinned to 16.3.8** on purpose: `@opennextjs/cloudflare` 1.20.9 does not yet support 16.4.0 (pages crash with `Unexpected loadManifest(preview-props.json)`). `tests/deploy.test.ts` guards this. Before upgrading, check the adapter's release notes and run `npm run preview`.
+- **Cache Components is off.** Every page is static, and the Workers runtime can't run Cache Components reliably yet.
+- **Images:** `next/image` uses `lib/image-loader.ts`, which serves pre-sized WebP logos from `public/brand/` (96–819px). No paid Cloudflare Images needed. If you replace the logo, regenerate those files at the same widths.
+- Worker bundle is ~2.6 MiB gzipped, under the free plan's 3 MiB limit.
