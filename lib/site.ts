@@ -2,9 +2,9 @@ export const site = {
   name: "Vision Forge Studio",
   domain: "visionforgestudio.app",
   url: "https://visionforgestudio.app",
-  title: "Vision Forge Studio | Software Forged for Business",
+  title: "Websites, Apps & Business Systems in Belize | Vision Forge Studio",
   description:
-    "Vision Forge Studio forges websites, custom applications, automation, data systems and cloud infrastructure for businesses in Belize and beyond.",
+    "Vision Forge Studio builds websites, online stores, booking systems, staff apps and business systems for businesses in Belize. Prices from BZ$500. Free first consultation.",
   tagline: ["Built for your business.", "Built for your budget."],
   whatsapp: {
     label: "WhatsApp",
@@ -40,10 +40,10 @@ export const site = {
 } as const;
 
 export const navItems = [
-  { href: "/#services", id: "services", label: "Services" },
-  { href: "/#forge", id: "forge", label: "The Forge" },
-  { href: "/#process", id: "process", label: "Process" },
-  { href: "/#why", id: "why", label: "Why Us" },
+  { href: "/#what", id: "what", label: "What we build" },
+  { href: "/#build", id: "build", label: "Build your project" },
+  { href: "/#pricing", id: "pricing", label: "Pricing" },
+  { href: "/#faq", id: "faq", label: "FAQ" },
   { href: "/#contact", id: "contact", label: "Contact" },
 ] as const;
 
@@ -54,6 +54,142 @@ export const legalItems = [
   { href: "/cookies", label: "Cookies" },
 ] as const;
 
+/** Small-print reminder shown next to every price on the site. */
+export const priceNote = {
+  text: "Prices shown are typical starting points, not final quotes. Your final price is confirmed in a written quote after we discuss your project.",
+  href: "/disclaimer#estimates",
+  linkLabel: "Read more",
+} as const;
+
+export const hero = {
+  title: "Websites, apps and business systems for Belizean businesses.",
+  lede: "We design and build the tools your business runs on. Whether you need your first website or a system that replaces paper forms and spreadsheets, we build it, launch it and look after it.",
+  primary: "Message us on WhatsApp",
+  secondary: "See what we can build",
+  trust: "Based in Belize · Prices from BZ$500 · Free first consultation",
+} as const;
+
+export const doors = [
+  {
+    id: "small",
+    tab: "I run a small business",
+    tabHint: "A shop, restaurant, salon, tour operator or clinic.",
+    problems: [
+      "Customers can't find you on Google.",
+      "Orders and bookings get lost in WhatsApp messages.",
+      "You're still keeping records in a notebook.",
+    ],
+    builds: [
+      { title: "A website people can find", copy: "Your hours, services, photos and a map, showing up when people search Google." },
+      { title: "Online orders or a shop", copy: "Customers order or pay online; you get every order in one place." },
+      { title: "Bookings and appointments", copy: "Clients pick a time themselves; you get reminders, not double-bookings." },
+      { title: "A simple app for your staff", copy: "Track jobs, stock or deliveries from a phone." },
+    ],
+    typical: "Typical project: Launch or Grow tier · from BZ$500",
+    example: "Example: a salon booking page",
+  },
+  {
+    id: "company",
+    tab: "I run a company or organisation",
+    tabHint: "Teams, departments, lots of paperwork, existing software.",
+    problems: [
+      "Forms on paper or in spreadsheets.",
+      "Departments can't see each other's work.",
+      "Reports take days to put together.",
+      "Your software doesn't talk to your other software.",
+    ],
+    builds: [
+      { title: "Staff portals and internal apps", copy: "One place for your team's work, with the right access for each role." },
+      { title: "Digital forms and checklists", copy: "Replace paper with forms on a phone or tablet, even offline." },
+      { title: "Automatic reports and dashboards", copy: "Live numbers instead of spreadsheets you rebuild every week." },
+      { title: "Connecting your systems", copy: "Make the software you already use share data automatically." },
+    ],
+    typical: "Typical project: Custom tier · from BZ$8,000",
+    example: "Example: an operations dashboard",
+  },
+] as const;
+
+export const steps = [
+  { title: "Talk", copy: "A free chat on WhatsApp, by phone or in person. Tell us what you need." },
+  { title: "Plan and price", copy: "We send a written plan with a fixed price before any work starts." },
+  { title: "Build", copy: "You see progress as we build and tell us what to change." },
+  { title: "Launch and support", copy: "We put it live, show you how it works and stay on to help." },
+] as const;
+
+export const faq = [
+  {
+    q: "Do I need to know anything technical?",
+    a: "No. Tell us how your business works in your own words; we handle the technical side and explain things plainly.",
+  },
+  {
+    q: "How much will my project cost?",
+    a: "It depends on what you need. Websites start from BZ$500, and every project gets a fixed written quote before work starts.",
+  },
+  {
+    q: "How long does it take?",
+    a: "Most websites take 2–4 weeks. Bigger systems take longer; your plan will include a timeline.",
+  },
+  {
+    q: "Who owns the website or app?",
+    a: "You do, once it's paid for. See our Terms of Service for details.",
+    link: { href: "/terms", label: "Terms of Service" },
+  },
+  {
+    q: "Can you fix or improve my existing website?",
+    a: "Yes. Send us the link and tell us what's not working.",
+  },
+  {
+    q: "Do you handle hosting and the domain?",
+    a: "We can set up and manage hosting and your domain, or work with what you already have.",
+  },
+  {
+    q: "What happens after launch?",
+    a: "We show you how to use it and stay available for support, updates and new features.",
+  },
+] as const;
+
+export const principles = [
+  { lead: "10+", support: "Years experience" },
+  { lead: "Business", support: "Focused" },
+  { lead: "Secure +", support: "Scalable" },
+  { lead: "Real", support: "Support" },
+  { lead: "Belize", support: "Based" },
+] as const;
+
+export type TierId = "launch" | "grow" | "custom";
+
+/** Starting points shown on the pricing cards and used by the project builder. */
+export const tiers = {
+  launch: {
+    id: "launch",
+    label: "Launch",
+    from: 500,
+    weeks: "2–4 weeks",
+    copy: "A professional website or landing page, mobile-friendly, set up on Google, with contact and WhatsApp buttons.",
+  },
+  grow: {
+    id: "grow",
+    label: "Grow",
+    from: 2500,
+    weeks: "4–8 weeks",
+    copy: "Everything in Launch, plus online orders or a shop, bookings, or a simple app.",
+  },
+  custom: {
+    id: "custom",
+    label: "Custom",
+    from: 8000,
+    weeks: "8+ weeks",
+    copy: "Staff portals, digital forms, automation, dashboards and connections between your systems, built around how you work.",
+  },
+} as const;
+
+export const tierOrder: readonly TierId[] = ["launch", "grow", "custom"];
+
+export function formatBZ(amount: number): string {
+  return `BZ$${amount.toLocaleString("en-US")}`;
+}
+
+/** Kept for the earlier forge sections, which are still type-checked with the app. */
 export const capabilities = [
   {
     index: "01",
@@ -139,12 +275,4 @@ export const processSteps = [
     classic: "Evolve",
     copy: "We stay on. Support, improvements and scale as your business grows.",
   },
-] as const;
-
-export const principles = [
-  { lead: "10+", support: "Years experience" },
-  { lead: "Business", support: "Focused" },
-  { lead: "Secure +", support: "Scalable" },
-  { lead: "Real", support: "Support" },
-  { lead: "Belize", support: "Based" },
 ] as const;

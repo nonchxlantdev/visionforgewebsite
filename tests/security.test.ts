@@ -105,3 +105,22 @@ test("application source does not reference private environment variables", () =
     assert.doesNotMatch(text, /-----BEGIN [A-Z ]*PRIVATE KEY-----/);
   }
 });
+
+test("wa.me links may carry only a short prefilled text", () => {
+  const ok = `https://wa.me/5016157575?text=${encodeURIComponent("Hi Vision Forge! I run a shop.")}`;
+  assert.equal(isSafeNavigationHref(ok), true);
+  assert.equal(isSafeNavigationHref("https://wa.me/5016157575?text=hi&phone=19999999999"), false);
+  assert.equal(isSafeNavigationHref("https://wa.me/5016157575?other=hi"), false);
+  assert.equal(isSafeNavigationHref("https://wa.me/5016157575?text=hi#x"), false);
+  assert.equal(isSafeNavigationHref(`https://wa.me/5016157575?text=${"a".repeat(501)}`), false);
+  assert.equal(isSafeNavigationHref("https://wa.me/19999999999?text=hi"), false);
+});
+
+test("mailto body is encoded, length-capped and rejects header injection", () => {
+  const href = mailtoHref("sales@visionforgestudio.app", "Project enquiry", "Hi Vision Forge! (shop) budget: BZ$500");
+  assert.ok(href);
+  assert.equal(isSafeNavigationHref(href), true);
+  assert.equal(decodeURIComponent(href.split("&body=")[1]), "Hi Vision Forge! (shop) budget: BZ$500");
+  assert.equal(mailtoHref("sales@visionforgestudio.app", "Project enquiry", "hi\r\nBcc:a@b.c"), undefined);
+  assert.equal(mailtoHref("sales@visionforgestudio.app", "Project enquiry", "a".repeat(501)), undefined);
+});

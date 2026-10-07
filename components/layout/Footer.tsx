@@ -2,14 +2,9 @@ import Link from "next/link";
 import { ArrowUp } from "lucide-react";
 import { EmailLink } from "@/components/ui/EmailLink";
 import { Logo } from "@/components/ui/Logo";
-import { legalItems, site } from "@/lib/site";
+import { legalItems, navItems, site } from "@/lib/site";
 
-const studio = [
-  { href: "/#services", label: "Services" },
-  { href: "/#forge", label: "The Forge" },
-  { href: "/#process", label: "Process" },
-  { href: "/#contact", label: "Contact" },
-] as const;
+const studio = navItems;
 
 function ColumnTitle({ children }: { children: string }) {
   return <h2 className="font-mono text-[11px] tracking-[0.2em] text-molten uppercase">{children}</h2>;

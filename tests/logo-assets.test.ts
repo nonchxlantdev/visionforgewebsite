@@ -36,7 +36,7 @@ test("the public logo, favicon, and apple icon are the supplied png", () => {
 
 test("logo and page metadata use the png without cropping it", () => {
   const logo = readFileSync(new URL("./components/ui/Logo.tsx", root), "utf8");
-  const hero = readFileSync(new URL("./components/sections/Furnace.tsx", root), "utf8");
+  const hero = readFileSync(new URL("./components/sections/Hero.tsx", root), "utf8");
   const layout = readFileSync(new URL("./app/layout.tsx", root), "utf8");
   const navbar = readFileSync(new URL("./components/layout/Navbar.tsx", root), "utf8");
   const footer = readFileSync(new URL("./components/layout/Footer.tsx", root), "utf8");
@@ -50,7 +50,7 @@ test("logo and page metadata use the png without cropping it", () => {
   assert.doesNotMatch(logo, /object-cover/);
 
   assert.match(hero, /<Logo\s+priority/);
-  assert.match(hero, /sizes="\(min-width: 1024px\) 416px/);
+  assert.match(hero, /sizes="\(min-width: 1024px\) 352px/);
 
   assert.match(navbar, /h-11 w-11 sm:h-12 sm:w-12/);
   assert.match(navbar, /sizes="48px"/);

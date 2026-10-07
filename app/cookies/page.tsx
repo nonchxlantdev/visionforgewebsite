@@ -4,7 +4,7 @@ import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Cookies & Local Storage | Vision Forge Studio",
-  description: "visionforgestudio.app uses no tracking cookies. Here is the little it stores in your browser.",
+  description: "visionforgestudio.app uses no cookies and stores nothing in your browser.",
   alternates: { canonical: "/cookies" },
 };
 
@@ -21,29 +21,11 @@ const sections: LegalSection[] = [
   },
   {
     id: "what-we-store",
-    heading: "What is stored in your browser",
-    body: (
-      <>
-        <p>Two small items may be saved on your own device, and they are never sent to us:</p>
-        <ul>
-          <li>
-            <strong>vf-best</strong> (local storage): your best score in the forge game, so you can try to beat it.
-          </li>
-          <li>
-            <strong>vf-ignited</strong> (session storage): remembers that the short intro animation has played, so it
-            doesn&apos;t replay on every page. It clears when you close the tab.
-          </li>
-        </ul>
-      </>
-    ),
-  },
-  {
-    id: "clearing",
-    heading: "Clearing it",
+    heading: "Nothing stored in your browser",
     body: (
       <p>
-        You can delete these at any time by clearing site data for visionforgestudio.app in your browser settings
-        (usually under Privacy or Site settings). The website works exactly the same without them.
+        The site doesn&apos;t save anything in your browser: no cookies, no local storage. The project builder keeps your
+        answers on the page only until you close it or choose to send them to us yourself.
       </p>
     ),
   },

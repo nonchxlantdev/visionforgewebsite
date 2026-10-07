@@ -1,11 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { Ignition } from "@/components/forge/Ignition";
 import { SparksProvider } from "@/components/forge/SparkField";
 import { Footer } from "@/components/layout/Footer";
+import { MobileContactBar } from "@/components/layout/MobileContactBar";
 import { Navbar } from "@/components/layout/Navbar";
 import { site } from "@/lib/site";
-import { ignitionScript } from "@/lib/storage";
 import "./globals.css";
 
 const display = localFont({
@@ -116,11 +115,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      suppressHydrationWarning
       className={`${display.variable} ${body.variable} ${mono.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-forge font-sans text-chrome antialiased">
-        <script dangerouslySetInnerHTML={{ __html: ignitionScript }} />
+      <body className="min-h-full bg-forge pb-[calc(4.5rem+env(safe-area-inset-bottom))] font-sans text-chrome antialiased md:pb-0">
         <a
           href="#main"
           className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[70] focus:bg-molten focus:px-4 focus:py-3 focus:text-on-molten"
@@ -134,7 +131,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
             {children}
           </main>
           <Footer />
-          <Ignition />
+          <MobileContactBar />
         </SparksProvider>
         <script
           type="application/ld+json"

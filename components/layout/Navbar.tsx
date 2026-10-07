@@ -91,7 +91,7 @@ export function Navbar() {
           </span>
         </Link>
 
-        <nav className="ml-auto hidden items-center gap-7 md:flex lg:gap-9" aria-label="Primary">
+        <nav className="ml-auto hidden items-center gap-6 lg:flex xl:gap-8" aria-label="Primary">
           {navItems.map((item) => (
             <a
               key={item.href}
@@ -105,16 +105,16 @@ export function Navbar() {
           ))}
         </nav>
 
-        <div className="ml-8 hidden md:block">
-          <CtaLink href="/#contact" className="min-h-11 px-4">
-            Start a project
+        <div className="ml-6 hidden lg:block">
+          <CtaLink href={site.whatsapp.href} external className="min-h-11 px-4">
+            WhatsApp us
           </CtaLink>
         </div>
 
         <button
           ref={menuButtonRef}
           type="button"
-          className="ml-auto flex h-12 w-12 items-center justify-center text-chrome md:hidden"
+          className="ml-auto flex h-12 w-12 items-center justify-center text-chrome lg:hidden"
           aria-expanded={open}
           aria-controls="mobile-navigation"
           onClick={() => setOpen(true)}
@@ -131,7 +131,7 @@ export function Navbar() {
           role="dialog"
           aria-modal="true"
           aria-label="Navigation"
-          className="brushed fixed inset-0 z-[60] flex flex-col md:hidden"
+          className="brushed fixed inset-0 z-[60] flex flex-col lg:hidden"
         >
           <div className="flex h-[var(--nav-h)] items-center justify-between px-4">
             <Link href="/" onClick={closeMenu} aria-label="Vision Forge Studio, home">
@@ -166,8 +166,8 @@ export function Navbar() {
               </a>
             ))}
             <div className="pt-8">
-              <CtaLink href="/#contact" className="w-full">
-                Start a project
+              <CtaLink href={site.whatsapp.href} external className="w-full">
+                Message us on WhatsApp
               </CtaLink>
             </div>
           </nav>

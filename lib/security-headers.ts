@@ -7,7 +7,7 @@
  *
  * Relaxed directives, and why they stay:
  * - script-src 'unsafe-inline': Next.js injects framework bootstrap scripts,
- *   and the root layout includes a static pre-paint ignition script plus
+ *   and the root layout and homepage include
  *   JSON-LD. No hash or nonce is attached to those scripts. 'unsafe-eval' is
  *   added only in development, where React uses eval for debugging.
  * - style-src 'unsafe-inline': the Motion library sets style attributes and

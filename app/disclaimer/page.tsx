@@ -52,12 +52,12 @@ const sections: LegalSection[] = [
     ),
   },
   {
-    id: "game",
-    heading: "The forge game",
+    id: "estimates",
+    heading: "Prices and estimates",
     body: (
       <p>
-        &ldquo;Strike While It&apos;s Hot&rdquo; is just for fun. Scores, ranks and results have no monetary value,
-        and there are no prizes. Your best score is stored only in your own browser.
+        Prices on this website and the suggestions from the project builder are typical starting points, not quotes. Your
+        price is set in a written quote after we discuss your project.
       </p>
     ),
   },
