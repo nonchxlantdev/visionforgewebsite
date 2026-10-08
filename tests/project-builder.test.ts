@@ -14,7 +14,7 @@ import {
 } from "../lib/project-builder.ts";
 import { isSafeNavigationHref } from "../lib/safe-href.ts";
 
-const base: StartState = { problems: ["orders", "payments"], budget: "to8000" };
+const base: StartState = { business: null, problems: ["orders", "payments"], budget: "to8000" };
 
 test("each problem points to a tier and the highest wins", () => {
   assert.equal(suggestedTier(["website"]), "found");
@@ -52,7 +52,7 @@ test("the suggestion card reads plainly in every state", () => {
     headline: "Pick what's slowing you down and we'll suggest where to start.",
     budgetLine: null,
   });
-  assert.deepEqual(suggestion({ problems: ["unsure"], budget: "unsure" }), {
+  assert.deepEqual(suggestion({ business: null, problems: ["unsure"], budget: "unsure" }), {
     tier: null,
     headline: "No problem. Send it over and we'll suggest the right first step.",
     budgetLine: null,
@@ -62,12 +62,12 @@ test("the suggestion card reads plainly in every state", () => {
     headline: "Sounds like an “Automate one task” project.",
     budgetLine: "Your budget fits this.",
   });
-  assert.deepEqual(suggestion({ problems: ["accounts"], budget: "under1500" }), {
+  assert.deepEqual(suggestion({ business: null, problems: ["accounts"], budget: "under1500" }), {
     tier: "connect",
     headline: "Sounds like a “Connect your business” project.",
     budgetLine: "Your budget fits a smaller first step. We'd start with “Get found” and add the rest later.",
   });
-  assert.equal(suggestion({ problems: ["website"], budget: "unsure" }).budgetLine, null);
+  assert.equal(suggestion({ business: null, problems: ["website"], budget: "unsure" }).budgetLine, null);
 });
 
 test("the message lists the problems and budget, capped at 500 characters", () => {
@@ -76,10 +76,10 @@ test("the message lists the problems and budget, capped at 500 characters", () =
     "Hi Vision Forge, here's what's slowing my business down: typing up orders and chasing payments. Budget: BZ$1,500–8,000. Can we talk?",
   );
   assert.equal(
-    buildMessage({ problems: ["unsure"], budget: "unsure" }),
+    buildMessage({ business: null, problems: ["unsure"], budget: "unsure" }),
     "Hi Vision Forge, something's slowing my business down but I'm not sure where to start. Budget: Not sure. Can we talk?",
   );
-  const all: StartState = { problems: ["orders", "payments", "forms", "bookings", "reports", "accounts", "website"], budget: "over8000" };
+  const all: StartState = { business: "logistics", problems: ["orders", "payments", "forms", "bookings", "reports", "accounts", "website"], budget: "over8000" };
   assert.ok(buildMessage(all).length <= 500);
   assert.equal(buildMessage(EMPTY_STATE), "");
 });
@@ -96,4 +96,14 @@ test("send links are safe and only exist once something is picked", () => {
   assert.equal(isSafeNavigationHref(mail), true);
   assert.equal(whatsappHref(EMPTY_STATE), undefined);
   assert.equal(emailHref(EMPTY_STATE), undefined);
+});
+
+test("the message names the business when one is picked", () => {
+  assert.equal(
+    buildMessage({ ...base, business: "virtual" }),
+    "Hi Vision Forge, I run a virtual shop. Here's what's slowing my business down: typing up orders and chasing payments. Budget: BZ$1,500–8,000. Can we talk?",
+  );
+  assert.match(buildMessage({ ...base, business: "ecommerce" }), /^Hi Vision Forge, I run an online store\. /);
+  assert.equal(buildMessage({ ...base, business: "other" }), buildMessage(base));
+  assert.equal(canSend({ ...EMPTY_STATE, business: "food" }), false);
 });

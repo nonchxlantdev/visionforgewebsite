@@ -23,41 +23,50 @@ function contrast(a: string, b: string): number {
   return (hi + 0.05) / (lo + 0.05);
 }
 
-test("studio-light tokens exist and the forge palette is gone", () => {
-  for (const name of ["page", "canvas", "ink", "ink-2", "hairline", "panel", "panel-2", "panel-ink", "panel-ink-2", "accent", "link", "link-dark", "done", "done-ink"]) {
+test("workshop tokens exist and the light theme is gone", () => {
+  for (const name of ["bg", "bg-2", "bg-3", "line", "steel-hi", "steel", "steel-2", "gold", "on-gold", "paper", "paper-ink", "paper-ink-2", "ink-red", "done"]) {
     token(name);
   }
-  for (const old of ["--molten", "--ember", "--whitehot", "--soot", ".grain", ".hot-text", ".ingot"]) {
+  for (const old of ["--canvas", "--panel-ink", "--accent:", ".text-gradient", ".dot-grid", "--molten", "--ember"]) {
     assert.ok(!css.includes(old), old);
   }
-  assert.match(css, /color-scheme: light/);
+  assert.match(css, /color-scheme: dark/);
 });
 
 test("text colour pairs pass WCAG AA (4.5:1)", () => {
   const pairs: Array<[string, string]> = [
-    ["ink", "page"],
-    ["ink-2", "page"],
-    ["ink-2", "canvas"],
-    ["link", "page"],
-    ["link", "canvas"],
-    ["done-ink", "page"],
-    ["panel-ink", "panel"],
-    ["panel-ink-2", "panel"],
-    ["panel-ink-2", "panel-2"],
-    ["link-dark", "panel"],
-    ["link-dark", "panel-2"],
+    ["steel-hi", "bg"],
+    ["steel", "bg"],
+    ["steel", "bg-2"],
+    ["steel-2", "bg"],
+    ["steel-2", "bg-2"],
+    ["steel-2", "bg-3"],
+    ["gold", "bg"],
+    ["gold", "bg-2"],
+    ["on-gold", "gold"],
+    ["paper-ink", "paper"],
+    ["paper-ink-2", "paper"],
+    ["ink-red", "paper"],
+    ["done", "bg-2"],
   ];
   for (const [fg, bg] of pairs) {
     const ratio = contrast(token(fg), token(bg));
     assert.ok(ratio >= 4.5, `${fg} on ${bg} is ${ratio.toFixed(2)}`);
   }
-  assert.ok(contrast("#ffffff", token("accent")) >= 4.5, "white on accent");
 });
 
-test("the layout self-hosts Inter only and is light", () => {
+test("four self-hosted faces: wide display, body, mono labels, handwriting", () => {
   const layout = read("app/layout.tsx");
-  assert.ok(existsSync(new URL("app/fonts/inter-variable.woff2", root)));
-  assert.match(layout, /inter-variable\.woff2/);
-  assert.doesNotMatch(layout, /big-shoulders|instrument-sans|martian-mono|SparksProvider|grain/);
-  assert.match(layout, /colorScheme: "light"/);
+  for (const font of ["archivo-var", "instrument-sans-var", "plex-mono-500", "caveat-600"]) {
+    assert.ok(existsSync(new URL(`app/fonts/${font}.woff2`, root)), font);
+    assert.match(layout, new RegExp(`${font}\\.woff2`));
+  }
+  assert.doesNotMatch(layout, /inter-variable|fonts\.googleapis/);
+  assert.match(layout, /colorScheme: "dark"/);
+});
+
+test("signature motion is CSS-only and switched off for reduced motion", () => {
+  for (const name of ["glint", "marquee", "stamp", "reveal"]) assert.match(css, new RegExp(`@keyframes ${name}`), name);
+  const reduced = css.slice(css.indexOf("@media (prefers-reduced-motion: reduce)"));
+  for (const cls of [".emblem-glint", ".marquee-track", ".stamp-in", ".strike"]) assert.ok(reduced.includes(cls), cls);
 });

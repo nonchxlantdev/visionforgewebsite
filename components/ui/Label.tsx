@@ -2,16 +2,12 @@ import type { ReactNode } from "react";
 
 export function Label({
   children,
-  tone = "light",
+  tone = "gold",
   className = "",
 }: {
   children: ReactNode;
-  tone?: "light" | "dark";
+  tone?: "gold" | "muted";
   className?: string;
 }) {
-  return (
-    <p className={`text-[15px] font-semibold tracking-[-0.01em] sm:text-[17px] ${tone === "dark" ? "text-link-dark" : "text-link"} ${className}`}>
-      {children}
-    </p>
-  );
+  return <p className={`label ${tone === "gold" ? "text-gold" : "text-steel-2"} ${className}`}>{children}</p>;
 }

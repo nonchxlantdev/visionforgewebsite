@@ -40,11 +40,11 @@ export const site = {
 } as const;
 
 export const navItems = [
-  { href: "/#how", id: "how", label: "How it works" },
-  { href: "/#automate", id: "automate", label: "What we automate" },
-  { href: "/#pricing", id: "pricing", label: "Pricing" },
-  { href: "/#faq", id: "faq", label: "FAQ" },
-  { href: "/#contact", id: "contact", label: "Contact" },
+  { href: "/automation", label: "Automation" },
+  { href: "/websites", label: "Websites" },
+  { href: "/pricing", label: "Pricing" },
+  { href: "/how-we-work", label: "How we work" },
+  { href: "/contact", label: "Contact" },
 ] as const;
 
 export const legalItems = [
@@ -62,13 +62,14 @@ export const priceNote = {
 } as const;
 
 export const hero = {
-  kicker: "Automation and websites · Belize",
-  title: ["Stop doing the", "same work twice."],
-  lede: "We connect the tools your business already uses, like WhatsApp, spreadsheets and your accounting software, so orders, invoices and reports happen on their own. We build websites too.",
-  primary: "See how it works",
-  secondary: "WhatsApp us",
-  trust: "Based in Belize · Prices from BZ$500* · Free first consultation",
-  flow: ["WhatsApp order", "Spreadsheet", "Invoice", "Reminder"],
+  kicker: "Belize · Automation & websites",
+  title: ["Your business,", "minus the"],
+  goldWord: "busywork.",
+  lede: "We wire up the tools you already use, like WhatsApp, spreadsheets and your accounting software, so orders, invoices and reminders take care of themselves. And we build the website that brings the orders in.",
+  primary: { label: "Price your project", href: "/pricing" },
+  secondary: { label: "See how it works", href: "/automation" },
+  meta: ["From BZ$500*", "Fixed written quotes", "Free first chat"],
+  stamp: "Est. Belize · Reg. 000058528",
 } as const;
 
 export type AutomationIcon = "wallet" | "forms" | "bookings" | "reports" | "accounts" | "website";
@@ -108,9 +109,136 @@ export const automations = [
     id: "website",
     icon: "website",
     pain: "People can't find us online.",
-    fix: "A fast website set up on Google, with WhatsApp buttons.",
+    fix: "A fast, professional website with WhatsApp and call buttons.",
   },
 ] as const satisfies ReadonlyArray<{ id: string; icon: AutomationIcon; pain: string; fix: string }>;
+
+export type IndustryIcon = "cart" | "phone" | "food" | "palm" | "health" | "briefcase" | "store" | "truck";
+
+/** Kinds of business we build for. E-commerce and virtual shops lead. */
+export const industries = [
+  {
+    id: "ecommerce",
+    icon: "cart",
+    name: "E-commerce and online stores",
+    copy: "Product catalogues, secure checkout and every order landing in one place.",
+  },
+  {
+    id: "virtual",
+    icon: "phone",
+    name: "Virtual shops and social sellers",
+    copy: "Sell through Instagram, Facebook and WhatsApp, with orders and payments tracked for you.",
+  },
+  {
+    id: "food",
+    icon: "food",
+    name: "Restaurants and food delivery",
+    copy: "Menus, online ordering and delivery updates without the message chaos.",
+  },
+  {
+    id: "tourism",
+    icon: "palm",
+    name: "Tourism, tours and hotels",
+    copy: "Bookings, deposits and guest reminders, ready for visitors from anywhere.",
+  },
+  {
+    id: "health",
+    icon: "health",
+    name: "Clinics, salons and wellness",
+    copy: "Appointments, reminders and client records in one calm system.",
+  },
+  {
+    id: "services",
+    icon: "briefcase",
+    name: "Professional services",
+    copy: "Quotes, invoices and client follow-ups that go out on time, every time.",
+  },
+  {
+    id: "retail",
+    icon: "store",
+    name: "Retail and wholesale",
+    copy: "Stock, sales and reorders that finally match your books.",
+  },
+  {
+    id: "logistics",
+    icon: "truck",
+    name: "Logistics and delivery",
+    copy: "Jobs, drivers and proof of delivery, tracked from a phone.",
+  },
+] as const satisfies ReadonlyArray<{ id: string; icon: IndustryIcon; name: string; copy: string }>;
+
+export const industryRibbon = [
+  "Hardware stores",
+  "Real estate",
+  "Schools and training",
+  "Non-profits",
+  "Auto parts",
+  "Bakeries",
+  "Gyms and fitness",
+  "Event planners",
+  "Car rentals",
+  "Pharmacies",
+  "Construction",
+  "Property management",
+] as const;
+
+export const websiteKinds = [
+  {
+    id: "business",
+    title: "Business websites",
+    points: ["Your services, hours, photos and map", "WhatsApp and call buttons on every page", "Enquiry forms that land in your inbox"],
+  },
+  {
+    id: "ecommerce",
+    title: "E-commerce stores",
+    points: ["Product catalogue with photos and prices", "Secure checkout and order tracking", "Orders and stock kept in one place"],
+  },
+  {
+    id: "virtual",
+    title: "Virtual shops",
+    points: [
+      "A catalogue customers browse from Instagram or WhatsApp",
+      "Orders arrive ready to confirm, not as scattered messages",
+      "Payments and deliveries tracked for you",
+    ],
+  },
+  {
+    id: "booking",
+    title: "Booking sites",
+    points: ["Customers pick a time themselves", "Deposits and reminders sent automatically", "No more double-bookings"],
+  },
+] as const;
+
+export const websiteIncludes = [
+  "Fast on any phone",
+  "Your own domain and business email",
+  "WhatsApp and call buttons",
+  "Enquiry and contact forms",
+  "Easy updates, or we update it for you",
+  "Secure hosting and backups",
+] as const;
+
+export const worksWith = [
+  "WhatsApp",
+  "Spreadsheets (Excel or Google Sheets)",
+  "Your accounting software",
+  "Email",
+  "Your website or online store",
+] as const;
+
+export const promises = [
+  { title: "A fixed written quote", copy: "You know the price before any work starts." },
+  { title: "You own what we build", copy: "Once it's paid for, it's yours." },
+  { title: "Support after launch", copy: "We show your team how it works and stay on for fixes and updates." },
+  { title: "Plain language", copy: "No tech talk. We explain everything in everyday words." },
+] as const;
+
+export const pageIndex = [
+  { href: "/automation", title: "Automation", copy: "Orders, invoices, reminders and reports that run themselves.", cta: "Explore" },
+  { href: "/websites", title: "Websites", copy: "Online stores, virtual shops and sites that bring in work.", cta: "Explore" },
+  { href: "/pricing", title: "Pricing", copy: "Build your project and see the starting price as you go.", cta: "Price it" },
+  { href: "/how-we-work", title: "How we work", copy: "A free chat, a fixed quote, and support after launch.", cta: "Read" },
+] as const;
 
 export const steps = [
   { title: "Tell us what's slowing you down.", copy: "A free chat on WhatsApp, by phone or in person." },
@@ -174,8 +302,8 @@ export const tiers = {
     label: "Get found",
     from: 500,
     weeks: "2–4 weeks",
-    copy: "A website or landing page, set up on Google, with WhatsApp and call buttons.",
-    includes: ["Business website or landing page", "Set up on Google", "WhatsApp and call buttons", "Fast on any phone"],
+    copy: "A professional website or landing page with WhatsApp and call buttons, so customers can reach you in one tap.",
+    includes: ["Business website or landing page", "WhatsApp and call buttons", "Enquiry and contact forms", "Fast on any phone"],
   },
   automate: {
     id: "automate",

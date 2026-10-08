@@ -10,7 +10,8 @@ test("picks the smallest pre-made logo that is at least as wide as asked", () =>
   assert.equal(logoVariant(96), "/brand/vision-forge-logo-96.webp");
   assert.equal(logoVariant(97), "/brand/vision-forge-logo-160.webp");
   assert.equal(logoVariant(416), "/brand/vision-forge-logo-512.webp");
-  assert.equal(logoVariant(3840), "/brand/vision-forge-logo-819.webp");
+  assert.equal(logoVariant(900), "/brand/vision-forge-logo-1080.webp");
+  assert.equal(logoVariant(3840), "/brand/vision-forge-logo-1348.webp");
 });
 
 test("only the logo is remapped; other images pass through untouched", () => {

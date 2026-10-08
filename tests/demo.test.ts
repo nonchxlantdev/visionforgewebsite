@@ -35,3 +35,7 @@ test("automated replay takes about two seconds and is faster than manual", () =>
   assert.ok(STEP_DELAY_MS.auto * DEMO_STEPS.length <= 2000);
   assert.ok(STEP_DELAY_MS.manual > STEP_DELAY_MS.auto * 2);
 });
+
+test("every step has a short handwritten note for the receipt", () => {
+  for (const step of DEMO_STEPS) assert.ok(step.note.length > 5 && step.note.length < 28, step.note);
+});

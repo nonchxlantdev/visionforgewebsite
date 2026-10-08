@@ -25,21 +25,21 @@ function Phone({ mode, done }: { mode: DemoMode; done: number }) {
   return (
     <div
       aria-hidden
-      className="mx-auto w-full max-w-[300px] rounded-[44px] border-[10px] border-panel-3 bg-[#0b141a] p-4 shadow-[0_30px_80px_rgba(0,0,0,0.45)]"
+      className="mx-auto w-full max-w-[300px] rounded-[44px] border-[10px] border-bg-3 bg-[#0b141a] p-4 shadow-[0_30px_80px_rgba(0,0,0,0.55)]"
     >
-      <div className="flex items-center gap-3 border-b border-white/10 pb-3">
+      <div className="flex items-center gap-3 border-b border-line pb-3">
         <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#25d366]/20 text-[13px] font-semibold text-[#25d366]">
           MC
         </span>
         <div>
           <p className="text-[14px] font-semibold">Maria C.</p>
-          <p className="text-[12px] text-panel-ink-2">Customer</p>
+          <p className="text-[12px] text-steel-2">Customer</p>
         </div>
       </div>
       <div className="flex min-h-[250px] flex-col gap-2 py-5">
         <p className="max-w-[85%] rounded-2xl rounded-tl-md bg-[#202c33] px-3.5 py-2.5 text-[14px] leading-snug">
           {DEMO_ORDER}
-          <span className="mt-1 block text-right text-[12px] text-panel-ink-2">9:41</span>
+          <span className="mt-1 block text-right text-[12px] text-steel-2">9:41</span>
         </p>
         <p
           className={`ml-auto max-w-[85%] rounded-2xl rounded-tr-md bg-[#005c4b] px-3.5 py-2.5 text-[14px] leading-snug transition-[opacity,transform] duration-500 ${
@@ -47,10 +47,10 @@ function Phone({ mode, done }: { mode: DemoMode; done: number }) {
           }`}
         >
           {DEMO_REPLY}
-          <span className="mt-1 block text-right text-[12px] text-panel-ink-2">{mode === "auto" ? "9:41" : "10:03"}</span>
+          <span className="mt-1 block text-right text-[12px] text-steel-2">{mode === "auto" ? "9:41" : "10:03"}</span>
         </p>
       </div>
-      <div className="rounded-full bg-[#202c33] px-4 py-2.5 text-[13px] text-panel-ink-2">Message</div>
+      <div className="rounded-full bg-[#202c33] px-4 py-2.5 text-[13px] text-steel-2">Message</div>
     </div>
   );
 }
@@ -106,20 +106,19 @@ export function Demo() {
   const finished = done >= total;
 
   return (
-    <section id="how" aria-labelledby="demo-title" className="scroll-mt-14 px-3 py-4 sm:px-6">
+    <section id="demo" aria-labelledby="demo-title" className="border-b border-line">
       <div
         ref={panelRef}
-        className="mx-auto max-w-[1180px] rounded-[32px] bg-panel px-5 py-16 text-panel-ink sm:px-10 md:py-24 lg:px-16"
+        className="mx-auto max-w-[1240px] px-5 py-20 sm:px-8 md:py-24 lg:px-10"
       >
         <SectionHeading
           id="demo-title"
-          tone="dark"
           kicker="See it work"
           title="One order, two ways."
           lede="Here's a normal WhatsApp order. Watch what happens to it."
         />
 
-        <fieldset className="mx-auto mt-10 flex w-fit gap-1 rounded-full bg-panel-3 p-1">
+        <fieldset className="mt-10 flex w-fit gap-1 rounded-[6px] border border-line bg-bg-2 p-1">
           <legend className="sr-only">Choose how the order is handled</legend>
           {modes.map((m) => {
             const selected = mode === m.id;
@@ -127,8 +126,8 @@ export function Demo() {
             return (
               <label
                 key={m.id}
-                className={`inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-full px-5 text-[15px] font-medium transition-colors duration-200 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-link-dark ${
-                  selected ? "bg-panel-ink text-panel" : "text-panel-ink-2 hover:text-panel-ink"
+                className={`inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-[4px] px-5 text-[15px] font-semibold transition-colors duration-200 has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-gold ${
+                  selected ? "bg-gold text-on-gold" : "text-steel-2 hover:text-steel-hi"
                 }`}
               >
                 <input
@@ -151,7 +150,7 @@ export function Demo() {
 
           <div>
             <ol className="relative space-y-3">
-              <span aria-hidden className="absolute top-8 bottom-8 left-8 w-px bg-white/10">
+              <span aria-hidden className="absolute top-8 bottom-8 left-8 w-px bg-line-2">
                 <span
                   className="block h-full w-full origin-top bg-done transition-transform duration-500"
                   style={{ transform: `scaleY(${mode === "auto" ? done / total : 0})` }}
@@ -162,7 +161,7 @@ export function Demo() {
                 return (
                   <li
                     key={step.auto}
-                    className={`relative flex items-center gap-4 rounded-[20px] bg-panel-2 p-4 transition-opacity duration-500 ${
+                    className={`relative flex items-center gap-4 rounded-[6px] border border-line bg-bg-2 p-4 transition-opacity duration-500 ${
                       complete ? "opacity-100" : "opacity-55"
                     }`}
                   >
@@ -170,15 +169,15 @@ export function Demo() {
                       className={`relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border transition-colors duration-300 ${
                         complete
                           ? mode === "auto"
-                            ? "border-done bg-done text-panel"
-                            : "border-panel-ink-2 bg-panel-ink-2 text-panel"
-                          : "border-white/20 bg-panel-2 text-transparent"
+                            ? "border-done bg-done text-bg"
+                            : "border-steel-2 bg-steel-2 text-bg"
+                          : "border-line-2 bg-bg-2 text-transparent"
                       }`}
                     >
                       <Check aria-hidden className="h-4 w-4" strokeWidth={3} />
                     </span>
-                    <span className="flex-1 text-[17px] leading-snug">{mode === "manual" ? step.manual : step.auto}</span>
-                    <span className="text-[13px] text-panel-ink-2 tabular-nums">
+                    <span className="flex-1 text-[17px] leading-snug text-steel-hi">{mode === "manual" ? step.manual : step.auto}</span>
+                    <span className="text-[13px] text-steel-2 tabular-nums">
                       {mode === "manual" ? `${step.minutes} min` : "instant"}
                     </span>
                   </li>
@@ -186,18 +185,18 @@ export function Demo() {
               })}
             </ol>
 
-            <div className="mt-8 flex flex-wrap items-end justify-between gap-4 border-t border-white/10 pt-6">
+            <div className="mt-8 flex flex-wrap items-end justify-between gap-4 border-t border-line pt-6">
               <p aria-hidden="true" className="flex items-baseline gap-2">
                 <span
-                  className={`text-[clamp(3rem,7vw,4.5rem)] leading-none font-semibold tracking-[-0.04em] tabular-nums transition-colors duration-300 ${
-                    mode === "auto" && finished ? "text-done" : "text-panel-ink"
+                  className={`font-wide text-[clamp(3rem,7vw,4.5rem)] leading-none font-extrabold tracking-[-0.03em] tabular-nums transition-colors duration-300 ${
+                    mode === "auto" && finished ? "text-gold" : "text-steel-hi"
                   }`}
                 >
                   {minutes}
                 </span>
-                <span className="text-[17px] text-panel-ink-2">min of your time, for one order</span>
+                <span className="text-[17px] text-steel-2">min of your time, for one order</span>
               </p>
-              <p className="max-w-[16rem] text-[13px] text-panel-ink-2">Example for illustration. Your times will vary.</p>
+              <p className="max-w-[16rem] text-[13px] text-steel-2">Example for illustration. Your times will vary.</p>
             </div>
             <p className="sr-only" aria-live="polite">
               {finished
@@ -207,18 +206,18 @@ export function Demo() {
                 : ""}
             </p>
             <noscript>
-              <p className="mt-6 text-[17px] text-panel-ink">
+              <p className="mt-6 text-[17px] text-steel-hi">
                 Automated, every step above happens on its own: 0 minutes of your time for each order.
               </p>
             </noscript>
           </div>
         </div>
 
-        <div className="mt-16 text-center">
-          <p className="text-[clamp(1.25rem,2.4vw,1.75rem)] font-semibold tracking-[-0.02em] text-balance">
+        <div className="mt-16">
+          <p className="font-wide text-[clamp(1.25rem,2.4vw,1.75rem)] font-bold tracking-[-0.02em] text-balance text-steel-hi">
             That&apos;s one order. Multiply it by every order, every day.
           </p>
-          <a href="#automate" className="mt-3 inline-flex min-h-11 items-center gap-1.5 text-[17px] text-link-dark hover:underline">
+          <a href="#every-automation" className="label mt-3 inline-flex min-h-11 items-center gap-1.5 text-gold hover:underline">
             See what else we automate
             <ArrowDown aria-hidden className="h-4 w-4" />
           </a>

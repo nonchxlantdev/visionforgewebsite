@@ -4,10 +4,34 @@ import { formatBZ, site, tierOrder, tiers, type TierId } from "./site.ts";
 export type Problem = "orders" | "payments" | "forms" | "bookings" | "reports" | "accounts" | "website" | "unsure";
 export type Budget = "under1500" | "to8000" | "over8000" | "unsure";
 
+export type Business =
+  | "ecommerce"
+  | "virtual"
+  | "food"
+  | "tourism"
+  | "health"
+  | "services"
+  | "retail"
+  | "logistics"
+  | "other";
+
 export type StartState = {
+  business: Business | null;
   problems: Problem[];
   budget: Budget;
 };
+
+export const BUSINESSES: ReadonlyArray<{ id: Business; label: string; noun: string | null }> = [
+  { id: "ecommerce", label: "Online store", noun: "online store" },
+  { id: "virtual", label: "Virtual shop / social seller", noun: "virtual shop" },
+  { id: "food", label: "Restaurant or food", noun: "restaurant" },
+  { id: "tourism", label: "Tourism or hotel", noun: "tourism business" },
+  { id: "health", label: "Clinic, salon or wellness", noun: "clinic or salon" },
+  { id: "services", label: "Professional services", noun: "professional services firm" },
+  { id: "retail", label: "Retail or wholesale", noun: "retail business" },
+  { id: "logistics", label: "Logistics or delivery", noun: "delivery business" },
+  { id: "other", label: "Something else", noun: null },
+];
 
 export const PROBLEMS: ReadonlyArray<{ id: Problem; label: string; phrase: string; tier: TierId | null }> = [
   { id: "orders", label: "Typing up orders", phrase: "typing up orders", tier: "automate" },
@@ -27,7 +51,7 @@ export const BUDGETS: ReadonlyArray<{ id: Budget; label: string; ceiling: number
   { id: "unsure", label: "Not sure", ceiling: null },
 ];
 
-export const EMPTY_STATE: StartState = { problems: [], budget: "unsure" };
+export const EMPTY_STATE: StartState = { business: null, problems: [], budget: "unsure" };
 
 const problemOrder = PROBLEMS.map((p) => p.id);
 const rank = (tier: TierId) => tierOrder.indexOf(tier);
@@ -100,7 +124,10 @@ export function buildMessage(state: StartState): string {
   const body = state.problems.includes("unsure")
     ? "something's slowing my business down but I'm not sure where to start"
     : `here's what's slowing my business down: ${joinList(state.problems.map((p) => find(PROBLEMS, p)!.phrase))}`;
-  const message = `Hi Vision Forge, ${body}. Budget: ${budget}. Can we talk?`;
+  const noun = state.business ? find(BUSINESSES, state.business)?.noun : null;
+  const intro = noun ? `Hi Vision Forge, I run ${article(noun)} ${noun}. ` : "Hi Vision Forge, ";
+  const text = noun ? `${body.charAt(0).toUpperCase()}${body.slice(1)}` : body;
+  const message = `${intro}${text}. Budget: ${budget}. Can we talk?`;
   return message.length <= MAX_MESSAGE ? message : `${message.slice(0, MAX_MESSAGE - 1)}…`;
 }
 

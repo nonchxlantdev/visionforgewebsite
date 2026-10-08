@@ -1,59 +1,48 @@
-import { Bell, ChevronRight, FileSpreadsheet, MessageCircle, Receipt, Zap } from "lucide-react";
 import { CtaLink } from "@/components/ui/CtaLink";
 import { Label } from "@/components/ui/Label";
-import { hero, site } from "@/lib/site";
-
-const flowIcons = [MessageCircle, FileSpreadsheet, Receipt, Bell];
+import { Logo } from "@/components/ui/Logo";
+import { hero } from "@/lib/site";
 
 export function Hero() {
   return (
-    <section id="top" aria-labelledby="hero-title" className="relative isolate overflow-hidden px-4 pt-16 pb-20 text-center sm:px-6 md:pt-24 md:pb-28">
-      <div
-        aria-hidden
-        className="absolute inset-x-0 top-0 -z-10 h-[38rem] bg-[radial-gradient(55%_60%_at_50%_0%,rgba(0,113,227,0.09),transparent_70%)]"
-      />
-      <div className="mx-auto max-w-[1120px]">
-        <Label>{hero.kicker}</Label>
-        <h1
-          id="hero-title"
-          className="mx-auto mt-4 max-w-4xl text-[clamp(2.75rem,7.2vw,5.75rem)] leading-[1.02] font-semibold tracking-[-0.04em] text-balance"
-        >
-          {hero.title[0]}
-          <br />
-          <span className="text-gradient">{hero.title[1]}</span>
-        </h1>
-        <p className="mx-auto mt-6 max-w-2xl text-[clamp(1.125rem,1.9vw,1.5rem)] leading-[1.4] text-ink-2">{hero.lede}</p>
-        <div className="mt-9 flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
-          <CtaLink href="#how" icon="down">
-            {hero.primary}
-          </CtaLink>
-          <CtaLink href={site.whatsapp.href} external variant="link" icon="right">
-            {hero.secondary}
-          </CtaLink>
-        </div>
-        <p className="mt-6 text-[14px] text-ink-2">{hero.trust}</p>
-
-        <ol aria-label="One order, handled automatically" className="mx-auto mt-14 flex flex-wrap items-center justify-center gap-x-2 gap-y-3 sm:gap-x-0">
-          {hero.flow.map((step, i) => {
-            const Icon = flowIcons[i];
-            return (
-              <li key={step} className="flex items-center">
-                {i > 0 ? <ChevronRight aria-hidden className="mx-1.5 hidden h-4 w-4 text-ink-2/60 sm:block" /> : null}
-                <span className="inline-flex items-center gap-2 rounded-full border border-hairline bg-page px-4 py-2 text-[14px] font-medium text-ink shadow-[0_1px_2px_rgba(0,0,0,0.04)]">
-                  <Icon aria-hidden className="h-4 w-4 text-accent" strokeWidth={2} />
-                  {step}
-                </span>
+    <section aria-labelledby="hero-title" className="overflow-hidden border-b border-line">
+      <div className="mx-auto grid max-w-[1240px] items-center gap-12 px-5 pt-14 pb-16 sm:px-8 md:pt-20 lg:grid-cols-[1.2fr_0.8fr] lg:px-10 lg:pb-24">
+        <div>
+          <Label>{hero.kicker}</Label>
+          <h1
+            id="hero-title"
+            className="font-wide mt-6 text-[clamp(2.6rem,6.4vw,4.75rem)] leading-[0.98] font-extrabold tracking-[-0.03em] text-steel-hi"
+          >
+            {hero.title[0]}
+            <br />
+            {hero.title[1]} <span className="text-gold">{hero.goldWord}</span>
+          </h1>
+          <p className="mt-7 max-w-xl text-[clamp(1.0625rem,1.6vw,1.25rem)] text-steel-2">{hero.lede}</p>
+          <div className="mt-9 flex flex-wrap gap-3">
+            <CtaLink href={hero.primary.href} arrow>
+              {hero.primary.label}
+            </CtaLink>
+            <CtaLink href={hero.secondary.href} variant="ghost">
+              {hero.secondary.label}
+            </CtaLink>
+          </div>
+          <ul className="mt-10 flex flex-wrap gap-x-7 gap-y-2">
+            {hero.meta.map((item) => (
+              <li key={item} className="label text-steel-2">
+                {item}
               </li>
-            );
-          })}
-          <li className="flex items-center">
-            <ChevronRight aria-hidden className="mx-1.5 hidden h-4 w-4 text-ink-2/60 sm:block" />
-            <span className="inline-flex items-center gap-2 rounded-full bg-ink px-4 py-2 text-[14px] font-medium text-white">
-              <Zap aria-hidden className="h-4 w-4 text-done" strokeWidth={2} />
-              All on its own
-            </span>
-          </li>
-        </ol>
+            ))}
+          </ul>
+        </div>
+
+        <div className="relative mx-auto w-full max-w-[520px]">
+          <div aria-hidden className="emblem-halo absolute -inset-10" />
+          <div className="relative">
+            <Logo priority className="h-auto w-full" sizes="(min-width: 1024px) 470px, 80vw" />
+            <span aria-hidden className="emblem-glint" />
+          </div>
+          <p className="label mt-4 text-right text-steel-2">{hero.stamp}</p>
+        </div>
       </div>
     </section>
   );

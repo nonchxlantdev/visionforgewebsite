@@ -1,18 +1,28 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { CtaLink } from "@/components/ui/CtaLink";
 import { Logo } from "@/components/ui/Logo";
 import { navItems, site } from "@/lib/site";
 
+function Brand() {
+  return (
+    <span className="font-wide hidden text-[14px] font-bold tracking-[0.06em] text-steel-hi uppercase sm:inline">
+      Vision <span className="text-gold">Forge</span> Studio
+    </span>
+  );
+}
+
 export function Navbar() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState("");
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLElement>(null);
+  const isActive = (href: string) => pathname === href || pathname.startsWith(`${href}/`);
 
   useEffect(() => {
     const onScroll = () => {
@@ -24,25 +34,6 @@ export function Navbar() {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
-    const elements = navItems
-      .map((item) => document.getElementById(item.id))
-      .filter((node): node is HTMLElement => Boolean(node));
-    if (!elements.length) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible?.target.id) setActive(visible.target.id);
-      },
-      { rootMargin: "-40% 0px -50% 0px", threshold: [0, 0.25, 0.5] },
-    );
-    elements.forEach((element) => observer.observe(element));
-    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
@@ -83,24 +74,23 @@ export function Navbar() {
 
   return (
     <header ref={headerRef} data-scrolled="false" className="site-header no-print sticky top-0 z-50">
-      <div className="nav-shell border-b border-transparent transition-[background-color,border-color] duration-300">
-        <div className="mx-auto flex h-[var(--nav-h)] max-w-[1120px] items-center px-4 sm:px-6">
-          <Link href="/" className="flex min-h-11 items-center gap-2.5" aria-label="Vision Forge Studio, home">
-            <Logo priority className="h-9 w-9" sizes="36px" />
-            <span className="text-[15px] font-semibold tracking-[-0.01em] text-ink">Vision Forge</span>
+      <div className="nav-shell border-b border-line transition-[background-color] duration-300">
+        <div className="mx-auto flex h-[var(--nav-h)] max-w-[1240px] items-center gap-6 px-5 sm:px-8 lg:px-10">
+          <Link href="/" className="flex min-h-11 items-center gap-3" aria-label="Vision Forge Studio, home">
+            <Logo priority className="h-11 w-auto" sizes="54px" />
+            <Brand />
           </Link>
 
           <nav className="ml-auto hidden items-center gap-7 lg:flex" aria-label="Primary">
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.href}
                 href={item.href}
-                data-active={active === item.id}
-                aria-current={active === item.id ? "true" : undefined}
-                className="py-2 text-[13px] text-ink/75 transition-colors hover:text-ink data-[active=true]:text-ink"
+                aria-current={isActive(item.href) ? "page" : undefined}
+                className="relative py-2 text-[14px] text-steel-2 transition-colors hover:text-steel-hi aria-[current=page]:text-steel-hi aria-[current=page]:after:absolute aria-[current=page]:after:inset-x-0 aria-[current=page]:after:-bottom-[1.05rem] aria-[current=page]:after:h-0.5 aria-[current=page]:after:bg-gold"
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
           </nav>
 
@@ -108,7 +98,7 @@ export function Navbar() {
             href={site.whatsapp.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="ml-7 hidden min-h-9 items-center rounded-full bg-accent px-4 text-[13px] font-medium text-white transition-colors hover:bg-accent-hover lg:inline-flex"
+            className="hidden min-h-10 items-center rounded-[4px] bg-gold px-4 text-[14px] font-semibold text-on-gold transition-colors hover:bg-gold-hi lg:inline-flex"
           >
             WhatsApp us
           </a>
@@ -116,7 +106,7 @@ export function Navbar() {
           <button
             ref={menuButtonRef}
             type="button"
-            className="ml-auto flex h-11 w-11 items-center justify-center text-ink lg:hidden"
+            className="ml-auto flex h-11 w-11 items-center justify-center text-steel-hi lg:hidden"
             aria-expanded={open}
             aria-controls="mobile-navigation"
             onClick={() => setOpen(true)}
@@ -134,16 +124,17 @@ export function Navbar() {
           role="dialog"
           aria-modal="true"
           aria-label="Navigation"
-          className="fixed inset-0 z-[60] flex flex-col bg-page lg:hidden"
+          className="fixed inset-0 z-[60] flex flex-col bg-bg lg:hidden"
         >
-          <div className="flex h-[var(--nav-h)] items-center justify-between px-4">
-            <Link href="/" onClick={closeMenu} className="flex min-h-11 items-center" aria-label="Vision Forge Studio, home">
-              <Logo className="h-9 w-9" sizes="36px" />
+          <div className="flex h-[var(--nav-h)] items-center justify-between border-b border-line px-5">
+            <Link href="/" onClick={closeMenu} className="flex min-h-11 items-center gap-3" aria-label="Vision Forge Studio, home">
+              <Logo className="h-11 w-auto" sizes="54px" />
+              <Brand />
             </Link>
             <button
               type="button"
               data-close-menu
-              className="flex h-11 w-11 items-center justify-center text-ink"
+              className="flex h-11 w-11 items-center justify-center text-steel-hi"
               onClick={() => {
                 setOpen(false);
                 menuButtonRef.current?.focus();
@@ -154,16 +145,18 @@ export function Navbar() {
             </button>
           </div>
 
-          <nav className="flex flex-1 flex-col px-6 pt-4" aria-label="Mobile">
-            {navItems.map((item) => (
-              <a
+          <nav className="flex flex-1 flex-col px-5 pt-2" aria-label="Mobile">
+            {[{ href: "/", label: "Home" }, ...navItems].map((item, index) => (
+              <Link
                 key={item.href}
                 href={item.href}
                 onClick={closeMenu}
-                className="flex min-h-14 items-center border-b border-hairline text-[28px] font-semibold tracking-[-0.025em] text-ink"
+                aria-current={(item.href === "/" ? pathname === "/" : isActive(item.href)) ? "page" : undefined}
+                className="flex min-h-16 items-baseline justify-between border-b border-line py-4 text-steel-hi aria-[current=page]:text-gold"
               >
-                {item.label}
-              </a>
+                <span className="font-wide text-[2rem] leading-none font-bold tracking-[-0.02em]">{item.label}</span>
+                <span className="label text-steel-2">0{index + 1}</span>
+              </Link>
             ))}
             <div className="pt-8">
               <CtaLink href={site.whatsapp.href} external className="w-full">
@@ -172,12 +165,10 @@ export function Navbar() {
             </div>
           </nav>
 
-          <div className="grid border-t border-hairline px-6 py-4 text-[15px]">
-            <a href={site.phone.href} className="flex min-h-12 items-center justify-between text-ink">
-              <span className="text-ink-2">Call</span>
-              <span>{site.phone.display}</span>
-            </a>
-          </div>
+          <a href={site.phone.href} className="flex min-h-14 items-center justify-between border-t border-line px-5 text-[15px] text-steel">
+            <span className="label text-gold">Call</span>
+            <span>{site.phone.display}</span>
+          </a>
         </div>
       ) : null}
     </header>

@@ -1,38 +1,24 @@
-import { Automate } from "@/components/sections/Automate";
-import { Contact } from "@/components/sections/Contact";
-import { Demo } from "@/components/sections/Demo";
-import { Faq } from "@/components/sections/Faq";
+import type { Metadata } from "next";
+import { ClosingBand } from "@/components/layout/ClosingBand";
+import { AutomateList } from "@/components/sections/AutomateList";
 import { Hero } from "@/components/sections/Hero";
-import { HowItWorks } from "@/components/sections/HowItWorks";
-import { Pricing } from "@/components/sections/Pricing";
-import { Start } from "@/components/sections/Start";
-import { faq } from "@/lib/site";
+import { Industries } from "@/components/sections/Industries";
+import { PageIndex } from "@/components/sections/PageIndex";
+import { Workbench } from "@/components/sections/Workbench";
 
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faq.map((item) => ({
-    "@type": "Question",
-    name: item.q,
-    acceptedAnswer: { "@type": "Answer", text: item.a },
-  })),
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
 };
 
 export default function Home() {
   return (
     <>
       <Hero />
-      <Demo />
-      <Automate />
-      <HowItWorks />
-      <Pricing />
-      <Start />
-      <Faq />
-      <Contact />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd).replace(/</g, "\\u003c") }}
-      />
+      <Workbench />
+      <AutomateList />
+      <Industries />
+      <PageIndex />
+      <ClosingBand />
     </>
   );
 }

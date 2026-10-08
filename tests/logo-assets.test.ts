@@ -1,55 +1,37 @@
 import assert from "node:assert/strict";
-import { createHash } from "node:crypto";
 import { existsSync, readFileSync } from "node:fs";
 import test from "node:test";
+import { LOGO_SIZE } from "../lib/logo-variants.ts";
 
 const root = new URL("../", import.meta.url);
-function sha256(url: URL): string {
-  return createHash("sha256").update(readFileSync(url)).digest("hex");
-}
+const read = (path: string) => readFileSync(new URL(path, root), "utf8");
 
-function pngSize(url: URL): { width: number; height: number; colorType: number } {
-  const buf = readFileSync(url);
+function pngSize(path: string): { width: number; height: number; colorType: number } {
+  const buf = readFileSync(new URL(path, root));
   assert.equal(buf.subarray(12, 16).toString("ascii"), "IHDR");
-  return {
-    width: buf.readUInt32BE(16),
-    height: buf.readUInt32BE(20),
-    colorType: buf[25],
-  };
+  return { width: buf.readUInt32BE(16), height: buf.readUInt32BE(20), colorType: buf[25] };
 }
 
-test("the public logo, favicon, and apple icon are the supplied png", () => {
-  const brand = new URL("./public/brand/vision-forge-logo.png", root);
-  const icon = new URL("./app/icon.png", root);
-  const apple = new URL("./app/apple-icon.png", root);
-  const sourceHash = sha256(brand);
-
-  assert.equal(sha256(icon), sourceHash);
-  assert.equal(sha256(apple), sourceHash);
-  assert.deepEqual(pngSize(brand), { width: 819, height: 819, colorType: 6 });
-  assert.equal(existsSync(new URL("./public/brand/vision-forge-logo.jpg", root)), false);
-  assert.equal(existsSync(new URL("./app/icon.jpg", root)), false);
-  assert.equal(existsSync(new URL("./app/apple-icon.jpg", root)), false);
+test("the brand png is the new transparent emblem and its size is recorded once", () => {
+  assert.deepEqual(pngSize("public/brand/vision-forge-logo.png"), { ...LOGO_SIZE, colorType: 6 });
+  assert.equal(existsSync(new URL("public/brand/vision-forge-logo.jpg", root)), false);
 });
 
-test("logo and page metadata use the png without cropping it", () => {
-  const logo = readFileSync(new URL("./components/ui/Logo.tsx", root), "utf8");
-  const layout = readFileSync(new URL("./app/layout.tsx", root), "utf8");
-  const navbar = readFileSync(new URL("./components/layout/Navbar.tsx", root), "utf8");
-  const footer = readFileSync(new URL("./components/layout/Footer.tsx", root), "utf8");
+test("app icons are square", () => {
+  for (const icon of ["app/icon.png", "app/apple-icon.png"]) {
+    const { width, height } = pngSize(icon);
+    assert.equal(width, height, icon);
+  }
+});
 
+test("the logo component and metadata use the png without cropping", () => {
+  const logo = read("components/ui/Logo.tsx");
   assert.match(logo, /src="\/brand\/vision-forge-logo\.png"/);
   assert.match(logo, /object-contain/);
   assert.match(logo, /alt="Vision Forge Studio"/);
-  assert.match(logo, /width=\{819\}/);
-  assert.match(logo, /height=\{819\}/);
+  assert.match(logo, /LOGO_SIZE\.width/);
   assert.doesNotMatch(logo, /object-cover/);
-
-  assert.match(navbar, /<Logo priority className="h-9 w-9" sizes="36px"/);
-  assert.match(navbar, /aria-label="Vision Forge Studio, home"/);
-  assert.match(footer, /className="h-14 w-14" sizes="56px"/);
-
-  assert.equal(layout.match(/vision-forge-logo\.png/g)?.length, 4);
-  assert.match(layout, /width: 819/);
-  assert.match(layout, /height: 819/);
+  const layout = read("app/layout.tsx");
+  assert.ok((layout.match(/vision-forge-logo\.png/g)?.length ?? 0) >= 3);
+  assert.match(read("components/layout/Navbar.tsx"), /aria-label="Vision Forge Studio, home"/);
 });

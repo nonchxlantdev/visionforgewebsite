@@ -3,19 +3,42 @@ import localFont from "next/font/local";
 import { Footer } from "@/components/layout/Footer";
 import { MobileContactBar } from "@/components/layout/MobileContactBar";
 import { Navbar } from "@/components/layout/Navbar";
+import { LOGO_SIZE } from "@/lib/logo-variants";
 import { site } from "@/lib/site";
 import "./globals.css";
 
-const inter = localFont({
-  src: "./fonts/inter-variable.woff2",
-  variable: "--font-inter",
+const archivo = localFont({
+  src: "./fonts/archivo-var.woff2",
+  variable: "--font-archivo",
   weight: "100 900",
+  display: "swap",
+  declarations: [{ prop: "font-stretch", value: "62% 125%" }],
+});
+
+const instrument = localFont({
+  src: "./fonts/instrument-sans-var.woff2",
+  variable: "--font-instrument",
+  weight: "400 700",
+  display: "swap",
+});
+
+const plex = localFont({
+  src: "./fonts/plex-mono-500.woff2",
+  variable: "--font-plex",
+  weight: "500",
+  display: "swap",
+});
+
+const caveat = localFont({
+  src: "./fonts/caveat-600.woff2",
+  variable: "--font-caveat",
+  weight: "600",
   display: "swap",
 });
 
 export const viewport: Viewport = {
-  themeColor: "#ffffff",
-  colorScheme: "light",
+  themeColor: "#0d0c0b",
+  colorScheme: "dark",
   width: "device-width",
   initialScale: 1,
 };
@@ -40,8 +63,8 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/brand/vision-forge-logo.png",
-        width: 819,
-        height: 819,
+        width: LOGO_SIZE.width,
+        height: LOGO_SIZE.height,
         alt: "Vision Forge Studio",
       },
     ],
@@ -98,11 +121,11 @@ const jsonLd = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`}>
-      <body className="min-h-full bg-page pb-[calc(4.75rem+env(safe-area-inset-bottom))] font-sans text-ink antialiased md:pb-0">
+    <html lang="en" className={`${archivo.variable} ${instrument.variable} ${plex.variable} ${caveat.variable} h-full antialiased`}>
+      <body className="min-h-full bg-bg pb-[calc(4.75rem+env(safe-area-inset-bottom))] font-sans text-steel antialiased md:pb-0">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[70] focus:rounded-full focus:bg-accent focus:px-4 focus:py-3 focus:text-white"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[70] focus:bg-gold focus:px-4 focus:py-3 focus:text-on-gold"
         >
           Skip to content
         </a>

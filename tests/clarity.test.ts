@@ -1,100 +1,138 @@
 import assert from "node:assert/strict";
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import test from "node:test";
-import { automations, faq, featuredTier, hero, navItems, steps, tierOrder, tiers } from "../lib/site.ts";
+import {
+  automations,
+  faq,
+  featuredTier,
+  hero,
+  industries,
+  industryRibbon,
+  navItems,
+  pageIndex,
+  promises,
+  steps,
+  tierOrder,
+  tiers,
+  websiteKinds,
+} from "../lib/site.ts";
 
 const root = new URL("../", import.meta.url);
 const read = (path: string) => readFileSync(new URL(path, root), "utf8");
+const exists = (path: string) => existsSync(new URL(path, root));
 
 function sources(dir: string): string[] {
-  const base = new URL(dir, root);
-  return readdirSync(base).flatMap((name) => {
+  return readdirSync(new URL(dir, root)).flatMap((name) => {
     const path = `${dir}${name}`;
     if (statSync(new URL(path, root)).isDirectory()) return sources(`${path}/`);
     return /\.(ts|tsx|css)$/.test(name) ? [path] : [];
   });
 }
 
-test("the hero leads with the automation promise and the starting price", () => {
-  assert.equal(hero.title.join(" "), "Stop doing the same work twice.");
+const pages = {
+  "/": "app/page.tsx",
+  "/automation": "app/automation/page.tsx",
+  "/websites": "app/websites/page.tsx",
+  "/pricing": "app/pricing/page.tsx",
+  "/how-we-work": "app/how-we-work/page.tsx",
+  "/contact": "app/contact/page.tsx",
+} as const;
+
+test("the hero says 'Your business, minus the busywork.'", () => {
+  assert.equal(`${hero.title.join(" ")} ${hero.goldWord}`, "Your business, minus the busywork.");
   assert.match(hero.lede, /WhatsApp/);
-  assert.match(hero.lede, /websites too/i);
-  assert.match(hero.trust, /BZ\$500\*/);
-  assert.equal(hero.primary, "See how it works");
+  assert.equal(hero.primary.href, "/pricing");
+  assert.equal(hero.secondary.href, "/automation");
+  assert.ok(hero.meta.includes("From BZ$500*"));
+  assert.match(hero.stamp, /000058528/);
 });
 
-test("six everyday problems, in the customer's words, ending with the website", () => {
-  assert.equal(automations.length, 6);
-  assert.ok(automations.some((a) => a.pain === "My sales and my accounts never match up."));
-  assert.equal(automations[automations.length - 1].id, "website");
-  for (const a of automations) {
-    assert.ok(a.pain.endsWith("."), a.id);
-    assert.ok(a.fix.length > 20, a.id);
+test("six pages, each with metadata and exactly one h1 path", () => {
+  for (const [route, file] of Object.entries(pages)) {
+    assert.ok(exists(file), route);
+    const src = read(file);
+    if (route !== "/") assert.match(src, /export const metadata/, route);
+    assert.match(src, /canonical/, route);
   }
-  assert.ok(!automations.some((a) => /talk to each other/i.test(a.pain)));
+  assert.match(read("components/sections/Hero.tsx"), /<h1/);
+  assert.match(read("components/layout/PageHeader.tsx"), /<h1/);
+  const sitemap = read("app/sitemap.ts");
+  for (const route of Object.keys(pages).filter((r) => r !== "/")) assert.match(sitemap, new RegExp(`"${route}"`), route);
 });
 
-test("three outcome tiers at 500, 1,500 and 8,000 with automate featured", () => {
-  assert.deepEqual([...tierOrder], ["found", "automate", "connect"]);
+test("the nav lists the five inner pages in order", () => {
+  assert.deepEqual(
+    navItems.map((n) => n.href),
+    ["/automation", "/websites", "/pricing", "/how-we-work", "/contact"],
+  );
+  assert.match(read("components/layout/Navbar.tsx"), /usePathname/);
+});
+
+test("home tells the short story and points to the inner pages", () => {
+  const page = read("app/page.tsx");
+  const order = ["<Hero", "<Workbench", "<AutomateList", "<Industries", "<PageIndex", "<ClosingBand"];
+  const positions = order.map((tag) => page.indexOf(tag));
+  for (const [i, pos] of positions.entries()) assert.ok(pos > -1, order[i]);
+  assert.deepEqual([...positions].sort((a, b) => a - b), positions);
+  assert.deepEqual(
+    pageIndex.map((p) => p.href),
+    ["/automation", "/websites", "/pricing", "/how-we-work"],
+  );
+});
+
+test("automation, websites and pricing pages carry their own content", () => {
+  assert.match(read(pages["/automation"]), /<Demo/);
+  assert.equal(automations.length, 6);
+  assert.deepEqual(
+    websiteKinds.map((k) => k.id),
+    ["business", "ecommerce", "virtual", "booking"],
+  );
+  assert.match(read(pages["/pricing"]), /<PricingBuilder/);
+  assert.match(read(pages["/pricing"]), /<TierCards/);
+  assert.match(read(pages["/how-we-work"]), /FAQPage/);
+  assert.equal(promises.length, 4);
+  assert.equal(steps.length, 4);
+});
+
+test("prices: three outcome tiers, Get found without Google, small print everywhere", () => {
   assert.deepEqual(
     tierOrder.map((id) => tiers[id].from),
     [500, 1500, 8000],
   );
-  assert.deepEqual(
-    tierOrder.map((id) => tiers[id].label),
-    ["Get found", "Automate one task", "Connect your business"],
-  );
   assert.equal(featuredTier, "automate");
-  for (const id of tierOrder) assert.ok(tiers[id].includes.length >= 3, id);
-});
-
-test("four steps, nine FAQs including the two automation questions", () => {
-  assert.equal(steps.length, 4);
-  assert.ok(faq.length >= 9);
-  const questions = faq.map((f) => f.q);
-  assert.ok(questions.includes("Do I have to change the software I already use?"));
-  assert.ok(questions.includes("Is automation only for big companies?"));
-  assert.match(faq.find((f) => f.q === "How much will my project cost?")!.a, /BZ\$1,500/);
-});
-
-test("the nav follows the page story", () => {
-  assert.deepEqual(
-    navItems.map((n) => n.id),
-    ["how", "automate", "pricing", "faq", "contact"],
-  );
-});
-
-test("forge styling and jargon are gone from the app", () => {
-  const files = [...sources("app/"), ...sources("components/"), "lib/site.ts"];
-  const banned = /\bmolten\b|\bember\b|whitehot|HeatText|SparkField|useSparks|font-display|chrome-text|hot-text|\bsoot\b|Strike while|Raw materials/;
-  for (const file of files) assert.doesNotMatch(read(file), banned, file);
-  for (const gone of ["components/forge", "components/builder", "components/sections/Doors.tsx", "components/sections/WhyUs.tsx", "components/visuals"]) {
-    assert.equal(existsSync(new URL(gone, root)), false, gone);
-  }
-});
-
-test("the homepage tells one story in order", () => {
-  const page = read("app/page.tsx");
-  const order = ["<Hero", "<Demo", "<Automate", "<HowItWorks", "<Pricing", "<Start", "<Faq", "<Contact"];
-  const positions = order.map((tag) => page.indexOf(tag));
-  for (const [i, pos] of positions.entries()) assert.ok(pos > -1, order[i]);
-  assert.deepEqual([...positions].sort((a, b) => a - b), positions);
-  assert.match(page, /FAQPage/);
-  assert.match(read("components/sections/Hero.tsx"), /<h1/);
-});
-
-test("prices carry the small-print note wherever they appear", () => {
-  for (const file of ["components/sections/Pricing.tsx", "components/sections/StartCard.tsx"]) {
+  assert.doesNotMatch(tiers.found.copy + tiers.found.includes.join(" "), /Google/);
+  for (const file of ["components/sections/TierCards.tsx", "components/sections/WorkTicket.tsx"]) {
     assert.match(read(file), /priceNote\.text/, file);
   }
-  assert.match(read("lib/site.ts"), /not final quotes/);
   assert.match(read("app/disclaimer/page.tsx"), /id: "estimates"/);
 });
 
-test("the demo is operable by keyboard and announces its result", () => {
+test("business types lead with e-commerce and virtual shops", () => {
+  assert.equal(industries.length, 8);
+  assert.deepEqual(
+    industries.slice(0, 2).map((i) => i.id),
+    ["ecommerce", "virtual"],
+  );
+  assert.ok(industryRibbon.length >= 10);
+  assert.ok(faq.length >= 9);
+});
+
+test("interactive pieces are keyboard operable and announce results", () => {
   const demo = read("components/sections/Demo.tsx");
   assert.match(demo, /type="radio"/);
   assert.match(demo, /aria-live="polite"/);
-  assert.match(demo, /prefers-reduced-motion/);
-  assert.match(demo, /<noscript>/);
+  const bench = read("components/sections/Workbench.tsx");
+  assert.match(bench, /<button/);
+  assert.match(bench, /aria-live="polite"/);
+  assert.match(bench, /prefers-reduced-motion/);
+  assert.match(read("components/sections/PricingBuilder.tsx"), /aria-pressed/);
+});
+
+test("no leftovers from the light theme or the old forge build", () => {
+  const files = [...sources("app/"), ...sources("components/")];
+  const banned = /text-gradient|dot-grid|bg-canvas|text-ink-2|bg-panel|HeatText|SparkField|\bmolten\b|\bember\b|whitehot/;
+  for (const file of files) assert.doesNotMatch(read(file), banned, file);
+  for (const gone of ["components/forge", "components/builder", "components/sections/Doors.tsx", "components/sections/Start.tsx"]) {
+    assert.equal(exists(gone), false, gone);
+  }
 });

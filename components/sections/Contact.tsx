@@ -1,19 +1,17 @@
 import { Mail, MessageCircle, Phone } from "lucide-react";
 import type { ReactNode } from "react";
-import { CtaLink } from "@/components/ui/CtaLink";
 import { EmailLink } from "@/components/ui/EmailLink";
-import { SectionHeading } from "@/components/ui/SectionHeading";
 import { site } from "@/lib/site";
 
 const iconProps = { "aria-hidden": true, className: "h-4 w-4", strokeWidth: 2 } as const;
 
 const phoneClass =
-  "inline-flex min-h-11 items-center text-[clamp(1rem,4.2cqi,1.5rem)] whitespace-nowrap text-link tabular-nums underline-offset-4 hover:underline";
+  "inline-flex min-h-11 items-center text-[clamp(1rem,4.4cqi,1.5rem)] whitespace-nowrap text-steel-hi tabular-nums underline decoration-gold/60 underline-offset-[6px] hover:decoration-gold";
 
-function ContactTile({ icon, label, children }: { icon: ReactNode; label: string; children: ReactNode }) {
+function Tile({ icon, label, children }: { icon: ReactNode; label: string; children: ReactNode }) {
   return (
-    <li className="@container flex min-h-36 flex-col justify-between gap-6 rounded-[24px] bg-canvas p-7">
-      <p className="flex items-center gap-2 text-[14px] font-medium text-ink-2">
+    <li className="@container flex min-h-40 flex-col justify-between gap-6 bg-bg p-7 transition-colors hover:bg-bg-2">
+      <p className="label flex items-center gap-2 text-gold">
         {icon}
         {label}
       </p>
@@ -24,40 +22,27 @@ function ContactTile({ icon, label, children }: { icon: ReactNode; label: string
 
 export function Contact() {
   return (
-    <section id="contact" aria-labelledby="contact-title" className="scroll-mt-14 px-4 pt-8 pb-24 sm:px-6 md:pb-32">
-      <div className="mx-auto max-w-[1120px]">
-        <SectionHeading
-          id="contact-title"
-          kicker="Contact"
-          title="Ready to start? Let's talk."
-          lede="Message us on WhatsApp, call or email. The first consultation is free."
-        />
-        <div className="mt-8 flex justify-center">
-          <CtaLink href={site.whatsapp.href} external>
-            Message us on WhatsApp
-          </CtaLink>
-        </div>
-
-        <ul className="mt-14 grid gap-4 sm:grid-cols-2">
-          <ContactTile icon={<Mail {...iconProps} />} label="Sales · new projects">
-            <EmailLink address={site.sales.display} size="lg" subject="New project enquiry" />
-          </ContactTile>
-          <ContactTile icon={<Mail {...iconProps} />} label="Support · existing clients">
-            <EmailLink address={site.support.display} size="lg" />
-          </ContactTile>
-          <ContactTile icon={<MessageCircle {...iconProps} />} label="WhatsApp">
+    <section aria-label="Ways to reach us" className="border-b border-line">
+      <div className="mx-auto max-w-[1240px] px-5 py-16 sm:px-8 lg:px-10">
+        <ul className="grid gap-px border border-line bg-line sm:grid-cols-2">
+          <Tile icon={<MessageCircle {...iconProps} />} label="WhatsApp · fastest">
             <a href={site.whatsapp.href} target="_blank" rel="noopener noreferrer" className={phoneClass}>
               {site.whatsapp.display}
             </a>
-          </ContactTile>
-          <ContactTile icon={<Phone {...iconProps} />} label="Call">
+          </Tile>
+          <Tile icon={<Phone {...iconProps} />} label="Call">
             <a href={site.phone.href} className={phoneClass}>
               {site.phone.display}
             </a>
-          </ContactTile>
+          </Tile>
+          <Tile icon={<Mail {...iconProps} />} label="Sales · new projects">
+            <EmailLink address={site.sales.display} size="lg" subject="New project enquiry" />
+          </Tile>
+          <Tile icon={<Mail {...iconProps} />} label="Support · existing clients">
+            <EmailLink address={site.support.display} size="lg" />
+          </Tile>
         </ul>
-
-        <p className="mt-10 text-center text-[15px] text-ink-2">{site.trustLine}</p>
+        <p className="label mt-8 text-steel-2">{site.trustLine}</p>
       </div>
     </section>
   );
