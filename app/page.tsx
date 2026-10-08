@@ -1,11 +1,11 @@
-import { ProjectBuilder } from "@/components/builder/ProjectBuilder";
+import { Automate } from "@/components/sections/Automate";
 import { Contact } from "@/components/sections/Contact";
-import { Doors } from "@/components/sections/Doors";
+import { Demo } from "@/components/sections/Demo";
 import { Faq } from "@/components/sections/Faq";
 import { Hero } from "@/components/sections/Hero";
 import { HowItWorks } from "@/components/sections/HowItWorks";
 import { Pricing } from "@/components/sections/Pricing";
-import { WhyUs } from "@/components/sections/WhyUs";
+import { Start } from "@/components/sections/Start";
 import { faq } from "@/lib/site";
 
 const faqJsonLd = {
@@ -22,11 +22,11 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <Doors />
-      <ProjectBuilder />
+      <Demo />
+      <Automate />
       <HowItWorks />
       <Pricing />
-      <WhyUs />
+      <Start />
       <Faq />
       <Contact />
       <script

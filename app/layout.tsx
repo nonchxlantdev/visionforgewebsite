@@ -1,36 +1,21 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { SparksProvider } from "@/components/forge/SparkField";
 import { Footer } from "@/components/layout/Footer";
 import { MobileContactBar } from "@/components/layout/MobileContactBar";
 import { Navbar } from "@/components/layout/Navbar";
 import { site } from "@/lib/site";
 import "./globals.css";
 
-const display = localFont({
-  src: "./fonts/big-shoulders-display.woff2",
-  variable: "--font-display-face",
+const inter = localFont({
+  src: "./fonts/inter-variable.woff2",
+  variable: "--font-inter",
   weight: "100 900",
   display: "swap",
 });
 
-const body = localFont({
-  src: "./fonts/instrument-sans.woff2",
-  variable: "--font-body-face",
-  weight: "400 700",
-  display: "swap",
-});
-
-const mono = localFont({
-  src: "./fonts/martian-mono.woff2",
-  variable: "--font-mono-face",
-  weight: "100 800",
-  display: "swap",
-});
-
 export const viewport: Viewport = {
-  themeColor: "#0B0907",
-  colorScheme: "dark",
+  themeColor: "#ffffff",
+  colorScheme: "light",
   width: "device-width",
   initialScale: 1,
 };
@@ -113,26 +98,18 @@ const jsonLd = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      className={`${display.variable} ${body.variable} ${mono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full bg-forge pb-[calc(4.5rem+env(safe-area-inset-bottom))] font-sans text-chrome antialiased md:pb-0">
+    <html lang="en" className={`${inter.variable} h-full antialiased`}>
+      <body className="min-h-full bg-page pb-[calc(4.75rem+env(safe-area-inset-bottom))] font-sans text-ink antialiased md:pb-0">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[70] focus:bg-molten focus:px-4 focus:py-3 focus:text-on-molten"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[70] focus:rounded-full focus:bg-accent focus:px-4 focus:py-3 focus:text-white"
         >
           Skip to content
         </a>
-        <SparksProvider>
-          <div className="grain" aria-hidden />
-          <Navbar />
-          <main id="main" className="relative z-10">
-            {children}
-          </main>
-          <Footer />
-          <MobileContactBar />
-        </SparksProvider>
+        <Navbar />
+        <main id="main">{children}</main>
+        <Footer />
+        <MobileContactBar />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}

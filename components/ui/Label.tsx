@@ -1,11 +1,16 @@
 import type { ReactNode } from "react";
 
-export function Label({ children, className = "" }: { children: ReactNode; className?: string }) {
+export function Label({
+  children,
+  tone = "light",
+  className = "",
+}: {
+  children: ReactNode;
+  tone?: "light" | "dark";
+  className?: string;
+}) {
   return (
-    <p
-      className={`flex items-center gap-3 font-mono text-[11px] font-medium tracking-[0.2em] text-molten uppercase ${className}`}
-    >
-      <span aria-hidden className="h-px w-8 bg-gradient-to-r from-ember to-molten" />
+    <p className={`text-[15px] font-semibold tracking-[-0.01em] sm:text-[17px] ${tone === "dark" ? "text-link-dark" : "text-link"} ${className}`}>
       {children}
     </p>
   );

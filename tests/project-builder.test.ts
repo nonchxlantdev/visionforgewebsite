@@ -3,109 +3,97 @@ import test from "node:test";
 import {
   budgetFit,
   buildMessage,
-  cardMessage,
+  canSend,
   emailHref,
-  isComplete,
-  projectTier,
-  summarize,
-  toggleNeed,
+  EMPTY_STATE,
+  suggestedTier,
+  suggestion,
+  toggleProblem,
   whatsappHref,
-  type BuilderState,
+  type StartState,
 } from "../lib/project-builder.ts";
 import { isSafeNavigationHref } from "../lib/safe-href.ts";
 
-const base: BuilderState = { business: "health", needs: ["website", "bookings"], budget: "to2500", timing: "soon" };
+const base: StartState = { problems: ["orders", "payments"], budget: "to8000" };
 
-test("each need maps to a tier and the project takes the highest", () => {
-  assert.equal(projectTier(["website"]), "launch");
-  assert.equal(projectTier(["orders"]), "grow");
-  assert.equal(projectTier(["bookings", "website"]), "grow");
-  assert.equal(projectTier(["website", "reports"]), "custom");
-  assert.equal(projectTier(["integrations"]), "custom");
-  assert.equal(projectTier(["unsure"]), null);
-  assert.equal(projectTier([]), null);
+test("each problem points to a tier and the highest wins", () => {
+  assert.equal(suggestedTier(["website"]), "found");
+  assert.equal(suggestedTier(["orders"]), "automate");
+  assert.equal(suggestedTier(["website", "bookings"]), "automate");
+  assert.equal(suggestedTier(["forms", "accounts"]), "connect");
+  assert.equal(suggestedTier(["reports"]), "connect");
+  assert.equal(suggestedTier(["unsure"]), null);
+  assert.equal(suggestedTier([]), null);
 });
 
-test("budget fit: fits, phase-one with a starting tier, or unknown", () => {
-  assert.deepEqual(budgetFit("launch", "under1k"), { kind: "fits" });
-  assert.deepEqual(budgetFit("grow", "to2500"), { kind: "fits" }); // ceiling equals the starting price
-  assert.deepEqual(budgetFit("grow", "under1k"), { kind: "phase-one", startTier: "launch" });
-  assert.deepEqual(budgetFit("custom", "to2500"), { kind: "phase-one", startTier: "grow" });
-  assert.deepEqual(budgetFit("custom", "to8000"), { kind: "fits" });
-  assert.deepEqual(budgetFit("custom", "over8000"), { kind: "fits" });
-  assert.deepEqual(budgetFit("custom", "unsure"), { kind: "unknown" });
-  assert.deepEqual(budgetFit(null, "to2500"), { kind: "unknown" });
+test("'Not sure yet' is exclusive and order is canonical", () => {
+  assert.deepEqual(toggleProblem([], "payments"), ["payments"]);
+  assert.deepEqual(toggleProblem(["payments"], "orders"), ["orders", "payments"]);
+  assert.deepEqual(toggleProblem(["orders", "payments"], "orders"), ["payments"]);
+  assert.deepEqual(toggleProblem(["orders"], "unsure"), ["unsure"]);
+  assert.deepEqual(toggleProblem(["unsure"], "website"), ["website"]);
+  assert.deepEqual(toggleProblem(["unsure"], "unsure"), []);
 });
 
-test("'not sure' is exclusive with the other needs", () => {
-  assert.deepEqual(toggleNeed([], "website"), ["website"]);
-  assert.deepEqual(toggleNeed(["website"], "bookings"), ["website", "bookings"]);
-  assert.deepEqual(toggleNeed(["bookings", "website"], "website"), ["bookings"]);
-  assert.deepEqual(toggleNeed(["website", "bookings"], "unsure"), ["unsure"]);
-  assert.deepEqual(toggleNeed(["unsure"], "orders"), ["orders"]);
-  assert.deepEqual(toggleNeed(["unsure"], "unsure"), []);
-  // keeps the canonical order regardless of tap order
-  assert.deepEqual(toggleNeed(["reports"], "website"), ["website", "reports"]);
+test("budget fit: fits, a smaller first step, or unknown", () => {
+  assert.deepEqual(budgetFit("found", "under1500"), { kind: "fits" });
+  assert.deepEqual(budgetFit("automate", "under1500"), { kind: "smaller", startTier: "found" });
+  assert.deepEqual(budgetFit("automate", "to8000"), { kind: "fits" });
+  assert.deepEqual(budgetFit("connect", "to8000"), { kind: "fits" });
+  assert.deepEqual(budgetFit("connect", "under1500"), { kind: "smaller", startTier: "found" });
+  assert.deepEqual(budgetFit("connect", "over8000"), { kind: "fits" });
+  assert.deepEqual(budgetFit("connect", "unsure"), { kind: "unknown" });
+  assert.deepEqual(budgetFit(null, "to8000"), { kind: "unknown" });
 });
 
-test("summary reads as a plain sentence", () => {
-  assert.equal(summarize({ ...base, needs: ["website"] }), "A website for your clinic or salon.");
-  assert.equal(summarize(base), "A website and online bookings for your clinic or salon.");
-  assert.equal(
-    summarize({ ...base, business: "company", needs: ["forms", "reports", "integrations"] }),
-    "Digital forms to replace paper, automatic reports and dashboards and connections between your systems for your organisation.",
-  );
-  assert.equal(summarize({ ...base, needs: ["unsure"] }), "Help choosing the right tools for your clinic or salon.");
-  assert.equal(summarize({ ...base, business: null }), null);
-  assert.equal(summarize({ ...base, needs: [] }), null);
+test("the suggestion card reads plainly in every state", () => {
+  assert.deepEqual(suggestion(EMPTY_STATE), {
+    tier: null,
+    headline: "Pick what's slowing you down and we'll suggest where to start.",
+    budgetLine: null,
+  });
+  assert.deepEqual(suggestion({ problems: ["unsure"], budget: "unsure" }), {
+    tier: null,
+    headline: "No problem. Send it over and we'll suggest the right first step.",
+    budgetLine: null,
+  });
+  assert.deepEqual(suggestion(base), {
+    tier: "automate",
+    headline: "Sounds like an “Automate one task” project.",
+    budgetLine: "Your budget fits this.",
+  });
+  assert.deepEqual(suggestion({ problems: ["accounts"], budget: "under1500" }), {
+    tier: "connect",
+    headline: "Sounds like a “Connect your business” project.",
+    budgetLine: "Your budget fits a smaller first step. We'd start with “Get found” and add the rest later.",
+  });
+  assert.equal(suggestion({ problems: ["website"], budget: "unsure" }).budgetLine, null);
 });
 
-test("completeness needs a business and at least one need", () => {
-  assert.equal(isComplete(base), true);
-  assert.equal(isComplete({ ...base, business: null }), false);
-  assert.equal(isComplete({ ...base, needs: [] }), false);
-});
-
-test("card message explains price and budget fit", () => {
-  assert.equal(
-    cardMessage(base),
-    "Your budget fits this. Typical Grow projects start from BZ$2,500 and take 4–8 weeks.",
-  );
-  assert.equal(
-    cardMessage({ ...base, budget: "under1k" }),
-    "Your budget fits a smaller first version. We'd start with a Launch project (from BZ$500) and add the rest in a second phase.",
-  );
-  assert.equal(cardMessage({ ...base, budget: "unsure" }), "Grow projects start from BZ$2,500 and usually take 4–8 weeks.");
-  assert.equal(
-    cardMessage({ ...base, needs: ["unsure"] }),
-    "Tell us a bit about your business and we'll suggest the right starting point.",
-  );
-});
-
-test("the message names the business, needs, budget and timing", () => {
+test("the message lists the problems and budget, capped at 500 characters", () => {
   assert.equal(
     buildMessage(base),
-    "Hi Vision Forge! I run a clinic or salon and I'm interested in a website and online bookings. Budget: BZ$1,000–2,500. Timing: Within 1–3 months. Can we talk?",
+    "Hi Vision Forge, here's what's slowing my business down: typing up orders and chasing payments. Budget: BZ$1,500–8,000. Can we talk?",
   );
-  assert.match(buildMessage({ ...base, business: "company" }), /I run an organisation/);
-  assert.match(buildMessage({ ...base, needs: ["unsure"] }), /interested in help choosing the right tools\./);
-  const huge: BuilderState = { ...base, needs: ["website", "orders", "bookings", "staffApp", "forms", "reports", "integrations"] };
-  assert.ok(buildMessage(huge).length <= 500);
+  assert.equal(
+    buildMessage({ problems: ["unsure"], budget: "unsure" }),
+    "Hi Vision Forge, something's slowing my business down but I'm not sure where to start. Budget: Not sure. Can we talk?",
+  );
+  const all: StartState = { problems: ["orders", "payments", "forms", "bookings", "reports", "accounts", "website"], budget: "over8000" };
+  assert.ok(buildMessage(all).length <= 500);
+  assert.equal(buildMessage(EMPTY_STATE), "");
 });
 
-test("whatsapp and email links are safe and carry the message", () => {
-  const wa = whatsappHref(base);
-  assert.ok(wa);
+test("send links are safe and only exist once something is picked", () => {
+  assert.equal(canSend(EMPTY_STATE), false);
+  assert.equal(canSend(base), true);
+  const wa = whatsappHref(base)!;
   assert.ok(wa.startsWith("https://wa.me/5016157575?text="));
   assert.equal(isSafeNavigationHref(wa), true);
   assert.equal(new URL(wa).searchParams.get("text"), buildMessage(base));
-
-  const mail = emailHref(base);
-  assert.ok(mail);
+  const mail = emailHref(base)!;
   assert.ok(mail.startsWith("mailto:sales@visionforgestudio.app?subject=Project%20enquiry&body="));
   assert.equal(isSafeNavigationHref(mail), true);
-  assert.equal(decodeURIComponent(mail.split("&body=")[1]), buildMessage(base));
-
-  assert.equal(whatsappHref({ ...base, business: null }), undefined);
-  assert.equal(emailHref({ ...base, needs: [] }), undefined);
+  assert.equal(whatsappHref(EMPTY_STATE), undefined);
+  assert.equal(emailHref(EMPTY_STATE), undefined);
 });

@@ -82,46 +82,49 @@ export function Navbar() {
   const closeMenu = () => setOpen(false);
 
   return (
-    <header ref={headerRef} data-scrolled="false" className="site-header sticky top-0 z-50 no-print">
-      <div className="nav-shell flex h-[var(--nav-h)] items-center border-b border-transparent px-4 transition-[background-color,border-color] duration-300 sm:px-6 lg:px-10">
-        <Link href="/" className="flex items-center gap-3" aria-label="Vision Forge Studio, home">
-          <Logo priority className="h-11 w-11 sm:h-12 sm:w-12" sizes="48px" />
-          <span className="hidden font-display text-xl font-bold tracking-[0.06em] text-chrome uppercase sm:inline">
-            Vision<span className="text-molten">Forge</span>
-          </span>
-        </Link>
+    <header ref={headerRef} data-scrolled="false" className="site-header no-print sticky top-0 z-50">
+      <div className="nav-shell border-b border-transparent transition-[background-color,border-color] duration-300">
+        <div className="mx-auto flex h-[var(--nav-h)] max-w-[1120px] items-center px-4 sm:px-6">
+          <Link href="/" className="flex min-h-11 items-center gap-2.5" aria-label="Vision Forge Studio, home">
+            <Logo priority className="h-9 w-9" sizes="36px" />
+            <span className="text-[15px] font-semibold tracking-[-0.01em] text-ink">Vision Forge</span>
+          </Link>
 
-        <nav className="ml-auto hidden items-center gap-6 lg:flex xl:gap-8" aria-label="Primary">
-          {navItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              data-active={active === item.id}
-              aria-current={active === item.id ? "true" : undefined}
-              className="nav-link relative py-2 font-mono text-[11px] tracking-[0.16em] text-ash uppercase transition-colors duration-300 hover:text-whitehot data-[active=true]:text-whitehot"
-            >
-              {item.label}
-            </a>
-          ))}
-        </nav>
+          <nav className="ml-auto hidden items-center gap-7 lg:flex" aria-label="Primary">
+            {navItems.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                data-active={active === item.id}
+                aria-current={active === item.id ? "true" : undefined}
+                className="py-2 text-[13px] text-ink/75 transition-colors hover:text-ink data-[active=true]:text-ink"
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
 
-        <div className="ml-6 hidden lg:block">
-          <CtaLink href={site.whatsapp.href} external className="min-h-11 px-4">
+          <a
+            href={site.whatsapp.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ml-7 hidden min-h-9 items-center rounded-full bg-accent px-4 text-[13px] font-medium text-white transition-colors hover:bg-accent-hover lg:inline-flex"
+          >
             WhatsApp us
-          </CtaLink>
-        </div>
+          </a>
 
-        <button
-          ref={menuButtonRef}
-          type="button"
-          className="ml-auto flex h-12 w-12 items-center justify-center text-chrome lg:hidden"
-          aria-expanded={open}
-          aria-controls="mobile-navigation"
-          onClick={() => setOpen(true)}
-        >
-          <Menu aria-hidden strokeWidth={1.5} className="h-6 w-6" />
-          <span className="sr-only">Open menu</span>
-        </button>
+          <button
+            ref={menuButtonRef}
+            type="button"
+            className="ml-auto flex h-11 w-11 items-center justify-center text-ink lg:hidden"
+            aria-expanded={open}
+            aria-controls="mobile-navigation"
+            onClick={() => setOpen(true)}
+          >
+            <Menu aria-hidden strokeWidth={1.75} className="h-6 w-6" />
+            <span className="sr-only">Open menu</span>
+          </button>
+        </div>
       </div>
 
       {open ? (
@@ -131,38 +134,35 @@ export function Navbar() {
           role="dialog"
           aria-modal="true"
           aria-label="Navigation"
-          className="brushed fixed inset-0 z-[60] flex flex-col lg:hidden"
+          className="fixed inset-0 z-[60] flex flex-col bg-page lg:hidden"
         >
           <div className="flex h-[var(--nav-h)] items-center justify-between px-4">
-            <Link href="/" onClick={closeMenu} aria-label="Vision Forge Studio, home">
-              <Logo className="h-11 w-11" sizes="44px" />
+            <Link href="/" onClick={closeMenu} className="flex min-h-11 items-center" aria-label="Vision Forge Studio, home">
+              <Logo className="h-9 w-9" sizes="36px" />
             </Link>
             <button
               type="button"
               data-close-menu
-              className="flex h-12 w-12 items-center justify-center text-chrome"
+              className="flex h-11 w-11 items-center justify-center text-ink"
               onClick={() => {
                 setOpen(false);
                 menuButtonRef.current?.focus();
               }}
             >
-              <X aria-hidden strokeWidth={1.5} className="h-6 w-6" />
+              <X aria-hidden strokeWidth={1.75} className="h-6 w-6" />
               <span className="sr-only">Close menu</span>
             </button>
           </div>
 
-          <nav className="flex flex-1 flex-col px-5 pt-4" aria-label="Mobile">
-            {navItems.map((item, index) => (
+          <nav className="flex flex-1 flex-col px-6 pt-4" aria-label="Mobile">
+            {navItems.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
                 onClick={closeMenu}
-                className="heat-hover flex min-h-16 items-baseline justify-between border-b border-line py-4"
+                className="flex min-h-14 items-center border-b border-hairline text-[28px] font-semibold tracking-[-0.025em] text-ink"
               >
-                <span className="font-display text-[2.6rem] leading-none font-bold tracking-[0.01em] uppercase">
-                  {item.label}
-                </span>
-                <span className="font-mono text-[11px] tracking-[0.16em] text-ash">0{index + 1}</span>
+                {item.label}
               </a>
             ))}
             <div className="pt-8">
@@ -172,18 +172,9 @@ export function Navbar() {
             </div>
           </nav>
 
-          <div className="grid border-t border-line">
-            <a
-              href={site.whatsapp.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex min-h-16 items-center justify-between border-b border-line px-5"
-            >
-              <span className="font-mono text-[11px] tracking-[0.18em] text-molten">WHATSAPP</span>
-              <span>{site.whatsapp.display}</span>
-            </a>
-            <a href={site.phone.href} className="flex min-h-16 items-center justify-between px-5">
-              <span className="font-mono text-[11px] tracking-[0.18em] text-molten">CALL</span>
+          <div className="grid border-t border-hairline px-6 py-4 text-[15px]">
+            <a href={site.phone.href} className="flex min-h-12 items-center justify-between text-ink">
+              <span className="text-ink-2">Call</span>
               <span>{site.phone.display}</span>
             </a>
           </div>

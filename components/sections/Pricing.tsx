@@ -1,40 +1,49 @@
 import { Check } from "lucide-react";
+import Link from "next/link";
 import { CtaLink } from "@/components/ui/CtaLink";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import Link from "next/link";
-import { formatBZ, priceNote, tierOrder, tiers } from "@/lib/site";
-
-const examples = {
-  launch: ["Business website", "Landing page", "Google listing set up", "WhatsApp and call buttons"],
-  grow: ["Online store or ordering", "Bookings and appointments", "Simple customer or staff app", "Order and booking alerts"],
-  custom: ["Staff portals", "Digital forms and checklists", "Reports and dashboards", "Connecting your systems"],
-} as const;
+import { featuredTier, formatBZ, priceNote, tierOrder, tiers } from "@/lib/site";
 
 export function Pricing() {
   return (
-    <section id="pricing" className="scroll-mt-20 border-t border-line px-4 py-20 sm:px-6 lg:px-10 lg:py-28">
-      <div className="mx-auto max-w-[1400px]">
-        <SectionHeading kicker="Pricing" lines={["Clear prices,", "no surprises."]} hotLines={[1]}>
-          Every project gets a fixed quote after a free chat. These are typical starting points.
-        </SectionHeading>
+    <section id="pricing" aria-labelledby="pricing-title" className="scroll-mt-14 px-3 py-4 sm:px-6">
+      <div className="mx-auto max-w-[1180px] rounded-[32px] bg-panel px-5 py-16 text-panel-ink sm:px-10 md:py-24 lg:px-16">
+        <SectionHeading
+          id="pricing-title"
+          tone="dark"
+          kicker="Pricing"
+          title="Start small. Add more when it pays off."
+          lede="Every project gets a fixed written quote after a free chat. These are typical starting points."
+        />
 
-        <ul className="mt-12 grid gap-px border border-line bg-line md:grid-cols-3">
+        <ul className="mt-14 grid gap-4 md:grid-cols-3">
           {tierOrder.map((id) => {
             const t = tiers[id];
+            const featured = id === featuredTier;
             return (
-              <li key={id} className="flex flex-col bg-forge p-6 sm:p-8">
-                <p className="font-mono text-[11px] tracking-[0.2em] text-molten uppercase">{t.label}</p>
-                <p className="mt-4 font-display text-[3.2rem] leading-none font-black text-chrome">
-                  <span className="mr-2 align-middle font-mono text-sm font-normal text-ash">from</span>
-                  <span className="hot-text">{formatBZ(t.from)}</span>
-                  <span aria-hidden className="ml-0.5 align-top font-mono text-base font-normal text-ash">*</span>
+              <li
+                key={id}
+                className={`relative flex flex-col rounded-[24px] bg-panel-2 p-7 ${featured ? "ring-2 ring-link-dark" : ""}`}
+              >
+                {featured ? (
+                  <p className="absolute -top-3 left-7 rounded-full bg-link-dark px-3 py-1 text-[12px] font-semibold text-panel">
+                    Where most start
+                  </p>
+                ) : null}
+                <h3 className="text-[21px] font-semibold tracking-[-0.02em]">{t.label}</h3>
+                <p className="mt-5 flex items-baseline gap-1.5">
+                  <span className="text-[15px] text-panel-ink-2">from</span>
+                  <span className="text-[2.75rem] leading-none font-semibold tracking-[-0.04em] tabular-nums">{formatBZ(t.from)}</span>
+                  <span aria-hidden className="self-start text-[20px] leading-none text-panel-ink-2">
+                    *
+                  </span>
                 </p>
-                <p className="mt-2 font-mono text-[11px] tracking-[0.14em] text-ash uppercase">Usually {t.weeks}</p>
-                <p className="mt-5 text-base leading-relaxed text-chrome/85">{t.copy}</p>
-                <ul className="mt-5 space-y-2 text-[15px] text-ash">
-                  {examples[id].map((item) => (
-                    <li key={item} className="flex items-center gap-2.5">
-                      <Check aria-hidden className="h-4 w-4 shrink-0 text-molten" strokeWidth={2.25} />
+                <p className="mt-2 text-[15px] text-panel-ink-2">Usually {t.weeks}</p>
+                <p className="mt-5 text-[17px] leading-relaxed text-panel-ink/85">{t.copy}</p>
+                <ul className="mt-6 space-y-2.5 border-t border-white/10 pt-6 text-[15px] text-panel-ink-2">
+                  {t.includes.map((item) => (
+                    <li key={item} className="flex items-start gap-2.5">
+                      <Check aria-hidden className="mt-0.5 h-4 w-4 shrink-0 text-link-dark" strokeWidth={2.5} />
                       {item}
                     </li>
                   ))}
@@ -44,20 +53,18 @@ export function Pricing() {
           })}
         </ul>
 
-        <p className="mt-4 text-[12px] leading-relaxed text-ash">
+        <p className="mx-auto mt-8 max-w-3xl text-center text-[12px] leading-relaxed text-panel-ink-2">
           <span aria-hidden>* </span>
           {priceNote.text}{" "}
-          <Link href={priceNote.href} className="underline underline-offset-2 hover:text-whitehot">
+          <Link href={priceNote.href} className="underline underline-offset-2 hover:text-panel-ink">
             {priceNote.linkLabel}
           </Link>
         </p>
 
-        <div className="mt-8 flex flex-col gap-4 border border-line bg-soot/50 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
-          <p className="text-base text-chrome/90">
-            Not sure which fits? Tell us your budget in the builder and we&apos;ll suggest what you can get.
-          </p>
-          <CtaLink href="#build" variant="ghost">
-            Build your project
+        <div className="mt-10 text-center">
+          <p className="text-[17px] text-panel-ink-2">Not sure which fits?</p>
+          <CtaLink href="#start" variant="linkDark" icon="right">
+            {"Tell us what's slowing you down"}
           </CtaLink>
         </div>
       </div>
