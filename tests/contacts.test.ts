@@ -33,11 +33,15 @@ test("every mailto link is lowercase", () => {
   }
 });
 
-test("site contacts are lowercase mailto links", () => {
+test("sales is the only published contact", () => {
   assert.equal(site.sales.display, "sales@visionforgestudio.app");
   assert.equal(site.sales.href, "mailto:sales@visionforgestudio.app");
-  assert.equal(site.support.display, "support@visionforgestudio.app");
-  assert.equal(site.support.href, "mailto:support@visionforgestudio.app");
+  for (const gone of ["support", "whatsapp", "phone", "projectMailto"]) assert.equal(gone in site, false, gone);
+});
+
+test("no phone numbers, WhatsApp links or support address anywhere in source", () => {
+  const banned = /615-?7575|613-?9219|5016157575|5016139219|wa\.me|\btel:|support@visionforgestudio|site\.(whatsapp|phone|support)\b/;
+  for (const file of files) assert.doesNotMatch(readFileSync(file, "utf8"), banned, file.pathname);
 });
 
 test("the business is never called a limited company", () => {

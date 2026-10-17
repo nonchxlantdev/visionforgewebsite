@@ -5,7 +5,7 @@ export function Timeline() {
   return (
     <section aria-labelledby="steps-title" className="border-b border-line">
       <div className="mx-auto max-w-[1240px] px-5 py-20 sm:px-8 lg:px-10">
-        <SectionHeading id="steps-title" kicker="Four steps" title="From first message to running for real." />
+        <SectionHeading id="steps-title" title="From first message to running for real." />
         <ol className="relative mt-14 grid gap-10 md:grid-cols-4 md:gap-6">
           <span aria-hidden className="absolute top-5 right-0 left-0 hidden h-px bg-line-2 md:block" />
           {steps.map((step, i) => (

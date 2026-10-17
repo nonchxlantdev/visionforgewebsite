@@ -4,16 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { CtaLink } from "@/components/ui/CtaLink";
+import { ctaClassName } from "@/components/ui/CtaLink";
 import { Logo } from "@/components/ui/Logo";
-import { navItems, site } from "@/lib/site";
+import { primaryNav } from "@/lib/site";
 
 function Brand() {
-  return (
-    <span className="font-wide hidden text-[14px] font-bold tracking-[0.06em] text-steel-hi uppercase sm:inline">
-      Vision <span className="text-gold">Forge</span> Studio
-    </span>
-  );
+  return <span className="hidden font-serif text-[18px] font-semibold text-ink sm:inline">Vision Forge Studio</span>;
 }
 
 export function Navbar() {
@@ -74,39 +70,36 @@ export function Navbar() {
 
   return (
     <header ref={headerRef} data-scrolled="false" className="site-header no-print sticky top-0 z-50">
-      <div className="nav-shell border-b border-line transition-[background-color] duration-300">
-        <div className="mx-auto flex h-[var(--nav-h)] max-w-[1240px] items-center gap-6 px-5 sm:px-8 lg:px-10">
+      <div className="nav-shell border-b border-line bg-paper transition-[background-color] duration-300">
+        <div className="mx-auto flex h-[var(--nav-h)] max-w-[1180px] items-center gap-6 px-5 sm:px-8 lg:px-10">
           <Link href="/" className="flex min-h-11 items-center gap-3" aria-label="Vision Forge Studio, home">
-            <Logo priority className="h-11 w-auto" sizes="54px" />
+            <Logo priority className="h-10 w-auto" sizes="48px" />
             <Brand />
           </Link>
 
-          <nav className="ml-auto hidden items-center gap-7 lg:flex" aria-label="Primary">
-            {navItems.map((item) => (
+          <nav className="ml-auto hidden items-center gap-8 lg:flex" aria-label="Primary">
+            {primaryNav.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 aria-current={isActive(item.href) ? "page" : undefined}
-                className="relative py-2 text-[14px] text-steel-2 transition-colors hover:text-steel-hi aria-[current=page]:text-steel-hi aria-[current=page]:after:absolute aria-[current=page]:after:inset-x-0 aria-[current=page]:after:-bottom-[1.05rem] aria-[current=page]:after:h-0.5 aria-[current=page]:after:bg-gold"
+                className="py-2 text-[16px] text-body transition-colors hover:text-ink aria-[current=page]:text-ink aria-[current=page]:underline aria-[current=page]:decoration-mahogany aria-[current=page]:decoration-2 aria-[current=page]:underline-offset-8"
               >
                 {item.label}
               </Link>
             ))}
           </nav>
 
-          <a
-            href={site.whatsapp.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden min-h-10 items-center rounded-[4px] bg-gold px-4 text-[14px] font-semibold text-on-gold transition-colors hover:bg-gold-hi lg:inline-flex"
-          >
-            WhatsApp us
-          </a>
+          <div className="hidden lg:block">
+            <Link href="/get-started" className={ctaClassName("primary", "min-h-11 px-5")}>
+              Get started
+            </Link>
+          </div>
 
           <button
             ref={menuButtonRef}
             type="button"
-            className="ml-auto flex h-11 w-11 items-center justify-center text-steel-hi lg:hidden"
+            className="ml-auto flex h-11 w-11 items-center justify-center text-ink lg:hidden"
             aria-expanded={open}
             aria-controls="mobile-navigation"
             onClick={() => setOpen(true)}
@@ -124,17 +117,17 @@ export function Navbar() {
           role="dialog"
           aria-modal="true"
           aria-label="Navigation"
-          className="fixed inset-0 z-[60] flex flex-col bg-bg lg:hidden"
+          className="fixed inset-0 z-[60] flex flex-col bg-paper lg:hidden"
         >
           <div className="flex h-[var(--nav-h)] items-center justify-between border-b border-line px-5">
             <Link href="/" onClick={closeMenu} className="flex min-h-11 items-center gap-3" aria-label="Vision Forge Studio, home">
-              <Logo className="h-11 w-auto" sizes="54px" />
+              <Logo className="h-10 w-auto" sizes="48px" />
               <Brand />
             </Link>
             <button
               type="button"
               data-close-menu
-              className="flex h-11 w-11 items-center justify-center text-steel-hi"
+              className="flex h-11 w-11 items-center justify-center text-ink"
               onClick={() => {
                 setOpen(false);
                 menuButtonRef.current?.focus();
@@ -146,29 +139,23 @@ export function Navbar() {
           </div>
 
           <nav className="flex flex-1 flex-col px-5 pt-2" aria-label="Mobile">
-            {[{ href: "/", label: "Home" }, ...navItems].map((item, index) => (
+            {[{ href: "/", label: "Home" }, ...primaryNav].map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 onClick={closeMenu}
                 aria-current={(item.href === "/" ? pathname === "/" : isActive(item.href)) ? "page" : undefined}
-                className="flex min-h-16 items-baseline justify-between border-b border-line py-4 text-steel-hi aria-[current=page]:text-gold"
+                className="flex min-h-16 items-center border-b border-line py-4 font-serif text-[1.75rem] leading-none font-semibold text-ink aria-[current=page]:text-mahogany"
               >
-                <span className="font-wide text-[2rem] leading-none font-bold tracking-[-0.02em]">{item.label}</span>
-                <span className="label text-steel-2">0{index + 1}</span>
+                {item.label}
               </Link>
             ))}
             <div className="pt-8">
-              <CtaLink href={site.whatsapp.href} external className="w-full">
-                Message us on WhatsApp
-              </CtaLink>
+              <Link href="/get-started" onClick={closeMenu} className={ctaClassName("primary", "w-full")}>
+                Get started
+              </Link>
             </div>
           </nav>
-
-          <a href={site.phone.href} className="flex min-h-14 items-center justify-between border-t border-line px-5 text-[15px] text-steel">
-            <span className="label text-gold">Call</span>
-            <span>{site.phone.display}</span>
-          </a>
         </div>
       ) : null}
     </header>

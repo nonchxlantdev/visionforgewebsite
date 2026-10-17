@@ -34,7 +34,7 @@ const sections: LegalSection[] = [
     heading: "Third-party sites",
     body: (
       <p>
-        If you follow a link to another site, such as WhatsApp, that site may set its own cookies under its own
+        If you follow a link to another site, that site may set its own cookies under its own
         policy.
       </p>
     ),
@@ -45,7 +45,7 @@ const sections: LegalSection[] = [
     body: (
       <p>
         If we ever add analytics or other cookies, we will update this page first and ask for your consent where
-        required under the laws of Belize. Questions go to <a href={site.support.href}>{site.support.display}</a>.
+        required under the laws of Belize. Questions go to <a href={site.sales.href}>{site.sales.display}</a>.
       </p>
     ),
   },

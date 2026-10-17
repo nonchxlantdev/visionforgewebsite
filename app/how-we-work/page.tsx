@@ -27,7 +27,6 @@ export default function HowWeWorkPage() {
   return (
     <>
       <PageHeader
-        kicker="How we work"
         title={
           <>
             Plain talk, fixed prices, <span className="text-gold">real support.</span>
@@ -37,7 +36,7 @@ export default function HowWeWorkPage() {
       />
       <Timeline />
       <Promises />
-      <Faq />
+      <Faq items={faq} />
       <ClosingBand />
       <script
         type="application/ld+json"

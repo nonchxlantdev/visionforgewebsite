@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Footer } from "@/components/layout/Footer";
-import { MobileContactBar } from "@/components/layout/MobileContactBar";
+import { GetStartedBar } from "@/components/layout/GetStartedBar";
 import { Navbar } from "@/components/layout/Navbar";
 import { LOGO_SIZE } from "@/lib/logo-variants";
 import { site } from "@/lib/site";
@@ -77,7 +77,6 @@ const jsonLd = {
   logo: `${site.url}/brand/vision-forge-logo.png`,
   description: site.description,
   email: site.sales.display,
-  telephone: "+501-613-9219",
   areaServed: {
     "@type": "Country",
     name: "Belize",
@@ -89,18 +88,10 @@ const jsonLd = {
   contactPoint: [
     {
       "@type": "ContactPoint",
-      telephone: "+501-615-7575",
       contactType: "sales",
       email: site.sales.display,
       availableLanguage: ["English"],
-      url: site.whatsapp.href,
-    },
-    {
-      "@type": "ContactPoint",
-      telephone: "+501-613-9219",
-      contactType: "customer support",
-      email: site.support.display,
-      availableLanguage: ["English"],
+      url: `${site.url}/get-started`,
     },
   ],
 };
@@ -118,7 +109,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <Navbar />
         <main id="main">{children}</main>
         <Footer />
-        <MobileContactBar />
+        <GetStartedBar />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}

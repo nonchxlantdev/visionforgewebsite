@@ -1,28 +1,21 @@
 import type { ReactNode } from "react";
-import { Label } from "@/components/ui/Label";
 
 type PageHeaderProps = {
-  kicker: string;
   title: ReactNode;
   lede: ReactNode;
   children?: ReactNode;
 };
 
-/** The one h1 on every inner page: title left, lede right on wide screens. */
-export function PageHeader({ kicker, title, lede, children }: PageHeaderProps) {
+/** The one h1 on every inner page. */
+export function PageHeader({ title, lede, children }: PageHeaderProps) {
   return (
-    <header className="border-b border-line">
-      <div className="mx-auto grid max-w-[1240px] gap-8 px-5 pt-16 pb-14 sm:px-8 md:pt-20 lg:grid-cols-[1.2fr_0.8fr] lg:items-end lg:px-10">
-        <div>
-          <Label>{kicker}</Label>
-          <h1 className="font-wide mt-5 text-[clamp(2.6rem,6.4vw,4.75rem)] leading-[0.98] font-extrabold tracking-[-0.025em] text-balance text-steel-hi">
-            {title}
-          </h1>
-        </div>
-        <div className="text-[clamp(1.0625rem,1.5vw,1.25rem)] text-steel-2">
-          {lede}
-          {children ? <div className="mt-6">{children}</div> : null}
-        </div>
+    <header className="border-b border-line bg-mist">
+      <div className="mx-auto max-w-[1180px] px-5 pt-14 pb-12 sm:px-8 md:pt-20 md:pb-16 lg:px-10">
+        <h1 className="max-w-[22ch] font-serif text-[clamp(2.25rem,5vw,3.25rem)] leading-[1.12] font-semibold tracking-[-0.01em] text-balance text-ink">
+          {title}
+        </h1>
+        <div className="mt-5 max-w-[60ch] text-[1.125rem] text-body md:text-[1.1875rem]">{lede}</div>
+        {children ? <div className="mt-8">{children}</div> : null}
       </div>
     </header>
   );

@@ -59,21 +59,18 @@ test("production headers cover transport, framing, sniffing, referrer, and permi
   assert.match(headers["Permissions-Policy"], /geolocation=\(\)/);
 });
 
-test("published contact targets are the only external navigations", () => {
-  assert.equal(isSafeNavigationHref(site.whatsapp.href), true);
-  assert.equal(isSafeNavigationHref(site.phone.href), true);
+test("only on-site paths, the site's own https and the sales mailto are navigable", () => {
   assert.equal(isSafeNavigationHref(site.sales.href), true);
-  assert.equal(isSafeNavigationHref(site.support.href), true);
-  assert.equal(isSafeNavigationHref(site.projectMailto), true);
   assert.equal(isSafeNavigationHref(site.url), true);
   assert.equal(isSafeNavigationHref("/terms"), true);
-  assert.equal(isSafeNavigationHref("/#contact"), true);
-  assert.equal(isSafeNavigationHref("#forge"), true);
+  assert.equal(isSafeNavigationHref("/services#improve"), true);
+  assert.equal(isSafeNavigationHref("#contact"), true);
 
+  assert.equal(isSafeNavigationHref("https://wa.me/5016157575"), false);
+  assert.equal(isSafeNavigationHref("tel:+5016139219"), false);
   assert.equal(isSafeNavigationHref("javascript:alert(1)"), false);
   assert.equal(isSafeNavigationHref("http://visionforgestudio.app"), false);
   assert.equal(isSafeNavigationHref("https://evil.example"), false);
-  assert.equal(isSafeNavigationHref("https://wa.me/19999999999"), false);
   assert.equal(isSafeNavigationHref("//evil.example"), false);
   assert.equal(isSafeNavigationHref("mailto:sales@visionforgestudio.app\r\nBcc:attacker@example.com"), false);
 });
@@ -105,16 +102,6 @@ test("application source does not reference private environment variables", () =
     assert.doesNotMatch(text, /process\.env/);
     assert.doesNotMatch(text, /-----BEGIN [A-Z ]*PRIVATE KEY-----/);
   }
-});
-
-test("wa.me links may carry only a short prefilled text", () => {
-  const ok = `https://wa.me/5016157575?text=${encodeURIComponent("Hi Vision Forge! I run a shop.")}`;
-  assert.equal(isSafeNavigationHref(ok), true);
-  assert.equal(isSafeNavigationHref("https://wa.me/5016157575?text=hi&phone=19999999999"), false);
-  assert.equal(isSafeNavigationHref("https://wa.me/5016157575?other=hi"), false);
-  assert.equal(isSafeNavigationHref("https://wa.me/5016157575?text=hi#x"), false);
-  assert.equal(isSafeNavigationHref(`https://wa.me/5016157575?text=${"a".repeat(501)}`), false);
-  assert.equal(isSafeNavigationHref("https://wa.me/19999999999?text=hi"), false);
 });
 
 test("mailto body is encoded, length-capped and rejects header injection", () => {

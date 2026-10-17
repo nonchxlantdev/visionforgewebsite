@@ -41,7 +41,6 @@ export function Industries() {
       <div className="mx-auto max-w-[1240px] px-5 py-20 sm:px-8 md:py-24 lg:px-10">
         <SectionHeading
           id="industries-title"
-          kicker="Who we work with"
           title="Built for the way Belize does business."
           lede="From online stores to tour operators, we build around how your business already runs, not the other way round."
         />

@@ -46,7 +46,7 @@ const sections: LegalSection[] = [
     heading: "External links",
     body: (
       <p>
-        Links to other websites, such as WhatsApp, are provided for convenience. We don&apos;t control those sites and a
+        Links to other websites are provided for convenience. We don&apos;t control those sites and a
         link is not an endorsement. Their own terms and privacy policies apply.
       </p>
     ),

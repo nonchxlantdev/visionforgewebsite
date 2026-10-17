@@ -7,7 +7,7 @@ export function AutomateList() {
     <section aria-labelledby="automate-title" className="border-b border-line">
       <div className="mx-auto max-w-[1240px] px-5 py-20 sm:px-8 md:py-24 lg:px-10">
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-          <SectionHeading id="automate-title" kicker="What we automate" title="Sounds like your week?" />
+          <SectionHeading id="automate-title" title="Sounds like your week?" />
           <Link href="/automation" className="label inline-flex min-h-11 items-center text-steel hover:text-gold">
             See every automation →
           </Link>

@@ -3,24 +3,25 @@ import { mailtoHref } from "@/lib/safe-href";
 type EmailLinkProps = {
   address: string;
   size?: "lg" | "md" | "sm";
-  tone?: "bright" | "muted";
+  tone?: "ink" | "muted" | "onDark";
   subject?: string;
   className?: string;
 };
 
 const sizes = {
-  lg: "text-[clamp(1rem,4.4cqi,1.5rem)] whitespace-nowrap",
+  lg: "text-[1.25rem]",
   md: "text-[17px]",
-  sm: "text-[14px]",
+  sm: "text-[15px]",
 } as const;
 
 const tones = {
-  bright: "text-steel-hi decoration-gold/60 hover:decoration-gold underline underline-offset-[6px]",
-  muted: "text-steel-2 hover:text-steel-hi",
+  ink: "text-ink underline decoration-mahogany/50 underline-offset-4 hover:decoration-mahogany",
+  muted: "text-body hover:text-ink",
+  onDark: "text-on-ink-2 hover:text-paper",
 } as const;
 
 /** A lowercase, clickable mailto link. */
-export function EmailLink({ address, size = "md", tone = "bright", subject, className = "" }: EmailLinkProps) {
+export function EmailLink({ address, size = "md", tone = "ink", subject, className = "" }: EmailLinkProps) {
   return (
     <a
       href={mailtoHref(address, subject)}

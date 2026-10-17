@@ -18,7 +18,7 @@ const sections: LegalSection[] = [
       <p>
         This policy explains how <strong>{legal.registeredName}</strong>, trading as {legal.tradingName} and based in
         Belize, handles personal information. We are responsible for the information described here. Questions or
-        requests go to <a href={site.support.href}>{site.support.display}</a>.
+        requests go to <a href={site.sales.href}>{site.sales.display}</a>.
       </p>
     ),
   },
@@ -28,14 +28,18 @@ const sections: LegalSection[] = [
     body: (
       <>
         <p>
-          This website has no contact forms, no analytics and no advertising or tracking cookies. We only receive
+          This website has one contact form and no analytics, advertising or tracking cookies. We only receive
           personal information when you choose to contact us, for example:
         </p>
         <ul>
-          <li>your name, email address and phone number;</li>
+          <li>your name and email address;</li>
           <li>your business name and the details you share about your project;</li>
-          <li>messages you send us by email, WhatsApp or phone.</li>
+          <li>messages you send us through our contact form or by email.</li>
         </ul>
+        <p>
+          Our contact form uses Cloudflare Turnstile to check that a person, not an automated program, is sending the
+          message.
+        </p>
         <p>
           Like most websites, our hosting provider may automatically log basic technical information (such as IP
           address, browser type and the pages requested) to keep the site secure and running.
@@ -63,7 +67,7 @@ const sections: LegalSection[] = [
         <p>We don&apos;t sell or rent personal information. We only share it with:</p>
         <ul>
           <li>service providers who help us operate, such as email, hosting and file-storage providers;</li>
-          <li>WhatsApp (Meta), when you choose to message us there, under its own privacy policy;</li>
+          <li>Cloudflare, which hosts this website and runs the spam check on our contact form, and Resend, which delivers contact form messages to our inbox;</li>
           <li>authorities, where the law requires it.</li>
         </ul>
       </>
@@ -113,7 +117,7 @@ const sections: LegalSection[] = [
           <li>stop or limit how we use it, or stop sending you messages.</li>
         </ul>
         <p>
-          Email <a href={site.support.href}>{site.support.display}</a> and we will respond within a reasonable time. We
+          Email <a href={site.sales.href}>{site.sales.display}</a> and we will respond within a reasonable time. We
           handle personal information in line with the applicable data protection laws of Belize, and you may raise a
           concern with the relevant authority in Belize if you are not satisfied with our response.
         </p>

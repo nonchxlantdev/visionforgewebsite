@@ -19,10 +19,10 @@ export function Hero() {
           </h1>
           <p className="mt-7 max-w-xl text-[clamp(1.0625rem,1.6vw,1.25rem)] text-steel-2">{hero.lede}</p>
           <div className="mt-9 flex flex-wrap gap-3">
-            <CtaLink href={hero.primary.href} arrow>
+            <CtaLink href={hero.primary.href}>
               {hero.primary.label}
             </CtaLink>
-            <CtaLink href={hero.secondary.href} variant="ghost">
+            <CtaLink href={hero.secondary.href} variant="secondary">
               {hero.secondary.label}
             </CtaLink>
           </div>

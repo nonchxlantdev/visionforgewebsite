@@ -23,7 +23,7 @@ const sections: LegalSection[] = [
         </p>
         <p>
           You can reach us at <a href={site.sales.href}>{site.sales.display}</a> or{" "}
-          <a href={site.support.href}>{site.support.display}</a>.
+          <a href={site.sales.href}>{site.sales.display}</a>.
         </p>
       </>
     ),
@@ -225,7 +225,7 @@ export default function TermsPage() {
       intro={
         <p>
           The plain-English terms for using this website and working with {legal.tradingName}. If anything is unclear,
-          email <a href={site.support.href}>{site.support.display}</a> and we&apos;ll explain.
+          email <a href={site.sales.href}>{site.sales.display}</a> and we&apos;ll explain.
         </p>
       }
       sections={sections}

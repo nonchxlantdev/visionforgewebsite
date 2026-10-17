@@ -2,31 +2,15 @@ export const site = {
   name: "Vision Forge Studio",
   domain: "visionforgestudio.app",
   url: "https://visionforgestudio.app",
-  title: "Business Automation & Websites in Belize | Vision Forge Studio",
+  title: "Vision Forge Studio | Your local tech partner in Belize",
   description:
-    "Vision Forge Studio connects and automates the tools Belizean businesses already use, like WhatsApp, spreadsheets and accounting software, and builds websites. Prices from BZ$500. Free first consultation.",
+    "A Belizean-owned team that reviews how your business runs, improves and automates your processes, and builds websites and custom systems. Projects from BZ$500. Free first conversation.",
   trustLine: "10+ years building software · Based in Belize · Real support after launch",
-  whatsapp: {
-    label: "WhatsApp",
-    display: "+501 615-7575",
-    href: "https://wa.me/5016157575",
-  },
-  phone: {
-    label: "Call",
-    display: "+501 613-9219",
-    href: "tel:+5016139219",
-  },
   sales: {
     label: "Sales",
     display: "sales@visionforgestudio.app",
     href: "mailto:sales@visionforgestudio.app",
   },
-  support: {
-    label: "Support",
-    display: "support@visionforgestudio.app",
-    href: "mailto:support@visionforgestudio.app",
-  },
-  projectMailto: "mailto:sales@visionforgestudio.app?subject=New%20project%20enquiry",
   legal: {
     registeredName: "Vision Forge",
     tradingName: "Vision Forge Studio",
@@ -34,18 +18,10 @@ export const site = {
     registeredUnder: "Business Names Act, Chapter 247",
     registrationNumber: "000058528",
     jurisdiction: "Belize",
-    lastUpdated: "6 October 2026",
+    lastUpdated: "17 October 2026",
     copyrightYear: 2026,
   },
 } as const;
-
-export const navItems = [
-  { href: "/automation", label: "Automation" },
-  { href: "/websites", label: "Websites" },
-  { href: "/pricing", label: "Pricing" },
-  { href: "/how-we-work", label: "How we work" },
-  { href: "/contact", label: "Contact" },
-] as const;
 
 export const legalItems = [
   { href: "/terms", label: "Terms of Service" },
