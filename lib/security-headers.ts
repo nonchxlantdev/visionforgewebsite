@@ -14,12 +14,17 @@
  *   injects animation rules. Attribute styles cannot be nonced.
  * - img-src data: blob:: Next.js image placeholders and in-memory graphics.
  *   No remote image hosts are allowed.
+ * - https://challenges.cloudflare.com in script-src and frame-src: Cloudflare
+ *   Turnstile, the spam check on the contact form, loads its script from there
+ *   and runs its check in an iframe from the same origin.
  */
 
 export type SecurityHeader = { key: string; value: string };
 
+const TURNSTILE_ORIGIN = "https://challenges.cloudflare.com";
+
 export function contentSecurityPolicy(isProduction: boolean): string {
-  const scriptSrc = ["'self'", "'unsafe-inline'"];
+  const scriptSrc = ["'self'", "'unsafe-inline'", TURNSTILE_ORIGIN];
   if (!isProduction) scriptSrc.push("'unsafe-eval'");
 
   const connectSrc = ["'self'"];
@@ -37,7 +42,7 @@ export function contentSecurityPolicy(isProduction: boolean): string {
     "media-src 'self'",
     "worker-src 'self'",
     "manifest-src 'self'",
-    "frame-src 'none'",
+    `frame-src ${TURNSTILE_ORIGIN}`,
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self'",

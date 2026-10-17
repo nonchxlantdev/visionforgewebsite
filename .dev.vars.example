@@ -1,1 +1,5 @@
 NEXTJS_ENV=development
+# Cloudflare Turnstile test secret: always passes. Use the real secret only as a Worker secret in production.
+TURNSTILE_SECRET_KEY=1x0000000000000000000000000000000AA
+# Resend API key. Leave empty locally to exercise the "message didn't send" path.
+RESEND_API_KEY=

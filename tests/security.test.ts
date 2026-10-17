@@ -24,7 +24,8 @@ test("production CSP stays restrictive", () => {
   assert.match(policy, /base-uri 'self'/);
   assert.match(policy, /form-action 'self'/);
   assert.match(policy, /frame-ancestors 'none'/);
-  assert.match(policy, /frame-src 'none'/);
+  assert.match(policy, /frame-src https:\/\/challenges\.cloudflare\.com(;|$)/);
+  assert.match(policy, /script-src 'self' 'unsafe-inline' https:\/\/challenges\.cloudflare\.com(;|$)/);
   assert.match(policy, /upgrade-insecure-requests/);
   assert.doesNotMatch(policy, /unsafe-eval/);
   assert.doesNotMatch(policy, /script-src [^;]*\*/);
