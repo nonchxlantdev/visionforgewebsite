@@ -2,21 +2,20 @@ import type { Metadata } from "next";
 import { ClosingBand } from "@/components/layout/ClosingBand";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { Faq } from "@/components/sections/Faq";
-import { Promises } from "@/components/sections/Promises";
-import { Timeline } from "@/components/sections/Timeline";
-import { faq } from "@/lib/site";
+import { ProcessSteps } from "@/components/sections/ProcessSteps";
+import { questions } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "How We Work | Vision Forge Studio",
   description:
-    "A free first chat, a fixed written quote, a build you can follow, and support after launch. How Vision Forge Studio works with Belizean businesses.",
+    "A free first conversation, a look at how your business runs, a written plan with a fixed quote, and a build you test with us. Training and support if you want them.",
   alternates: { canonical: "/how-we-work" },
 };
 
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  mainEntity: faq.map((item) => ({
+  mainEntity: questions.map((item) => ({
     "@type": "Question",
     name: item.q,
     acceptedAnswer: { "@type": "Answer", text: item.a },
@@ -27,16 +26,11 @@ export default function HowWeWorkPage() {
   return (
     <>
       <PageHeader
-        title={
-          <>
-            Plain talk, fixed prices, <span className="text-gold">real support.</span>
-          </>
-        }
-        lede="You tell us how your business runs in your own words. We map it, send a fixed written quote, build it with you and stay on after launch."
+        title="Here's what working with us looks like."
+        lede="You tell us how your business runs in your own words. We learn it, send a written plan with a fixed quote, then build and test it with you."
       />
-      <Timeline />
-      <Promises />
-      <Faq items={faq} />
+      <ProcessSteps />
+      <Faq items={questions} />
       <ClosingBand />
       <script
         type="application/ld+json"
