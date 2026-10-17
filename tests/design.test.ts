@@ -23,31 +23,35 @@ function contrast(a: string, b: string): number {
   return (hi + 0.05) / (lo + 0.05);
 }
 
-test("workshop tokens exist and the light theme is gone", () => {
-  for (const name of ["bg", "bg-2", "bg-3", "line", "steel-hi", "steel", "steel-2", "gold", "on-gold", "paper", "paper-ink", "paper-ink-2", "ink-red", "done"]) {
-    token(name);
-  }
-  for (const old of ["--canvas", "--panel-ink", "--accent:", ".text-gradient", ".dot-grid", "--molten", "--ember"]) {
+test("mahogany tokens have the agreed values and the dark theme is gone", () => {
+  assert.equal(token("ink").toLowerCase(), "#1f3b2d");
+  assert.equal(token("mahogany").toLowerCase(), "#8a3b22");
+  assert.equal(token("body").toLowerCase(), "#46524b");
+  assert.equal(token("muted").toLowerCase(), "#4a5560");
+  assert.equal(token("mist").toLowerCase(), "#eef1ec");
+  assert.equal(token("paper").toLowerCase(), "#ffffff");
+  for (const name of ["ink-hover", "line", "on-ink-2", "success", "danger"]) token(name);
+  for (const old of ["--bg:", "--steel", "--gold", "--paper-ink", "color-scheme: dark", "@keyframes glint", "@keyframes marquee", ".paper-torn", ".font-wide"]) {
     assert.ok(!css.includes(old), old);
   }
-  assert.match(css, /color-scheme: dark/);
+  assert.match(css, /color-scheme: light/);
 });
 
 test("text colour pairs pass WCAG AA (4.5:1)", () => {
   const pairs: Array<[string, string]> = [
-    ["steel-hi", "bg"],
-    ["steel", "bg"],
-    ["steel", "bg-2"],
-    ["steel-2", "bg"],
-    ["steel-2", "bg-2"],
-    ["steel-2", "bg-3"],
-    ["gold", "bg"],
-    ["gold", "bg-2"],
-    ["on-gold", "gold"],
-    ["paper-ink", "paper"],
-    ["paper-ink-2", "paper"],
-    ["ink-red", "paper"],
-    ["done", "bg-2"],
+    ["ink", "paper"],
+    ["ink", "mist"],
+    ["body", "paper"],
+    ["body", "mist"],
+    ["muted", "paper"],
+    ["muted", "mist"],
+    ["mahogany", "paper"],
+    ["mahogany", "mist"],
+    ["paper", "ink"],
+    ["paper", "ink-hover"],
+    ["on-ink-2", "ink"],
+    ["success", "paper"],
+    ["danger", "paper"],
   ];
   for (const [fg, bg] of pairs) {
     const ratio = contrast(token(fg), token(bg));
@@ -55,18 +59,32 @@ test("text colour pairs pass WCAG AA (4.5:1)", () => {
   }
 });
 
-test("four self-hosted faces: wide display, body, mono labels, handwriting", () => {
+test("two self-hosted faces: Literata for headings, Public Sans for body", () => {
   const layout = read("app/layout.tsx");
-  for (const font of ["archivo-var", "instrument-sans-var", "plex-mono-500", "caveat-600"]) {
-    assert.ok(existsSync(new URL(`app/fonts/${font}.woff2`, root)), font);
+  for (const font of ["literata-var", "public-sans-var"]) {
+    const file = new URL(`app/fonts/${font}.woff2`, root);
+    assert.ok(existsSync(file), font);
+    assert.equal(readFileSync(file).subarray(0, 4).toString("latin1"), "wOF2", `${font} is not woff2`);
     assert.match(layout, new RegExp(`${font}\\.woff2`));
   }
-  assert.doesNotMatch(layout, /inter-variable|fonts\.googleapis/);
-  assert.match(layout, /colorScheme: "dark"/);
+  for (const gone of ["archivo-var", "instrument-sans-var", "plex-mono-500", "caveat-600"]) {
+    assert.equal(existsSync(new URL(`app/fonts/${gone}.woff2`, root)), false, gone);
+    assert.doesNotMatch(layout, new RegExp(gone));
+  }
+  assert.doesNotMatch(layout, /fonts\.googleapis/);
+  assert.match(layout, /colorScheme: "light"/);
+  assert.match(css, /--font-serif: var\(--font-literata\)/);
+  assert.match(css, /--font-sans: var\(--font-public-sans\)/);
 });
 
-test("signature motion is CSS-only and switched off for reduced motion", () => {
-  for (const name of ["glint", "marquee", "stamp", "reveal"]) assert.match(css, new RegExp(`@keyframes ${name}`), name);
+test("body text is 17px on phones and 18px from tablet up", () => {
+  assert.match(css, /font-size: 1\.0625rem/);
+  assert.match(css, /@media \(min-width: 768px\)\s*\{\s*body\s*\{\s*font-size: 1\.125rem/);
+  assert.match(css, /line-height: 1\.65/);
+});
+
+test("no decorative keyframes; strike-through respects reduced motion", () => {
+  assert.doesNotMatch(css, /@keyframes/);
   const reduced = css.slice(css.indexOf("@media (prefers-reduced-motion: reduce)"));
-  for (const cls of [".emblem-glint", ".marquee-track", ".stamp-in", ".strike"]) assert.ok(reduced.includes(cls), cls);
+  assert.ok(reduced.includes(".strike"));
 });

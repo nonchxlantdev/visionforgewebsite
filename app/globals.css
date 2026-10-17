@@ -1,48 +1,36 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #0d0c0b;
-  --bg-2: #161412;
-  --bg-3: #1f1c19;
-  --line: #2a2724;
-  --line-2: #3d3934;
-  --steel-hi: #f1f1ef;
-  --steel: #d9dbde;
-  --steel-2: #9a9ea4;
-  --gold: #e0ad3a;
-  --gold-hi: #f0c25a;
-  --on-gold: #1a1205;
-  --paper: #efe7d6;
-  --paper-ink: #241e17;
-  --paper-ink-2: #6b5f4e;
-  --ink-red: #9a3b2c;
-  --done: #7fd18b;
-  --nav-h: 4.75rem;
+  --ink: #1f3b2d;
+  --ink-hover: #2a4d3b;
+  --mahogany: #8a3b22;
+  --body: #46524b;
+  --muted: #4a5560;
+  --mist: #eef1ec;
+  --paper: #ffffff;
+  --line: #d5dbd3;
+  --on-ink-2: #b7c3ba;
+  --success: #2f6b3f;
+  --danger: #a1301c;
+  --nav-h: 4.5rem;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 @theme inline {
-  --color-bg: var(--bg);
-  --color-bg-2: var(--bg-2);
-  --color-bg-3: var(--bg-3);
-  --color-line: var(--line);
-  --color-line-2: var(--line-2);
-  --color-steel-hi: var(--steel-hi);
-  --color-steel: var(--steel);
-  --color-steel-2: var(--steel-2);
-  --color-gold: var(--gold);
-  --color-gold-hi: var(--gold-hi);
-  --color-on-gold: var(--on-gold);
+  --color-ink: var(--ink);
+  --color-ink-hover: var(--ink-hover);
+  --color-mahogany: var(--mahogany);
+  --color-body: var(--body);
+  --color-muted: var(--muted);
+  --color-mist: var(--mist);
   --color-paper: var(--paper);
-  --color-paper-ink: var(--paper-ink);
-  --color-paper-ink-2: var(--paper-ink-2);
-  --color-ink-red: var(--ink-red);
-  --color-done: var(--done);
-  --font-display: var(--font-archivo), "Arial Narrow", ui-sans-serif, sans-serif;
-  --font-sans: var(--font-instrument), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: var(--font-plex), ui-monospace, monospace;
-  --font-hand: var(--font-caveat), "Comic Sans MS", cursive;
+  --color-line: var(--line);
+  --color-on-ink-2: var(--on-ink-2);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --font-serif: var(--font-literata), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-public-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
 html {
@@ -52,53 +40,32 @@ html {
 html,
 body {
   overflow-x: clip;
-  background: var(--bg);
+  background: var(--paper);
 }
 
 body {
-  color: var(--steel);
+  color: var(--body);
   font-family: var(--font-sans);
   font-size: 1.0625rem;
-  line-height: 1.55;
+  line-height: 1.65;
   text-rendering: optimizeLegibility;
 }
 
+@media (min-width: 768px) {
+  body {
+    font-size: 1.125rem;
+  }
+}
+
 ::selection {
-  background: var(--gold);
-  color: var(--on-gold);
+  background: var(--ink);
+  color: var(--paper);
 }
 
 @layer base {
   :focus-visible {
-    outline: 2px solid var(--gold);
+    outline: 2px solid var(--mahogany);
     outline-offset: 3px;
-  }
-}
-
-/* Headline face: wide, solid Archivo. */
-.font-wide {
-  font-family: var(--font-display);
-  font-stretch: 116%;
-}
-
-.label {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-/* ---------- scroll reveal (progressive enhancement) ---------- */
-
-@keyframes reveal {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
   }
 }
 
@@ -106,150 +73,42 @@ body {
   html {
     scroll-behavior: smooth;
   }
-
-  @supports (animation-timeline: view()) {
-    .reveal {
-      animation: reveal linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 35%;
-    }
-  }
 }
 
-/* ---------- logo glint ---------- */
-
-.emblem-glint {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  -webkit-mask: url("/brand/vision-forge-logo-819.webp") center / contain no-repeat;
-  mask: url("/brand/vision-forge-logo-819.webp") center / contain no-repeat;
-  background: linear-gradient(105deg, transparent 42%, rgb(255 250 235 / 0.6) 50%, transparent 58%);
-  background-size: 260% 100%;
-  background-position: 160% 0;
-  mix-blend-mode: screen;
-  animation: glint 7s ease-in-out infinite;
-}
-
-@keyframes glint {
-  0%,
-  62% {
-    background-position: 160% 0;
-  }
-  88%,
-  100% {
-    background-position: -60% 0;
-  }
-}
-
-.emblem-halo {
-  background: radial-gradient(50% 50% at 50% 50%, rgb(224 173 58 / 0.16), transparent 70%);
-}
-
-/* ---------- paper objects ---------- */
-
-.paper-torn {
-  clip-path: polygon(
-    0 0,
-    100% 0,
-    100% 95%,
-    96% 100%,
-    92% 95%,
-    88% 100%,
-    84% 95%,
-    80% 100%,
-    76% 95%,
-    72% 100%,
-    68% 95%,
-    64% 100%,
-    60% 95%,
-    56% 100%,
-    52% 95%,
-    48% 100%,
-    44% 95%,
-    40% 100%,
-    36% 95%,
-    32% 100%,
-    28% 95%,
-    24% 100%,
-    20% 95%,
-    16% 100%,
-    12% 95%,
-    8% 100%,
-    4% 95%,
-    0 100%
-  );
-}
+/* ---------- Workbench demo: a line struck through when a step is handled ---------- */
 
 .strike {
-  background: linear-gradient(var(--ink-red), var(--ink-red)) left 55% / 0 2px no-repeat;
+  background: linear-gradient(var(--mahogany), var(--mahogany)) left 55% / 0 2px no-repeat;
   transition: background-size 450ms var(--ease-out), color 450ms var(--ease-out);
 }
 
 .strike[data-struck="true"] {
   background-size: 100% 2px;
-  color: rgb(36 30 23 / 0.45);
-}
-
-@keyframes stamp {
-  from {
-    opacity: 0;
-    transform: translateY(-6px) scale(0.98);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-.stamp-in {
-  animation: stamp 350ms var(--ease-out) both;
-}
-
-/* ---------- ribbon ---------- */
-
-.marquee {
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
-}
-
-.marquee-track {
-  animation: marquee 48s linear infinite;
-}
-
-.marquee:hover .marquee-track {
-  animation-play-state: paused;
-}
-
-@keyframes marquee {
-  to {
-    transform: translateX(-50%);
-  }
+  color: var(--muted);
 }
 
 /* ---------- header ---------- */
 
 .site-header[data-scrolled="true"] .nav-shell {
-  background: rgb(13 12 11 / 0.88);
-  backdrop-filter: blur(14px);
+  background: rgb(255 255 255 / 0.94);
+  backdrop-filter: blur(10px);
 }
 
 /* ---------- legal ---------- */
 
 .legal-prose h2 {
-  font-family: var(--font-display);
-  font-stretch: 112%;
-  font-weight: 700;
+  font-family: var(--font-serif);
+  font-weight: 600;
   font-size: 1.5rem;
-  line-height: 1.2;
-  color: var(--steel-hi);
+  line-height: 1.25;
+  color: var(--ink);
   margin-top: 3rem;
   scroll-margin-top: calc(var(--nav-h) + 1.5rem);
 }
 
 .legal-prose p,
 .legal-prose li {
-  color: #c4c6c9;
+  color: var(--body);
   margin-top: 1rem;
 }
 
@@ -259,13 +118,13 @@ body {
 }
 
 .legal-prose a {
-  color: var(--gold);
+  color: var(--mahogany);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
 .legal-prose strong {
-  color: var(--steel-hi);
+  color: var(--ink);
   font-weight: 600;
 }
 
@@ -295,40 +154,14 @@ body {
 /* ---------- motion safety ---------- */
 
 @media (prefers-reduced-motion: reduce) {
-  .emblem-glint,
-  .marquee-track,
-  .stamp-in {
-    animation: none !important;
-  }
-
   .strike {
     transition: none;
-  }
-
-  .marquee {
-    -webkit-mask-image: none;
-    mask-image: none;
-  }
-
-  .marquee-track {
-    width: auto;
-    justify-content: center;
-  }
-
-  .marquee-track > ul {
-    flex-wrap: wrap;
-    justify-content: center;
-    row-gap: 0.75rem;
-  }
-
-  .marquee-track > ul + ul {
-    display: none;
   }
 }
 
 @media (prefers-reduced-transparency: reduce) {
   .site-header[data-scrolled="true"] .nav-shell {
-    background: var(--bg);
+    background: var(--paper);
     backdrop-filter: none;
   }
 }
