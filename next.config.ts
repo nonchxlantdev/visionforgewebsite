@@ -27,6 +27,15 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    // 301 rather than Next's default 308: these pages are gone for good and 301 is the most widely understood.
+    return [
+      { source: "/pricing", destination: "/get-started", statusCode: 301 },
+      { source: "/contact", destination: "/get-started", statusCode: 301 },
+      { source: "/automation", destination: "/services#improve", statusCode: 301 },
+      { source: "/websites", destination: "/services#build", statusCode: 301 },
+    ];
+  },
 };
 
 export default nextConfig;
