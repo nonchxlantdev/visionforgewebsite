@@ -1,6 +1,6 @@
 # Deployment and security checklist
 
-This application is Next.js 16.3.8 with the App Router. Every page is prerendered static HTML. It is a public marketing site: no accounts, no API routes, no server actions, and no contact form. Contact actions are WhatsApp, `tel:`, and `mailto:` links.
+This application is Next.js 16.3.8 with the App Router. Every page is prerendered static HTML except one route, `POST /api/contact`, which validates the contact form, checks a Cloudflare Turnstile token and emails the enquiry to sales@visionforgestudio.app through Resend. Its secrets (`RESEND_API_KEY`, `TURNSTILE_SECRET_KEY`) are Cloudflare Worker secrets, never source files. There are no accounts and no server actions. The only public contact is the form and a `mailto:` link.
 
 Nothing in this file has been turned on in a Cloudflare or GitHub dashboard. These are manual steps.
 
@@ -29,8 +29,8 @@ Configure these on the zone for `visionforgestudio.app`. They are not applied by
 - **TLS 1.3:** On.
 - **HSTS:** The production app sends `Strict-Transport-Security: max-age=31536000; includeSubDomains`. Confirm every hostname under `visionforgestudio.app` serves HTTPS before this is exposed publicly. Do not enable HSTS preload until that is true and you intend to keep HTTPS permanently. Preload is hard to undo.
 - **WAF:** Enable the Cloudflare managed ruleset. Add a custom rule only if traffic shows abuse.
-- **Bot protection:** Enable Bot Fight Mode or a Super Bot Fight / Bot Management plan if the zone has it. This site has no login or form, so start with the managed bot feature rather than a challenge on every visitor.
-- **Rate limiting:** Not required for the current site. There is no form and no API. Add a rate-limit rule if a form or API route is introduced later.
+- **Bot protection:** Enable Bot Fight Mode or a Super Bot Fight / Bot Management plan if the zone has it. The contact form already uses Turnstile and a honeypot field, so don't add a challenge for every visitor.
+- **Rate limiting:** Add a rate-limiting rule for `POST /api/contact`, for example 5 requests per minute per IP, with a block action. Turnstile stops most bots; this caps anything that gets through.
 - **DNS:** Proxy the canonical hostname through Cloudflare (orange cloud). Attach the domain to the Worker as a Custom Domain; Cloudflare creates the proxied record.
 - **Canonical host:** Pick one host, `https://visionforgestudio.app`, and redirect the other (`www` or the apex) with a single 301. The site metadata, sitemap, and robots file use the apex.
 - **Caching:** Cache static assets (`/_next/static/*`, files in `/public`). Do not cache HTML in a way that strips security headers. If you cache HTML, the cached response must still include the headers from `next.config.ts`.

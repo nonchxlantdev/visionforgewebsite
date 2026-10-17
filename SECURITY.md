@@ -8,7 +8,7 @@ This is a public marketing site. It does not have user accounts.
 
 ## Reporting a vulnerability
 
-Email [support@visionforgestudio.app](mailto:support@visionforgestudio.app) with:
+Email [sales@visionforgestudio.app](mailto:sales@visionforgestudio.app) with:
 
 - a description of the issue
 - the affected URL or component
