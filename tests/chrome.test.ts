@@ -66,3 +66,13 @@ test("primitives: no all-caps labels, kickers or appended arrows", () => {
   assert.doesNotMatch(read("components/layout/Footer.tsx"), /className="label/);
   assert.match(read("components/layout/PageHeader.tsx"), /<h1/);
 });
+
+test("inside a labelled home link the logo is decorative, so the name isn't read twice", () => {
+  assert.match(read("components/ui/Logo.tsx"), /decorative/);
+  for (const file of ["components/layout/Navbar.tsx", "components/layout/Footer.tsx"]) {
+    const src = read(file);
+    const logos = src.match(/<Logo [^>]*\/>/g) ?? [];
+    assert.ok(logos.length > 0, file);
+    for (const logo of logos) assert.match(logo, /decorative/, `${file}: ${logo}`);
+  }
+});

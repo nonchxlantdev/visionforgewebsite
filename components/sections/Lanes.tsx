@@ -5,13 +5,13 @@ import { lanes, lanesNote } from "@/lib/site";
 /** The two ways to start. No feature lists: who each lane is for, and a starting price. */
 export function Lanes({ title }: { title?: string }) {
   return (
-    <section
-      aria-labelledby={title ? "lanes-title" : undefined}
-      aria-label={title ? undefined : "Ways to start"}
-      className="border-b border-line"
-    >
+    <section aria-labelledby="lanes-title" className="border-b border-line">
       <div className="mx-auto max-w-[1180px] px-5 py-16 sm:px-8 md:py-20 lg:px-10">
-        {title ? <SectionHeading id="lanes-title" title={title} className="mb-10" /> : null}
+        {title ? (
+          <SectionHeading id="lanes-title" title={title} className="mb-10" />
+        ) : (
+          <h2 id="lanes-title" className="sr-only">Ways to start</h2>
+        )}
         <ul className="grid gap-5 md:grid-cols-2">
           {lanes.map((lane) => (
             <li key={lane.id} className="rounded-lg border border-line bg-paper p-7 md:p-8">

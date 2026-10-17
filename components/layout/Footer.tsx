@@ -15,7 +15,7 @@ export function Footer() {
         <div className="grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1.2fr_1fr]">
           <div>
             <Link href="/" aria-label="Vision Forge Studio, home" className="inline-flex items-center gap-3">
-              <Logo className="h-14 w-auto" sizes="68px" />
+              <Logo decorative className="h-14 w-auto" sizes="68px" />
               <span className="font-serif text-[20px] font-semibold text-paper">Vision Forge Studio</span>
             </Link>
             <p className="mt-5 max-w-xs text-[16px]">Your local tech partner. Belizean-owned.</p>

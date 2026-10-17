@@ -73,7 +73,7 @@ export function Navbar() {
       <div className="nav-shell border-b border-line bg-paper transition-[background-color] duration-300">
         <div className="mx-auto flex h-[var(--nav-h)] max-w-[1180px] items-center gap-6 px-5 sm:px-8 lg:px-10">
           <Link href="/" className="flex min-h-11 items-center gap-3" aria-label="Vision Forge Studio, home">
-            <Logo priority className="h-10 w-auto" sizes="48px" />
+            <Logo priority decorative className="h-10 w-auto" sizes="48px" />
             <Brand />
           </Link>
 
@@ -121,7 +121,7 @@ export function Navbar() {
         >
           <div className="flex h-[var(--nav-h)] items-center justify-between border-b border-line px-5">
             <Link href="/" onClick={closeMenu} className="flex min-h-11 items-center gap-3" aria-label="Vision Forge Studio, home">
-              <Logo className="h-10 w-auto" sizes="48px" />
+              <Logo decorative className="h-10 w-auto" sizes="48px" />
               <Brand />
             </Link>
             <button

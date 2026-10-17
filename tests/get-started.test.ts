@@ -58,3 +58,9 @@ test("lanes render both lanes and the small-print link", () => {
   assert.match(lanesSrc, /lanes\.map/);
   assert.match(lanesSrc, /lanesNote\.href/);
 });
+
+test("lanes always have an h2, so headings never skip a level", () => {
+  const lanesSrc = read("components/sections/Lanes.tsx");
+  assert.match(lanesSrc, /<h2 id="lanes-title" className="sr-only">Ways to start<\/h2>/);
+  assert.doesNotMatch(lanesSrc, /aria-label=\{title \? undefined/);
+});
