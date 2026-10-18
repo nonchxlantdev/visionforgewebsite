@@ -13,7 +13,7 @@ export function Pains() {
         <ul className="mt-12 grid gap-px overflow-hidden rounded-lg border border-line bg-line md:grid-cols-2">
           {pains.map((pain) => (
             <li key={pain.id} className="bg-paper p-7 md:p-8">
-              <p className="font-serif text-[1.3125rem] leading-snug font-medium text-ink">“{pain.quote}”</p>
+              <p className="font-display text-[1.3125rem] leading-snug font-medium text-ink">“{pain.quote}”</p>
               <p className="mt-3 text-body">{pain.answer}</p>
             </li>
           ))}

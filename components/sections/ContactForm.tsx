@@ -161,7 +161,7 @@ export function ContactForm() {
   if (status === "sent") {
     return (
       <div role="status" className="py-4">
-        <h3 className="font-serif text-[1.5rem] font-semibold text-ink">Message sent</h3>
+        <h3 className="font-display text-[1.5rem] font-bold text-ink">Message sent</h3>
         <p className="mt-3 text-body">{"We'll be in touch within one business day."}</p>
       </div>
     );

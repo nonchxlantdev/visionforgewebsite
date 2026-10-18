@@ -15,15 +15,15 @@ export function Lanes({ title }: { title?: string }) {
         <ul className="grid gap-5 md:grid-cols-2">
           {lanes.map((lane) => (
             <li key={lane.id} className="rounded-lg border border-line bg-paper p-7 md:p-8">
-              <h3 className="font-serif text-[1.3125rem] leading-snug font-semibold text-ink">{lane.title}</h3>
-              <p className="mt-3 font-serif text-[1.75rem] leading-none font-semibold text-mahogany">{lane.price}</p>
+              <h3 className="font-display text-[1.3125rem] leading-snug font-bold text-ink">{lane.title}</h3>
+              <p className="mt-3 font-display text-[1.75rem] leading-none font-bold text-accent">{lane.price}</p>
               <p className="mt-4 max-w-[48ch] text-body">{lane.copy}</p>
             </li>
           ))}
         </ul>
         <p className="mt-6 text-[15px] text-muted">
           {lanesNote.text}{" "}
-          <Link href={lanesNote.href} className="text-mahogany underline underline-offset-4">
+          <Link href={lanesNote.href} className="text-accent underline underline-offset-4">
             {lanesNote.linkLabel}
           </Link>
         </p>

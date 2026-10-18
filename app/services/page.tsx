@@ -25,7 +25,7 @@ export default function ServicesPage() {
               <li key={stage.id}>
                 <a
                   href={`#${stage.id}`}
-                  className="inline-flex min-h-11 items-center rounded-full border border-line bg-paper px-4 text-[15px] text-ink transition-colors hover:border-ink"
+                  className="inline-flex min-h-11 items-center rounded-full border border-white/25 px-4 text-[15px] text-paper transition-colors hover:border-gold hover:text-gold"
                 >
                   {stage.name}
                 </a>

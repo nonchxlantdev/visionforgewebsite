@@ -7,7 +7,7 @@ export function ContactSection({ title = closing.title }: { title?: string }) {
     <section id="contact" aria-labelledby="contact-title" className="bg-mist">
       <div className="mx-auto grid max-w-[1180px] gap-10 px-5 py-20 sm:px-8 md:py-24 lg:grid-cols-[0.85fr_1.15fr] lg:px-10">
         <div>
-          <h2 id="contact-title" className="font-serif text-[clamp(1.75rem,3.4vw,2.5rem)] leading-[1.18] font-semibold text-balance text-ink">
+          <h2 id="contact-title" className="font-display text-[clamp(1.75rem,3.4vw,2.5rem)] leading-[1.18] font-bold text-balance text-ink">
             {title}
           </h2>
           <p className="mt-4 max-w-[46ch] text-body">

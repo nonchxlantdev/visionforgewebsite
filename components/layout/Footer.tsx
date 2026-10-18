@@ -10,13 +10,13 @@ const linkClass = "inline-flex min-h-10 items-center text-[15px] text-on-ink-2 t
 export function Footer() {
   const { legal } = site;
   return (
-    <footer className="no-print bg-ink text-on-ink-2">
+    <footer className="on-dark no-print border-t-2 border-gold/60 bg-ink text-on-ink-2">
       <div className="mx-auto max-w-[1180px] px-5 sm:px-8 lg:px-10">
         <div className="grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-[1.6fr_1fr_1.2fr_1fr]">
           <div>
             <Link href="/" aria-label="Vision Forge Studio, home" className="inline-flex items-center gap-3">
               <Logo decorative className="h-14 w-auto" sizes="68px" />
-              <span className="font-serif text-[20px] font-semibold text-paper">Vision Forge Studio</span>
+              <span className="font-display text-[20px] font-bold text-paper">Vision Forge Studio</span>
             </Link>
             <p className="mt-5 max-w-xs text-[16px]">Your local tech partner. Belizean-owned.</p>
           </div>
@@ -64,8 +64,7 @@ export function Footer() {
 
         <div className="flex flex-col gap-4 border-t border-white/15 py-6 md:flex-row md:items-center md:justify-between">
           <p className="max-w-3xl text-[13px] leading-relaxed">
-            © {legal.copyrightYear} {legal.registeredName}. Registered in Belize under the Business Names Act, Cap. 247,
-            Reg. No. {legal.registrationNumber}. Trading as {legal.tradingName}.
+            © {legal.copyrightYear} {legal.registeredName}, registered in Belize. Trading as {legal.tradingName}.
           </p>
           <a
             href="#main"

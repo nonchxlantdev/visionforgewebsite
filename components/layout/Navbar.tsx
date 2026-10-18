@@ -9,7 +9,7 @@ import { Logo } from "@/components/ui/Logo";
 import { primaryNav } from "@/lib/site";
 
 function Brand() {
-  return <span className="hidden font-serif text-[18px] font-semibold text-ink sm:inline">Vision Forge Studio</span>;
+  return <span className="hidden font-display text-[18px] font-bold text-paper sm:inline">Vision Forge Studio</span>;
 }
 
 export function Navbar() {
@@ -69,8 +69,8 @@ export function Navbar() {
   const closeMenu = () => setOpen(false);
 
   return (
-    <header ref={headerRef} data-scrolled="false" className="site-header no-print sticky top-0 z-50">
-      <div className="nav-shell border-b border-line bg-paper transition-[background-color] duration-300">
+    <header ref={headerRef} data-scrolled="false" className="site-header on-dark no-print sticky top-0 z-50">
+      <div className="nav-shell border-b border-white/10 bg-ink transition-[background-color] duration-300">
         <div className="mx-auto flex h-[var(--nav-h)] max-w-[1180px] items-center gap-6 px-5 sm:px-8 lg:px-10">
           <Link href="/" className="flex min-h-11 items-center gap-3" aria-label="Vision Forge Studio, home">
             <Logo priority decorative className="h-10 w-auto" sizes="48px" />
@@ -83,7 +83,7 @@ export function Navbar() {
                 key={item.href}
                 href={item.href}
                 aria-current={isActive(item.href) ? "page" : undefined}
-                className="py-2 text-[16px] text-body transition-colors hover:text-ink aria-[current=page]:text-ink aria-[current=page]:underline aria-[current=page]:decoration-mahogany aria-[current=page]:decoration-2 aria-[current=page]:underline-offset-8"
+                className="py-2 text-[16px] text-on-ink-2 transition-colors hover:text-paper aria-[current=page]:text-paper aria-[current=page]:underline aria-[current=page]:decoration-gold aria-[current=page]:decoration-2 aria-[current=page]:underline-offset-8"
               >
                 {item.label}
               </Link>
@@ -91,7 +91,7 @@ export function Navbar() {
           </nav>
 
           <div className="hidden lg:block">
-            <Link href="/get-started" className={ctaClassName("primary", "min-h-11 px-5")}>
+            <Link href="/get-started" className={ctaClassName("gold", "min-h-11 px-5")}>
               Get started
             </Link>
           </div>
@@ -99,7 +99,7 @@ export function Navbar() {
           <button
             ref={menuButtonRef}
             type="button"
-            className="ml-auto flex h-11 w-11 items-center justify-center text-ink lg:hidden"
+            className="ml-auto flex h-11 w-11 items-center justify-center text-paper lg:hidden"
             aria-expanded={open}
             aria-controls="mobile-navigation"
             onClick={() => setOpen(true)}
@@ -117,9 +117,9 @@ export function Navbar() {
           role="dialog"
           aria-modal="true"
           aria-label="Navigation"
-          className="fixed inset-0 z-[60] flex flex-col bg-paper lg:hidden"
+          className="fixed inset-0 z-[60] flex flex-col bg-ink lg:hidden"
         >
-          <div className="flex h-[var(--nav-h)] items-center justify-between border-b border-line px-5">
+          <div className="flex h-[var(--nav-h)] items-center justify-between border-b border-white/10 px-5">
             <Link href="/" onClick={closeMenu} className="flex min-h-11 items-center gap-3" aria-label="Vision Forge Studio, home">
               <Logo decorative className="h-10 w-auto" sizes="48px" />
               <Brand />
@@ -127,7 +127,7 @@ export function Navbar() {
             <button
               type="button"
               data-close-menu
-              className="flex h-11 w-11 items-center justify-center text-ink"
+              className="flex h-11 w-11 items-center justify-center text-paper"
               onClick={() => {
                 setOpen(false);
                 menuButtonRef.current?.focus();
@@ -145,13 +145,13 @@ export function Navbar() {
                 href={item.href}
                 onClick={closeMenu}
                 aria-current={(item.href === "/" ? pathname === "/" : isActive(item.href)) ? "page" : undefined}
-                className="flex min-h-16 items-center border-b border-line py-4 font-serif text-[1.75rem] leading-none font-semibold text-ink aria-[current=page]:text-mahogany"
+                className="flex min-h-16 items-center border-b border-white/10 py-4 font-display text-[1.75rem] leading-none font-bold text-paper aria-[current=page]:text-gold"
               >
                 {item.label}
               </Link>
             ))}
             <div className="pt-8">
-              <Link href="/get-started" onClick={closeMenu} className={ctaClassName("primary", "w-full")}>
+              <Link href="/get-started" onClick={closeMenu} className={ctaClassName("gold", "w-full")}>
                 Get started
               </Link>
             </div>

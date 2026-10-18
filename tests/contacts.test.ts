@@ -49,5 +49,5 @@ test("the business is never called a limited company", () => {
     assert.doesNotMatch(readFileSync(file, "utf8"), /\bLtd\b|\bLimited\b/, file.pathname);
   }
   assert.equal(site.legal.registeredName, "Vision Forge");
-  assert.equal(site.legal.registrationNumber, "000058528");
+  assert.equal("registrationNumber" in site.legal, false);
 });

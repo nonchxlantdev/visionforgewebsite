@@ -33,7 +33,7 @@ export default function AboutPage() {
           <ul className="mt-12 grid gap-5 md:grid-cols-3">
             {about.beliefs.map((belief) => (
               <li key={belief.title} className="rounded-lg border border-line bg-paper p-7">
-                <h3 className="font-serif text-[1.25rem] font-semibold text-ink">{belief.title}</h3>
+                <h3 className="font-display text-[1.25rem] font-bold text-ink">{belief.title}</h3>
                 <p className="mt-3 text-body">{belief.copy}</p>
               </li>
             ))}

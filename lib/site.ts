@@ -14,8 +14,6 @@ export const site = {
     registeredName: "Vision Forge",
     tradingName: "Vision Forge Studio",
     form: "partnership",
-    registeredUnder: "Business Names Act, Chapter 247",
-    registrationNumber: "000058528",
     jurisdiction: "Belize",
     lastUpdated: "17 October 2026",
     copyrightYear: 2026,
@@ -315,7 +313,7 @@ export const about = {
     { title: "Explain plainly", copy: "No jargon. You'll always know what we're doing and why." },
     { title: "Build things people use", copy: "If your team won't use it, it isn't finished." },
   ],
-  owned: `We're Belizean-owned and registered in Belize as ${site.legal.registeredName} (Reg. No. ${site.legal.registrationNumber}), trading as ${site.legal.tradingName}.`,
+  owned: `We're Belizean-owned and registered in Belize as ${site.legal.registeredName}, trading as ${site.legal.tradingName}.`,
 } as const;
 
 export const closing = {

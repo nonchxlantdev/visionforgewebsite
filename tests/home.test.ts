@@ -8,33 +8,33 @@ const exists = (path: string) => existsSync(new URL(path, root));
 
 test("home tells the partner story in the agreed order", () => {
   const page = read("app/page.tsx");
-  const order = ["<Hero", "<Pains", "<Stages", "<Workbench", "<Industries", "<WhyUs", "<Lanes", "<ContactSection"];
+  const order = ["<Hero", "<Pains", "<Stages", "<Industries", "<WhyUs", "<Lanes", "<ContactSection"];
   const positions = order.map((tag) => page.indexOf(tag));
   for (const [i, pos] of positions.entries()) assert.ok(pos > -1, order[i]);
   assert.deepEqual([...positions].sort((a, b) => a - b), positions);
-  assert.doesNotMatch(page, /<ClosingBand|<PageIndex|<AutomateList/);
+  assert.doesNotMatch(page, /<ClosingBand|<PageIndex|<AutomateList|<Workbench/);
 });
 
-test("hero uses the new copy, one h1 and no all-caps label", () => {
+test("hero: centred copy, one h1, then the 3D hub", () => {
   const hero = read("components/sections/Hero.tsx");
   assert.match(hero, /home\.headline/);
   assert.match(hero, /<h1/);
   assert.match(hero, /home\.trust\.map/);
-  assert.doesNotMatch(hero, /Label|goldWord|emblem-glint|className="label/);
+  assert.match(hero, /text-center/);
+  assert.ok(hero.indexOf("<h1") < hero.indexOf("<HubScene"));
+  assert.doesNotMatch(hero, /Label|goldWord|emblem-glint|className="label|<Logo/);
 });
 
 test("retired home parts are gone", () => {
-  for (const gone of ["components/sections/AutomateList.tsx", "components/sections/PageIndex.tsx", "components/ui/Label.tsx"]) {
+  for (const gone of [
+    "components/sections/AutomateList.tsx",
+    "components/sections/PageIndex.tsx",
+    "components/ui/Label.tsx",
+    "components/sections/Workbench.tsx",
+    "lib/demo.ts",
+  ]) {
     assert.equal(exists(gone), false, gone);
   }
-});
-
-test("workbench still works: a real button, a live region, reduced motion", () => {
-  const bench = read("components/sections/Workbench.tsx");
-  assert.match(bench, /<button/);
-  assert.match(bench, /aria-live="polite"/);
-  assert.match(bench, /prefers-reduced-motion/);
-  assert.doesNotMatch(bench, /font-hand|paper-torn|text-gold/);
 });
 
 test("stages section marks support as optional and links to services", () => {

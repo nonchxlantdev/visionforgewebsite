@@ -6,7 +6,6 @@ import { Lanes } from "@/components/sections/Lanes";
 import { Pains } from "@/components/sections/Pains";
 import { Stages } from "@/components/sections/Stages";
 import { WhyUs } from "@/components/sections/WhyUs";
-import { Workbench } from "@/components/sections/Workbench";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
@@ -18,7 +17,6 @@ export default function Home() {
       <Hero />
       <Pains />
       <Stages />
-      <Workbench />
       <Industries />
       <WhyUs />
       <Lanes title="Two ways to start" />

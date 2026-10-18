@@ -132,8 +132,9 @@ test("industries: six featured, the rest named in a sentence", () => {
   for (const name of moreIndustries) assert.equal(name, name.toLowerCase(), name);
 });
 
-test("about keeps the registration and stays headcount-free", () => {
+test("about says Belizean-owned without the registration number", () => {
   assert.match(about.owned, /Belizean-owned/);
-  assert.match(about.owned, /000058528/);
+  assert.match(about.owned, /registered in Belize/);
+  assert.doesNotMatch(about.owned, /000058528|Reg\. No/);
   assert.equal(about.beliefs.length, 3);
 });

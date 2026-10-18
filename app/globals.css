@@ -1,17 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  --ink: #1f3b2d;
-  --ink-hover: #2a4d3b;
-  --mahogany: #8a3b22;
-  --body: #46524b;
-  --muted: #4a5560;
-  --mist: #eef1ec;
+  --ink: #0b1626;
+  --ink-hover: #1b2a42;
+  --gold: #e7b54a;
+  --gold-hover: #f0c467;
+  --accent: #8a5f0f;
+  --coral: #b23a22;
+  --body: #3f4756;
+  --muted: #5a6372;
+  --cream: #faf8f3;
+  --mist: #f2eee5;
   --paper: #ffffff;
-  --line: #d5dbd3;
-  --on-ink-2: #b7c3ba;
-  --success: #2f6b3f;
-  --danger: #a1301c;
+  --line: #e2ddd2;
+  --on-ink-2: #c3cad5;
+  --success: #1a7a4f;
+  --danger: #b23a22;
   --nav-h: 4.5rem;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   color-scheme: light;
@@ -20,17 +24,21 @@
 @theme inline {
   --color-ink: var(--ink);
   --color-ink-hover: var(--ink-hover);
-  --color-mahogany: var(--mahogany);
+  --color-gold: var(--gold);
+  --color-gold-hover: var(--gold-hover);
+  --color-accent: var(--accent);
+  --color-coral: var(--coral);
   --color-body: var(--body);
   --color-muted: var(--muted);
+  --color-cream: var(--cream);
   --color-mist: var(--mist);
   --color-paper: var(--paper);
   --color-line: var(--line);
   --color-on-ink-2: var(--on-ink-2);
   --color-success: var(--success);
   --color-danger: var(--danger);
-  --font-serif: var(--font-literata), Georgia, "Times New Roman", serif;
-  --font-sans: var(--font-public-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-manrope), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
 html {
@@ -40,7 +48,7 @@ html {
 html,
 body {
   overflow-x: clip;
-  background: var(--paper);
+  background: var(--cream);
 }
 
 body {
@@ -58,15 +66,20 @@ body {
 }
 
 ::selection {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--gold);
+  color: var(--ink);
 }
 
 @layer base {
   :focus-visible {
-    outline: 2px solid var(--mahogany);
+    outline: 2px solid var(--accent);
     outline-offset: 3px;
   }
+}
+
+/* Dark bands (nav, hero, page headers, closing band, footer): gold focus ring so it stays visible. */
+.on-dark :focus-visible {
+  outline-color: var(--gold);
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -75,30 +88,18 @@ body {
   }
 }
 
-/* ---------- Workbench demo: a line struck through when a step is handled ---------- */
-
-.strike {
-  background: linear-gradient(var(--mahogany), var(--mahogany)) left 55% / 0 2px no-repeat;
-  transition: background-size 450ms var(--ease-out), color 450ms var(--ease-out);
-}
-
-.strike[data-struck="true"] {
-  background-size: 100% 2px;
-  color: var(--muted);
-}
-
 /* ---------- header ---------- */
 
 .site-header[data-scrolled="true"] .nav-shell {
-  background: rgb(255 255 255 / 0.94);
+  background: rgb(11 22 38 / 0.94);
   backdrop-filter: blur(10px);
 }
 
 /* ---------- legal ---------- */
 
 .legal-prose h2 {
-  font-family: var(--font-serif);
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-weight: 700;
   font-size: 1.5rem;
   line-height: 1.25;
   color: var(--ink);
@@ -118,7 +119,7 @@ body {
 }
 
 .legal-prose a {
-  color: var(--mahogany);
+  color: var(--accent);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -154,14 +155,16 @@ body {
 /* ---------- motion safety ---------- */
 
 @media (prefers-reduced-motion: reduce) {
-  .strike {
-    transition: none;
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
   }
 }
 
 @media (prefers-reduced-transparency: reduce) {
   .site-header[data-scrolled="true"] .nav-shell {
-    background: var(--paper);
+    background: var(--ink);
     backdrop-filter: none;
   }
 }

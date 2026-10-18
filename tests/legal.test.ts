@@ -23,13 +23,13 @@ test("legal copy stays generic: no statute citations", () => {
   }
 });
 
-test("the footer links every legal page and shows the registration", () => {
+test("the footer links every legal page and leaves out the registration number", () => {
   const footer = read("components/layout/Footer.tsx");
   const site = read("lib/site.ts");
   for (const route of routes) assert.match(site, new RegExp(`href: "/${route}"`));
   assert.match(footer, /legalItems/);
-  assert.match(footer, /registrationNumber/);
-  assert.match(site, /registrationNumber: "000058528"/);
+  assert.match(footer, /registered in Belize/);
+  assert.doesNotMatch(footer + site, /registrationNumber|000058528|Reg\. No|Business Names Act|Cap\. 247/);
 });
 
 test("the sitemap lists the legal pages", () => {

@@ -15,7 +15,7 @@ const sizes = {
 } as const;
 
 const tones = {
-  ink: "text-ink underline decoration-mahogany/50 underline-offset-4 hover:decoration-mahogany",
+  ink: "text-ink underline decoration-accent/50 underline-offset-4 hover:decoration-accent",
   muted: "text-body hover:text-ink",
   onDark: "text-on-ink-2 hover:text-paper",
 } as const;

@@ -42,7 +42,7 @@ test("superseded copy exports are gone from lib/site.ts", () => {
 
 test("no dark-theme utilities, old fonts or all-caps labels survive in app or components", () => {
   const banned =
-    /\b(?:text|bg|border|decoration|from|to|via)-(?:steel(?:-hi|-2)?|gold(?:-hi)?|on-gold|bg(?:-2|-3)?|line-2|paper-ink(?:-2)?|ink-red|done)\b|font-wide|font-hand|font-mono|className="label|emblem-|marquee/;
+    /\b(?:text|bg|border|decoration|from|to|via)-(?:steel(?:-hi|-2)?|gold-hi|on-gold|bg(?:-2|-3)?|line-2|paper-ink(?:-2)?|ink-red|done)\b|font-wide|font-hand|font-mono|className="label|emblem-|marquee/;
   for (const file of [...sources("app/"), ...sources("components/")]) {
     assert.doesNotMatch(read(file), banned, file);
   }

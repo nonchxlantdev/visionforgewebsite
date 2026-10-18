@@ -9,8 +9,8 @@ export function WhyUs() {
         <ul className="mt-12 grid gap-10 md:grid-cols-3">
           {whyUs.map((point) => (
             <li key={point.title}>
-              <span aria-hidden className="block h-0.5 w-10 bg-mahogany" />
-              <h3 className="mt-5 font-serif text-[1.25rem] leading-snug font-semibold text-ink">{point.title}</h3>
+              <span aria-hidden className="block h-0.5 w-10 bg-accent" />
+              <h3 className="mt-5 font-display text-[1.25rem] leading-snug font-bold text-ink">{point.title}</h3>
               <p className="mt-3 text-body">{point.copy}</p>
             </li>
           ))}

@@ -15,8 +15,8 @@ export function Stages() {
         <ol className="mt-12 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
           {stages.map((stage, index) => (
             <li key={stage.id} className="border-t-2 border-ink pt-5">
-              <p className="flex flex-wrap items-baseline gap-x-3 font-serif text-[1.3125rem] font-semibold text-ink">
-                <span className="text-mahogany tabular-nums">{index + 1}</span>
+              <p className="flex flex-wrap items-baseline gap-x-3 font-display text-[1.3125rem] font-bold text-ink">
+                <span className="text-accent tabular-nums">{index + 1}</span>
                 {stage.name}
                 {stage.optional ? <span className="font-sans text-[14px] font-normal text-muted">Optional</span> : null}
               </p>

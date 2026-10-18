@@ -27,8 +27,8 @@ export function Industries() {
             const Icon = icons[item.icon];
             return (
               <li key={item.id} className="rounded-lg border border-line bg-paper p-7">
-                <Icon aria-hidden className="h-6 w-6 text-mahogany" strokeWidth={1.75} />
-                <h3 className="mt-5 font-serif text-[1.1875rem] leading-snug font-semibold text-ink">{item.name}</h3>
+                <Icon aria-hidden className="h-6 w-6 text-accent" strokeWidth={1.75} />
+                <h3 className="mt-5 font-display text-[1.1875rem] leading-snug font-bold text-ink">{item.name}</h3>
                 <p className="mt-2 text-[16px] text-body">{item.copy}</p>
               </li>
             );

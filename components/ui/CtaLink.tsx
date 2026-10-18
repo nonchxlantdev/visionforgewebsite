@@ -2,12 +2,15 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 import { isSafeNavigationHref } from "@/lib/safe-href";
 
-type Variant = "primary" | "secondary" | "link";
+type Variant = "primary" | "secondary" | "link" | "gold" | "ghostLight";
 
 const looks: Record<Variant, string> = {
   primary: "min-h-12 rounded-md bg-ink px-6 text-paper hover:bg-ink-hover",
   secondary: "min-h-12 rounded-md border border-ink px-6 text-ink hover:bg-mist",
-  link: "min-h-11 text-mahogany underline decoration-mahogany/40 underline-offset-4 hover:decoration-mahogany",
+  link: "min-h-11 text-accent underline decoration-accent/40 underline-offset-4 hover:decoration-accent",
+  // For dark bands: gold like the logo, and a light outline beside it.
+  gold: "min-h-12 rounded-md bg-gold px-6 font-semibold text-ink hover:bg-gold-hover",
+  ghostLight: "min-h-12 rounded-md border border-white/35 px-6 text-paper hover:bg-white/10",
 };
 
 /** Shared look for links and buttons that act as calls to action. */

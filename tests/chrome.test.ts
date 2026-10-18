@@ -15,12 +15,12 @@ test("navbar: services, how we work, about and a Get started button", () => {
   assert.match(nav, /aria-label="Vision Forge Studio, home"/);
 });
 
-test("footer: sales email, pages, legal links and the registration line", () => {
+test("footer: sales email, pages, legal links and the trading line", () => {
   const footer = read("components/layout/Footer.tsx");
   assert.match(footer, /site\.sales\.display/);
   assert.match(footer, /primaryNav/);
   assert.match(footer, /legalItems/);
-  assert.match(footer, /registrationNumber/);
+  assert.match(footer, /tradingName/);
   assert.doesNotMatch(footer, /whatsapp|phone/i);
 });
 
@@ -74,5 +74,24 @@ test("inside a labelled home link the logo is decorative, so the name isn't read
     const logos = src.match(/<Logo [^>]*\/>/g) ?? [];
     assert.ok(logos.length > 0, file);
     for (const logo of logos) assert.match(logo, /decorative/, `${file}: ${logo}`);
+  }
+});
+
+test("dark showcase bands: nav, page headers, closing band and footer sit on navy", () => {
+  for (const file of ["components/layout/Navbar.tsx", "components/layout/PageHeader.tsx", "components/layout/ClosingBand.tsx", "components/layout/Footer.tsx", "components/sections/Hero.tsx"]) {
+    const src = read(file);
+    assert.match(src, /bg-ink/, file);
+    assert.match(src, /on-dark/, file);
+  }
+  assert.match(read("components/ui/CtaLink.tsx"), /gold: "/);
+  assert.match(read("components/ui/CtaLink.tsx"), /ghostLight: "/);
+  for (const file of ["components/layout/Navbar.tsx", "components/layout/ClosingBand.tsx", "components/sections/Hero.tsx"]) {
+    assert.match(read(file), /"gold"/, `${file} should use the gold call to action`);
+  }
+});
+
+test("reading sections stay light", () => {
+  for (const file of ["components/sections/Pains.tsx", "components/sections/WhyUs.tsx", "components/sections/ContactSection.tsx", "components/sections/Lanes.tsx"]) {
+    assert.doesNotMatch(read(file), /bg-ink\b/, file);
   }
 });
