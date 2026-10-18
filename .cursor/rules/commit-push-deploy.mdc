@@ -1,0 +1,15 @@
+---
+description: Commit and push also deploys this site to Cloudflare
+alwaysApply: true
+---
+
+# Commit, push, and deploy
+
+When the user asks to commit and push, deploy to Cloudflare after the push succeeds. A push alone is not done.
+
+1. Commit only what they asked to commit, using the repo's git safety rules. Do not commit `.env`, `.dev.vars`, credentials, `.next`, or `.open-next`.
+2. Push the current branch to `origin`.
+3. From the repo root, run `npm run deploy` (`opennextjs-cloudflare build` then `opennextjs-cloudflare deploy`). This updates the `visionforgestudio` Worker, including https://visionforgestudio.app.
+4. If deleting `.open-next` fails with `EPERM`, stop the local `next dev` process, remove `.open-next`, deploy, then start `npm run dev` again when it was already running.
+5. Confirm the deploy command exits 0 and https://visionforgestudio.app returns the new version.
+6. Do not deploy if the commit or push failed.

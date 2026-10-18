@@ -38,8 +38,12 @@ export const primaryNav = [
 export const replyPromise = "We'll reply within one business day to set up a free conversation.";
 
 export const home = {
-  headline: "Your local tech partner. We bring business ideas to life.",
-  lede: "A Belizean-owned team that learns how your business really runs, fixes what's slowing it down, and builds the technology to keep it moving.",
+  headline: "We turn ideas into technology that moves business forward.",
+  lede: "We design, build and connect digital solutions that help businesses work smarter, operate better and grow with confidence.",
+  detail:
+    "From custom software and intelligent automation to websites, integrated systems and AI-powered tools, we turn complex challenges into practical solutions built around the way you work.",
+  /** Phrases in `detail` that the hero brightens so the offer can be scanned at a glance. */
+  capabilities: ["custom software", "intelligent automation", "websites", "integrated systems", "AI-powered tools"],
   primary: { label: "Tell us about your business", href: "/get-started" },
   secondary: { label: "See how we work", href: "/how-we-work" },
   trust: ["Belizean-owned", "Projects from BZ$500", "Free first conversation"],

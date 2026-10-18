@@ -1,7 +1,22 @@
 import { Check } from "lucide-react";
+import type { ReactNode } from "react";
 import { HubScene } from "@/components/sections/HubScene";
 import { CtaLink } from "@/components/ui/CtaLink";
 import { home } from "@/lib/site";
+
+/** Wraps each listed phrase in `text` so it reads brighter than the sentence around it. */
+function highlight(text: string, phrases: readonly string[]): ReactNode[] {
+  const pattern = new RegExp(`(${phrases.map((p) => p.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})`);
+  return text.split(pattern).map((part, i) =>
+    phrases.includes(part) ? (
+      <span key={i} className="font-semibold text-paper">
+        {part}
+      </span>
+    ) : (
+      part
+    ),
+  );
+}
 
 export function Hero() {
   return (
@@ -13,11 +28,15 @@ export function Hero() {
         <div className="mx-auto max-w-3xl text-center">
           <h1
             id="hero-title"
-            className="font-display text-[clamp(2.4rem,5.6vw,4rem)] leading-[1.05] font-extrabold tracking-[-0.035em] text-balance text-paper"
+            className="bg-gradient-to-b from-paper via-paper to-[#c9d1dc] bg-clip-text font-display text-[clamp(2.4rem,5.6vw,4.25rem)] leading-[1.04] font-extrabold tracking-[-0.035em] text-balance text-transparent"
           >
             {home.headline}
           </h1>
-          <p className="mx-auto mt-6 max-w-[54ch] text-[1.125rem] text-on-ink-2 md:text-[1.25rem]">{home.lede}</p>
+          <span aria-hidden className="mx-auto mt-7 block h-px w-24 bg-gradient-to-r from-transparent via-gold to-transparent" />
+          <p className="mx-auto mt-7 max-w-[52ch] text-[1.1875rem] leading-relaxed text-paper/90 md:text-[1.3125rem]">{home.lede}</p>
+          <p className="mx-auto mt-4 max-w-[62ch] text-[1rem] leading-relaxed text-on-ink-2 md:text-[1.0625rem]">
+            {highlight(home.detail, home.capabilities)}
+          </p>
           <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
             <CtaLink href={home.primary.href} variant="gold">
               {home.primary.label}

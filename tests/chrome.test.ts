@@ -29,6 +29,8 @@ test("the phone bar is now a single Get started button", () => {
   const bar = read("components/layout/GetStartedBar.tsx");
   assert.match(bar, /href="\/get-started"/);
   assert.match(bar, /md:hidden/);
+  assert.match(bar, /bg-ink/);
+  assert.match(bar, /ctaClassName\("gold"/);
   const layout = read("app/layout.tsx");
   assert.match(layout, /<GetStartedBar \/>/);
   assert.doesNotMatch(layout, /MobileContactBar/);

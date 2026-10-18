@@ -22,6 +22,9 @@ test("hero: centred copy, one h1, then the 3D hub", () => {
   assert.match(hero, /home\.trust\.map/);
   assert.match(hero, /text-center/);
   assert.ok(hero.indexOf("<h1") < hero.indexOf("<HubScene"));
+  assert.match(hero, /home\.lede/);
+  assert.match(hero, /highlight\(home\.detail, home\.capabilities\)/);
+  assert.match(hero, /bg-clip-text/);
   assert.doesNotMatch(hero, /Label|goldWord|emblem-glint|className="label|<Logo/);
 });
 

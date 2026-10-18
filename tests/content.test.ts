@@ -38,9 +38,18 @@ const allCopy = JSON.stringify({
   whyUs,
 });
 
-test("the hero leads with partnership and points to the form", () => {
-  assert.equal(home.headline, "Your local tech partner. We bring business ideas to life.");
-  assert.match(home.lede, /^A Belizean-owned team/);
+test("the hero introduces what we do and points to the form", () => {
+  assert.equal(home.headline, "We turn ideas into technology that moves business forward.");
+  assert.equal(
+    home.lede,
+    "We design, build and connect digital solutions that help businesses work smarter, operate better and grow with confidence.",
+  );
+  assert.equal(
+    home.detail,
+    "From custom software and intelligent automation to websites, integrated systems and AI-powered tools, we turn complex challenges into practical solutions built around the way you work.",
+  );
+  assert.deepEqual([...home.capabilities], ["custom software", "intelligent automation", "websites", "integrated systems", "AI-powered tools"]);
+  for (const capability of home.capabilities) assert.ok(home.detail.includes(capability), capability);
   assert.equal(home.primary.href, "/get-started");
   assert.equal(home.primary.label, "Tell us about your business");
   assert.equal(home.secondary.href, "/how-we-work");

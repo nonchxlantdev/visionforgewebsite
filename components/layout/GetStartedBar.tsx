@@ -10,8 +10,8 @@ export function GetStartedBar() {
   if (pathname === "/get-started") return null;
 
   return (
-    <div className="no-print fixed inset-x-0 bottom-0 z-40 border-t border-line bg-paper/95 px-3 pt-2.5 pb-[calc(0.625rem+env(safe-area-inset-bottom))] backdrop-blur md:hidden">
-      <Link href="/get-started" className={ctaClassName("primary", "w-full")}>
+    <div className="on-dark no-print fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-ink/95 px-3 pt-2.5 pb-[calc(0.625rem+env(safe-area-inset-bottom))] backdrop-blur md:hidden">
+      <Link href="/get-started" className={ctaClassName("gold", "w-full")}>
         Get started
       </Link>
     </div>
