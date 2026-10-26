@@ -42,3 +42,15 @@ test("the intro is the logo on navy, with a gold line, and it leaves on a timer"
   assert.match(css, /prefers-reduced-motion: reduce[\s\S]*\.vf-intro-logo[\s\S]*transform: none/);
   assert.match(css, /prefers-reduced-motion: reduce[\s\S]*\.vf-intro[\s\S]*animation: vf-fade 0\.4s ease-out 0\.6s forwards/);
 });
+
+test("every page mounts the intro above the site, which stays inert until it leaves", () => {
+  const layout = read("app/layout.tsx");
+  assert.match(layout, /<LoadingScreen \/>/);
+  assert.match(layout, /id="site"/);
+  const siteAt = layout.indexOf('id="site"');
+  const screenAt = layout.indexOf("<LoadingScreen />");
+  assert.ok(siteAt > -1 && screenAt > siteAt);
+  assert.ok(layout.indexOf("<Navbar") > siteAt && layout.indexOf("<Navbar") < screenAt);
+  assert.ok(layout.indexOf('id="main"') > siteAt && layout.indexOf('id="main"') < screenAt);
+  assert.doesNotMatch(layout, /sessionStorage|localStorage/);
+});

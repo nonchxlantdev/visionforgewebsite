@@ -96,7 +96,7 @@ test("body text is 17px on phones and 18px from tablet up", () => {
   assert.match(css, /line-height: 1\.65/);
 });
 
-test("no decorative CSS keyframes; reduced motion is handled", () => {
-  assert.doesNotMatch(css, /@keyframes/);
+test("only the load-intro keyframes; reduced motion is handled", () => {
+  assert.deepEqual(css.match(/@keyframes [\w-]+/g), ["@keyframes vf-line", "@keyframes vf-logo", "@keyframes vf-fade"]);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
 });

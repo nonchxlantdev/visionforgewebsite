@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Footer } from "@/components/layout/Footer";
 import { GetStartedBar } from "@/components/layout/GetStartedBar";
+import { LoadingScreen } from "@/components/layout/LoadingScreen";
 import { Navbar } from "@/components/layout/Navbar";
 import { LOGO_SIZE } from "@/lib/logo-variants";
 import { site } from "@/lib/site";
@@ -93,16 +94,19 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${manrope.variable} h-full antialiased`}>
       <body className="min-h-full bg-cream pb-[calc(4.75rem+env(safe-area-inset-bottom))] font-sans text-body antialiased md:pb-0">
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[70] focus:rounded-md focus:bg-gold focus:px-4 focus:py-3 focus:text-ink"
-        >
-          Skip to content
-        </a>
-        <Navbar />
-        <main id="main">{children}</main>
-        <Footer />
-        <GetStartedBar />
+        <div id="site">
+          <a
+            href="#main"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[70] focus:rounded-md focus:bg-gold focus:px-4 focus:py-3 focus:text-ink"
+          >
+            Skip to content
+          </a>
+          <Navbar />
+          <main id="main">{children}</main>
+          <Footer />
+          <GetStartedBar />
+        </div>
+        <LoadingScreen />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
