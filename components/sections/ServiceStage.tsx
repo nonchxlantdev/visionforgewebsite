@@ -1,15 +1,16 @@
 import { Check } from "lucide-react";
 import type { ReactNode } from "react";
-import type { Stage } from "@/lib/site";
+import type { Service } from "@/lib/site";
 
-export function ServiceStage({ stage, index, children }: { stage: Stage; index: number; children?: ReactNode }) {
+export function ServiceStage({ stage, index, children }: { stage: Service; index: number; children?: ReactNode }) {
   const shaded = index % 2 === 1;
   return (
     <section id={stage.id} aria-labelledby={`${stage.id}-title`} className={`border-b border-line ${shaded ? "bg-mist" : ""}`}>
       <div className="mx-auto grid max-w-[1180px] gap-10 px-5 py-20 sm:px-8 md:py-24 lg:grid-cols-[0.9fr_1.1fr] lg:px-10">
         <div>
           <p className="font-display text-[1.125rem] font-bold text-accent">
-            {index + 1}. {stage.name}
+            {stage.core ? `${index + 1}. ` : ""}
+            {stage.name}
             {stage.optional ? <span className="ml-2 font-sans text-[15px] font-normal text-muted">Optional</span> : null}
           </p>
           <h2

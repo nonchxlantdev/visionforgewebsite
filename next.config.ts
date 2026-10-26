@@ -32,7 +32,7 @@ const nextConfig: NextConfig = {
     return [
       { source: "/pricing", destination: "/get-started", statusCode: 301 },
       { source: "/contact", destination: "/get-started", statusCode: 301 },
-      { source: "/automation", destination: "/services#improve", statusCode: 301 },
+      { source: "/automation", destination: "/services#automation", statusCode: 301 },
       { source: "/websites", destination: "/services#build", statusCode: 301 },
     ];
   },

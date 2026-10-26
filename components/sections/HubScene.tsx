@@ -42,7 +42,7 @@ const COLORS = {
 
 const CAPTION = {
   off: "Today: tools that don't talk to each other",
-  on: "With Vision Forge: everything connected",
+  on: "With Vision Forge: your tools working together",
 } as const;
 
 const clamp = (u: number) => Math.min(0.999, Math.max(0.001, Number.isFinite(u) ? u : 0));

@@ -6,8 +6,11 @@ import {
   closing,
   featuredIndustries,
   home,
+  audiences,
+  additionalServices,
+  automationExamples,
   howWeWorkSteps,
-  improveExamples,
+  keyMessage,
   lanes,
   lanesNote,
   moreIndustries,
@@ -15,8 +18,10 @@ import {
   primaryNav,
   questions,
   replyPromise,
-  stages,
+  services,
   whyUs,
+  workflowExamples,
+  workflowNote,
 } from "../lib/site.ts";
 
 const allCopy = JSON.stringify({
@@ -25,8 +30,11 @@ const allCopy = JSON.stringify({
   closing,
   featuredIndustries,
   home,
+  audiences,
+  additionalServices,
+  automationExamples,
   howWeWorkSteps,
-  improveExamples,
+  keyMessage,
   lanes,
   lanesNote,
   moreIndustries,
@@ -34,63 +42,90 @@ const allCopy = JSON.stringify({
   primaryNav,
   questions,
   replyPromise,
-  stages,
+  services,
   whyUs,
+  workflowExamples,
+  workflowNote,
 });
 
-test("the hero introduces what we do and points to the form", () => {
+test("the hero leads with automation and integration and keeps the headline and CTAs", () => {
+  assert.deepEqual([...home.eyebrow], ["Business automation", "Systems integration", "Digital solutions"]);
   assert.equal(home.headline, "We turn ideas into technology that moves business forward.");
-  assert.equal(
-    home.lede,
-    "We design, build and connect digital solutions that help businesses work smarter, operate better and grow with confidence.",
-  );
-  assert.equal(
-    home.detail,
-    "From custom software and intelligent automation to websites, integrated systems and AI-powered tools, we turn complex challenges into practical solutions built around the way you work.",
-  );
-  assert.deepEqual([...home.capabilities], ["custom software", "intelligent automation", "websites", "integrated systems", "AI-powered tools"]);
+  assert.equal(home.lede, "Automate the work. Connect your systems. Unlock your potential.");
+  assert.match(home.detail, /^We help businesses eliminate manual processes/);
+  assert.match(home.detailMore, /AI-powered solutions/);
   for (const capability of home.capabilities) assert.ok(home.detail.includes(capability), capability);
   assert.equal(home.primary.href, "/get-started");
   assert.equal(home.primary.label, "Tell us about your business");
+  assert.equal(home.secondary.label, "See how we work");
   assert.equal(home.secondary.href, "/how-we-work");
   assert.deepEqual([...home.trust], ["Belizean-owned", "Projects from BZ$500", "Free first conversation"]);
+  assert.equal(keyMessage, "Vision Forge helps businesses automate the work, connect their systems, and build technology that works for them.");
 });
 
-test("four pains, one of them not about technology", () => {
-  assert.equal(pains.length, 4);
-  assert.ok(pains.some((p) => /falling through the cracks/.test(p.quote)));
+test("problems we solve: the six pain points from the brief", () => {
+  assert.deepEqual(
+    pains.map((p) => p.id),
+    ["repetitive", "disconnected", "duplicate", "approvals", "reports", "followups"],
+  );
 });
 
-test("four stages in order; support is the only optional one", () => {
+test("core services in the agreed order, then consultation and optional support", () => {
   assert.deepEqual(
-    stages.map((s) => s.id),
-    ["understand", "improve", "build", "support"],
+    services.map((s) => s.id),
+    ["automation", "integration", "ai", "build", "consult", "support"],
   );
   assert.deepEqual(
-    stages.map((s) => s.optional),
-    [false, false, false, true],
+    services.map((s) => s.core),
+    [true, true, true, true, false, false],
   );
-  for (const stage of stages) {
-    assert.ok(stage.needIf.length >= 2 && stage.needIf.length <= 4, stage.id);
-    assert.ok(stage.weDo.length >= 2, stage.id);
+  assert.deepEqual(
+    services.map((s) => s.optional),
+    [false, false, false, false, false, true],
+  );
+  for (const service of services) {
+    assert.ok(service.needIf.length >= 2 && service.needIf.length <= 4, service.id);
+    assert.ok(service.weDo.length >= 2, service.id);
   }
-  assert.equal(improveExamples.length, 5);
+  assert.equal(automationExamples.length, 5);
 });
 
-test("two lanes: small businesses from BZ$500, bigger work starts with a conversation", () => {
+test("workflow examples are framed as what we can build, not out-of-the-box", () => {
   assert.deepEqual(
-    lanes.map((l) => [l.id, l.title, l.price]),
+    workflowExamples.map((w) => w.id),
+    ["sales", "payments", "operations", "service"],
+  );
+  for (const w of workflowExamples) assert.ok(w.steps.length >= 3, w.id);
+  assert.match(workflowNote, /not ready-made/);
+  assert.match(workflowNote, /discovery/);
+  assert.doesNotMatch(allCopy, /seamless|everything connected|out of the box|works with any system|connects? to anything/i);
+});
+
+test("who we help and additional services", () => {
+  assert.deepEqual(
+    audiences.map((a) => a.id),
+    ["small", "growing", "established"],
+  );
+  assert.ok(additionalServices.some((s) => /websites/i.test(s)));
+});
+
+test("two lanes: smaller projects from BZ$500, complex work starts with a consultation", () => {
+  assert.deepEqual(
+    lanes.map((l) => [l.id, l.price]),
     [
-      ["small", "Small businesses", "From BZ$500"],
-      ["growing", "Growing teams and established companies", "Let's talk"],
+      ["small", "From BZ$500"],
+      ["growing", "Let's talk"],
     ],
   );
+  assert.match(lanes[1].copy, /consultation/);
   assert.equal(lanesNote.href, "/disclaimer#estimates");
 });
 
-test("how we work: four steps, then optional training and support", () => {
-  assert.equal(howWeWorkSteps.length, 4);
-  assert.match(howWeWorkSteps[3].title, /hand it over/);
+test("how we work: the seven steps from the brief, then optional training and support", () => {
+  assert.deepEqual(
+    howWeWorkSteps.map((s) => s.title),
+    ["Discover", "Map the workflow", "Design the solution", "Integrate and automate", "Test", "Deploy", "Improve"],
+  );
   assert.match(afterLaunch.title, /^Optional/);
 });
 
@@ -130,6 +165,7 @@ test("FAQ covers the agreed questions", () => {
     "Who owns what you build?",
     "What happens after launch?",
     "How long does a project take?",
+    "Can you connect any system?",
   ]) {
     assert.ok(qs.includes(q), q);
   }

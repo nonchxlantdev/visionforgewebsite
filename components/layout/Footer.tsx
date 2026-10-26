@@ -18,7 +18,7 @@ export function Footer() {
               <Logo decorative className="h-14 w-auto" sizes="68px" />
               <span className="font-display text-[20px] font-bold text-paper">Vision Forge Studio</span>
             </Link>
-            <p className="mt-5 max-w-xs text-[16px]">Your local tech partner. Belizean-owned.</p>
+            <p className="mt-5 max-w-xs text-[16px]">Business automation, systems integration and digital solutions. Belizean-owned.</p>
           </div>
 
           <nav aria-label="Pages">

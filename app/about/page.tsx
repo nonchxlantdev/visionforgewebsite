@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import { ClosingBand } from "@/components/layout/ClosingBand";
 import { PageHeader } from "@/components/layout/PageHeader";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { WhyUs } from "@/components/sections/WhyUs";
 import { about } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "About | Vision Forge Studio",
   description:
-    "Vision Forge Studio is a Belizean-owned team bringing technology to businesses big and small, built around how they actually work.",
+    "Vision Forge Studio is a Belizean-owned technology partner helping businesses automate the work, connect their systems and build technology that works for them.",
   alternates: { canonical: "/about" },
 };
 
@@ -40,6 +41,8 @@ export default function AboutPage() {
           </ul>
         </div>
       </section>
+
+      <WhyUs />
 
       <section aria-labelledby="owned-title" className="border-b border-line">
         <div className="mx-auto max-w-[1180px] px-5 py-20 sm:px-8 md:py-24 lg:px-10">

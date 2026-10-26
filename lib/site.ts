@@ -2,9 +2,9 @@ export const site = {
   name: "Vision Forge Studio",
   domain: "visionforgestudio.app",
   url: "https://visionforgestudio.app",
-  title: "Vision Forge Studio | Your local tech partner in Belize",
+  title: "Vision Forge Studio | Business automation, systems integration and digital solutions in Belize",
   description:
-    "A Belizean-owned team that reviews how your business runs, improves and automates your processes, and builds websites and custom systems. Projects from BZ$500. Free first conversation.",
+    "Vision Forge helps businesses automate the work, connect their systems, and build technology that works for them. Belizean-owned. Projects from BZ$500. Free first conversation.",
   sales: {
     label: "Sales",
     display: "sales@visionforgestudio.app",
@@ -38,103 +38,165 @@ export const primaryNav = [
 export const replyPromise = "We'll reply within one business day to set up a free conversation.";
 
 export const home = {
+  /** Small line above the headline naming the three things we do, in priority order. */
+  eyebrow: ["Business automation", "Systems integration", "Digital solutions"],
   headline: "We turn ideas into technology that moves business forward.",
-  lede: "We design, build and connect digital solutions that help businesses work smarter, operate better and grow with confidence.",
+  lede: "Automate the work. Connect your systems. Unlock your potential.",
   detail:
-    "From custom software and intelligent automation to websites, integrated systems and AI-powered tools, we turn complex challenges into practical solutions built around the way you work.",
+    "We help businesses eliminate manual processes, connect the tools they rely on, and build smarter ways of working through business automation, systems integration and custom digital solutions.",
+  /** Second paragraph: shown from tablet up so the phone hero stays short. */
+  detailMore:
+    "From connecting existing applications and automating everyday workflows to developing custom software and AI-powered solutions, we turn complex business challenges into practical technology that works for you.",
   /** Phrases in `detail` that the hero brightens so the offer can be scanned at a glance. */
-  capabilities: ["custom software", "intelligent automation", "websites", "integrated systems", "AI-powered tools"],
+  capabilities: ["business automation", "systems integration", "custom digital solutions"],
   primary: { label: "Tell us about your business", href: "/get-started" },
   secondary: { label: "See how we work", href: "/how-we-work" },
   trust: ["Belizean-owned", "Projects from BZ$500", "Free first conversation"],
 } as const;
 
+/** The one line we want every visitor to leave with. */
+export const keyMessage =
+  "Vision Forge helps businesses automate the work, connect their systems, and build technology that works for them.";
+
 export const pains = [
   {
-    id: "cracks",
-    quote: "Things keep falling through the cracks and I can't see where.",
-    answer: "We map how work moves through your business and show you exactly where it gets stuck.",
+    id: "repetitive",
+    quote: "We do the same tasks by hand, every single day.",
+    answer: "Repetitive steps like data capture, notifications and status updates can run on their own.",
   },
   {
-    id: "payments",
-    quote: "I chase people to pay every week.",
-    answer: "Payment reminders that go out on their own, by WhatsApp or email.",
+    id: "disconnected",
+    quote: "None of our apps talk to each other.",
+    answer: "We connect the tools you already use, where they support it, so information moves without you.",
+  },
+  {
+    id: "duplicate",
+    quote: "We type the same information into three places.",
+    answer: "Enter it once and let it flow to the records, sheets and systems that need it.",
+  },
+  {
+    id: "approvals",
+    quote: "Approvals sit in someone's inbox for days.",
+    answer: "Requests go to the right person automatically, with reminders until they're done.",
   },
   {
     id: "reports",
     quote: "Every Friday I rebuild the same report.",
-    answer: "A live dashboard that keeps itself up to date.",
+    answer: "Dashboards that pull from your records and keep themselves up to date.",
   },
   {
-    id: "forms",
-    quote: "My staff still fill in paper forms.",
-    answer: "Forms on a phone that go straight into your records.",
+    id: "followups",
+    quote: "Enquiries and follow-ups fall through the cracks.",
+    answer: "Every enquiry is captured, assigned and tracked, so nothing waits on memory.",
   },
 ] as const;
 
-export type StageId = "understand" | "improve" | "build" | "support";
+export type ServiceId = "automation" | "integration" | "ai" | "build" | "consult" | "support";
 
-export type Stage = {
-  id: StageId;
+export type Service = {
+  id: ServiceId;
   name: string;
   title: string;
   summary: string;
   needIf: readonly string[];
   weDo: readonly string[];
+  /** Core services lead the site; the rest support them. */
+  core: boolean;
   optional: boolean;
 };
 
-export const stages: readonly Stage[] = [
+/** Core services first, in the agreed order, then consultation and optional support. */
+export const services: readonly Service[] = [
   {
-    id: "understand",
-    name: "Understand",
-    title: "Business review and consultation",
-    summary: "We learn how your business really runs, find what's slowing it down, and tell you plainly what to fix first.",
+    id: "automation",
+    name: "Automation",
+    title: "Business process automation",
+    summary: "We take repetitive, manual work off your team's plate so everyday workflows run on their own, reliably.",
     needIf: [
-      "You're busy every day but can't see where the time goes",
-      "You know something needs to change, but not what",
-      "You want an honest opinion before spending on new software",
+      "Your team repeats the same steps every day",
+      "Notifications, reminders and approvals depend on someone remembering",
+      "Reports are still put together by hand",
     ],
     weDo: [
-      "Sit with you and your team to see how work actually flows",
-      "Spot bottlenecks, double work and things worth upgrading",
-      "Give you a clear plan, in plain language, with what to do first",
+      "Simplify the process before we automate anything",
+      "Automate notifications, approvals, data capture and follow-ups",
+      "Build multi-step workflows that move work from one stage to the next",
+      "Automated reports and dashboards",
     ],
+    core: true,
     optional: false,
   },
   {
-    id: "improve",
-    name: "Improve",
-    title: "Process improvement and automation",
-    summary: "We take repetitive, manual work off your plate and connect the tools you already use so they work together.",
+    id: "integration",
+    name: "Integration",
+    title: "Systems integration",
+    summary: "We connect the applications, databases and services you already rely on, so they share information instead of needing it re-typed.",
     needIf: [
-      "You or your staff copy the same information from place to place",
-      "Invoices, reminders or reports are still done by hand",
-      "Your sales and your books never quite match",
+      "Your tools don't talk to each other",
+      "Staff copy information from one system into another",
+      "Your sales, payments and books never quite match",
     ],
     weDo: [
-      "Simplify the steps before we automate anything",
-      "Automatic invoices, reminders and follow-ups",
-      "Connect WhatsApp, spreadsheets and your accounting software",
-      "Live dashboards that update themselves",
+      "Work with the tools you already have before suggesting replacements",
+      "Connect applications, databases, payment services and communication channels",
+      "Use APIs and other supported methods, within each provider's terms",
+      "Confirm what's technically possible during discovery, before we quote",
     ],
+    core: true,
+    optional: false,
+  },
+  {
+    id: "ai",
+    name: "AI",
+    title: "AI and intelligent workflows",
+    summary: "We apply AI where it adds measurable value, as one part of a well-designed workflow, with people kept in control.",
+    needIf: [
+      "Your team spends hours reading, sorting or summarising information",
+      "Incoming requests need to be classified and routed",
+      "You want faster answers for customers without losing the human touch",
+    ],
+    weDo: [
+      "Help process information from documents, forms and messages",
+      "Classify and route incoming requests",
+      "Assist customer support with suggested replies and answers",
+      "Decision support that summarises what matters, for a person to act on",
+    ],
+    core: true,
     optional: false,
   },
   {
     id: "build",
-    name: "Build",
-    title: "Websites and custom builds",
-    summary: "From a professional website to a system built around how you work, we bring the idea to life.",
+    name: "Custom builds",
+    title: "Custom software and digital solutions",
+    summary: "When existing tools can't fully solve the problem, we build what's missing, designed around how you work.",
     needIf: [
-      "Customers can't find you online",
-      "You sell on social media and orders get lost in messages",
-      "You have an idea for an app, portal or system that doesn't exist yet",
+      "No off-the-shelf tool fits the way your business runs",
+      "Customers can't find you or order from you online",
+      "You have an idea for a portal, app or platform that doesn't exist yet",
     ],
     weDo: [
       "Business websites, online stores and booking sites",
-      "Catalogues for selling through Instagram, Facebook and WhatsApp",
-      "Custom systems, staff portals and apps built around your business",
+      "Web and mobile applications",
+      "Dashboards, staff portals and business platforms",
     ],
+    core: true,
+    optional: false,
+  },
+  {
+    id: "consult",
+    name: "Consultation",
+    title: "Business review and consultation",
+    summary: "Not sure where to start? We learn how your business really runs, find what's slowing it down and tell you plainly what to fix first.",
+    needIf: [
+      "You're busy every day but can't see where the time goes",
+      "You want an honest opinion before spending on new software",
+    ],
+    weDo: [
+      "Sit with you and your team to see how work actually flows",
+      "Spot bottlenecks, double work and what's worth automating",
+      "A clear plan, in plain language, with what to do first",
+    ],
+    core: false,
     optional: false,
   },
   {
@@ -147,16 +209,83 @@ export const stages: readonly Stage[] = [
       "You'd rather not handle updates and fixes yourself",
     ],
     weDo: ["Hands-on training for your staff", "Fixes, updates and improvements after launch"],
+    core: false,
     optional: true,
   },
 ];
 
-export const improveExamples = [
-  { id: "payments", pain: "I chase people to pay every week.", fix: "Automatic payment reminders on WhatsApp or email." },
-  { id: "forms", pain: "My staff still fill in paper forms.", fix: "Forms on a phone that go straight into a report." },
-  { id: "bookings", pain: "Bookings get lost in my messages.", fix: "Customers book themselves, and you get reminders." },
-  { id: "reports", pain: "Every Friday I rebuild the same report.", fix: "A live dashboard that updates itself." },
-  { id: "accounts", pain: "My sales and my accounts never match up.", fix: "Your sales flow straight into your books." },
+export const coreServices = services.filter((s) => s.core);
+
+export const automationExamples = [
+  { id: "payments", pain: "I chase people to pay every week.", fix: "Payment reminders that go out on schedule by email, or WhatsApp where your setup supports it." },
+  { id: "forms", pain: "My staff still fill in paper forms.", fix: "Forms on a phone that go straight into your records." },
+  { id: "approvals", pain: "Approvals sit in someone's inbox for days.", fix: "Requests routed to the right person, with reminders until they're done." },
+  { id: "reports", pain: "Every Friday I rebuild the same report.", fix: "A dashboard that updates itself from your records." },
+  { id: "accounts", pain: "My sales and my accounts never match up.", fix: "Sales flow into your books, where your systems allow it." },
+] as const;
+
+export type WorkflowExample = {
+  id: string;
+  title: string;
+  steps: readonly string[];
+  outcome: string;
+};
+
+/** Examples of what we can design and implement; not integrations available out of the box. */
+export const workflowExamples: readonly WorkflowExample[] = [
+  {
+    id: "sales",
+    title: "Sales and customer management",
+    steps: ["New enquiry captured", "Lead record created", "Right person notified", "Follow-up task scheduled"],
+    outcome: "Leads get a timely response instead of going cold in an inbox.",
+  },
+  {
+    id: "payments",
+    title: "Payments and accounting",
+    steps: ["Payment received", "Invoice or record updated", "Receipt or notification sent"],
+    outcome: "Your records stay current without re-keying, where the provider and APIs allow it.",
+  },
+  {
+    id: "operations",
+    title: "Operations and reporting",
+    steps: ["Forms and business systems", "Central records", "Live dashboards"],
+    outcome: "Less duplicate entry, and no more rebuilding the same report by hand.",
+  },
+  {
+    id: "service",
+    title: "Customer service and communications",
+    steps: ["Enquiry on a supported channel", "Captured and routed", "Tracked until resolved"],
+    outcome: "Fewer requests lost in inboxes or message threads.",
+  },
+];
+
+export const workflowNote =
+  "These are examples of solutions we can design and implement, not ready-made connections. What's possible depends on your tools, access permissions, APIs, provider terms and security requirements, and we confirm it during discovery.";
+
+export const audiences = [
+  {
+    id: "small",
+    title: "Small businesses",
+    copy: "Start with the one task that eats your day, like reminders, a form or a simple connection, and get that time back. Projects from BZ$500.",
+  },
+  {
+    id: "growing",
+    title: "Growing companies",
+    copy: "More people and more tools mean more hand-offs. We connect them so work doesn't slip between teams as you grow.",
+  },
+  {
+    id: "established",
+    title: "Established organisations",
+    copy: "Multi-step workflows across departments and systems, designed around your processes, access controls and security requirements.",
+  },
+] as const;
+
+export const additionalServices = [
+  "Business websites and online stores",
+  "Web and mobile applications",
+  "Dashboards and reporting",
+  "Staff portals and business platforms",
+  "Staff training and ongoing support",
 ] as const;
 
 export type FeaturedIndustryIcon = "cart" | "food" | "palm" | "health" | "briefcase" | "store";
@@ -218,12 +347,12 @@ export const moreIndustries = [
 
 export const whyUs = [
   {
-    title: "Local and Belizean-owned",
-    copy: "We know how business works here, from WhatsApp orders to cash on delivery, and we're close by when you need us.",
+    title: "Your tools first",
+    copy: "We work with the systems you already use before recommending you replace anything.",
   },
   {
-    title: "We learn before we suggest",
-    copy: "We take the time to understand your business first, so what we recommend fits how you actually work.",
+    title: "Honest about what's possible",
+    copy: "We confirm what can connect, and how, during discovery, so there are no surprises after you've committed.",
   },
   {
     title: "Support if you want it",
@@ -234,15 +363,15 @@ export const whyUs = [
 export const lanes = [
   {
     id: "small",
-    title: "Small businesses",
+    title: "Smaller projects",
     price: "From BZ$500",
-    copy: "A clear, affordable starting point for shops, sellers and growing local businesses. We scope it with you and send a fixed quote.",
+    copy: "A single automation, a simple integration or a business website. We scope it with you and send a fixed quote.",
   },
   {
     id: "growing",
-    title: "Growing teams and established companies",
+    title: "Complex integrations and larger organisations",
     price: "Let's talk",
-    copy: "More people, more processes, more systems. We start with a conversation and shape the work around your business.",
+    copy: "Multi-step workflows, several connected systems or enterprise needs. We start with a consultation, confirm what's technically possible, and shape the work around your business.",
   },
 ] as const;
 
@@ -254,20 +383,32 @@ export const lanesNote = {
 
 export const howWeWorkSteps = [
   {
-    title: "A free first conversation",
-    copy: "Tell us about your business and what's slowing you down. No cost and no pressure.",
+    title: "Discover",
+    copy: "A free first conversation about your business, your tools and what's slowing you down.",
   },
   {
-    title: "We learn how your business runs",
-    copy: "We look at how work really moves through your business, together with you and your team.",
+    title: "Map the workflow",
+    copy: "We trace how work and information really move, with you and your team, and find where time is lost.",
   },
   {
-    title: "A written plan and a fixed quote",
-    copy: "You see exactly what we'll do and what it costs before anything starts.",
+    title: "Design the solution",
+    copy: "A written plan and a fixed quote. We confirm what your systems can support before anything starts.",
   },
   {
-    title: "We build and test it with you, then hand it over",
-    copy: "We test with your real work, adjust what needs adjusting, and hand over something your team can use.",
+    title: "Integrate and automate",
+    copy: "We connect your tools, automate the steps and build anything that's missing.",
+  },
+  {
+    title: "Test",
+    copy: "We test with your real work and adjust until it runs reliably.",
+  },
+  {
+    title: "Deploy",
+    copy: "We switch it on and hand over something your team can use from day one.",
+  },
+  {
+    title: "Improve",
+    copy: "We review how it's performing and refine it as your business changes.",
   },
 ] as const;
 
@@ -287,7 +428,15 @@ export const questions = [
   },
   {
     q: "Do I have to change the software I already use?",
-    a: "Usually not. Most of the time we improve and connect what you already have.",
+    a: "Usually not. We start with the tools you already have and only suggest replacing something if it can't do the job.",
+  },
+  {
+    q: "Can you connect any system?",
+    a: "Many systems can be connected, but not all of them. It depends on what each tool supports, the access you have and the provider's terms. We check this during discovery and tell you plainly before you commit.",
+  },
+  {
+    q: "Is AI part of every project?",
+    a: "No. We use AI where it clearly saves time or improves results. Plenty of the best automations need none at all.",
   },
   {
     q: "Who owns what you build?",
@@ -306,11 +455,12 @@ export const questions = [
 
 export const about = {
   title: "Technology that fits how Belize does business.",
-  lede: "We help businesses big and small run better, by understanding how they work and building what they need.",
+  lede: keyMessage,
   story: [
     "Vision Forge started with a simple idea: businesses in Belize deserve technology that fits the way they actually work. Too often, software gets bought first and the business is bent to fit it. We do it the other way round.",
     "We listen like business owners and build like engineers, so what we make fits your day-to-day, not just a feature list.",
-    "Sometimes the answer is a new website or an app. Sometimes it's a simpler process and a couple of tools talking to each other. We'll tell you which, plainly.",
+    "We're both a strategic partner and a hands-on studio. We help you understand where work gets stuck, automate the repetitive parts, connect the systems you already use, and build practical technology where it's needed.",
+    "Sometimes the answer is a new website or an app. More often it's a simpler process and a few tools talking to each other. We'll tell you which, plainly.",
   ],
   beliefs: [
     { title: "Learn first", copy: "We understand your business before we recommend anything." },

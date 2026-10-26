@@ -6,7 +6,7 @@ import { Lanes } from "@/components/sections/Lanes";
 export const metadata: Metadata = {
   title: "Get Started | Vision Forge Studio",
   description:
-    "Tell us about your business and what's slowing you down. Small business projects start from BZ$500; bigger work starts with a free conversation.",
+    "Tell us about your business and what's slowing you down. Smaller projects start from BZ$500; complex integrations and multi-step workflows start with a free consultation.",
   alternates: { canonical: "/get-started" },
 };
 

@@ -8,19 +8,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: site.url,
-      lastModified: "2026-10-17",
+      lastModified: "2026-10-26",
       changeFrequency: "monthly",
       priority: 1,
     },
     ...pageRoutes.map((route) => ({
       url: `${site.url}${route}`,
-      lastModified: "2026-10-17",
+      lastModified: "2026-10-26",
       changeFrequency: "monthly" as const,
       priority: 0.8,
     })),
     ...legalRoutes.map((route) => ({
       url: `${site.url}${route}`,
-      lastModified: "2026-10-17",
+      lastModified: "2026-10-26",
       changeFrequency: "yearly" as const,
       priority: 0.3,
     })),

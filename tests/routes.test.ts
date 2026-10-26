@@ -32,7 +32,7 @@ test("old URLs redirect permanently (301) to their new homes", () => {
   const pairs = [
     ["/pricing", "/get-started"],
     ["/contact", "/get-started"],
-    ["/automation", "/services#improve"],
+    ["/automation", "/services#automation"],
     ["/websites", "/services#build"],
   ];
   for (const [source, destination] of pairs) {

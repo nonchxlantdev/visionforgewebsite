@@ -16,7 +16,7 @@ test("how we work: steps, the new FAQ with structured data, and the closing band
   assert.doesNotMatch(page, /Timeline|Promises/);
 });
 
-test("four numbered steps, then training and support set apart as optional", () => {
+test("numbered steps, then training and support set apart as optional", () => {
   const steps = read("components/sections/ProcessSteps.tsx");
   assert.match(steps, /<ol/);
   assert.match(steps, /howWeWorkSteps\.map/);

@@ -8,7 +8,7 @@ import { questions } from "@/lib/site";
 export const metadata: Metadata = {
   title: "How We Work | Vision Forge Studio",
   description:
-    "A free first conversation, a look at how your business runs, a written plan with a fixed quote, and a build you test with us. Training and support if you want them.",
+    "Discover, map the workflow, design the solution, integrate and automate, test, deploy and improve. A free first conversation and a fixed quote before work starts.",
   alternates: { canonical: "/how-we-work" },
 };
 
@@ -27,7 +27,7 @@ export default function HowWeWorkPage() {
     <>
       <PageHeader
         title="Here's what working with us looks like."
-        lede="You tell us how your business runs in your own words. We learn it, send a written plan with a fixed quote, then build and test it with you."
+        lede="We start by understanding how your business runs, then map, design, connect and automate it with you, and keep improving it after launch."
       />
       <ProcessSteps />
       <Faq items={questions} />

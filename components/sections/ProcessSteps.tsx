@@ -5,8 +5,8 @@ export function ProcessSteps() {
   return (
     <section aria-labelledby="steps-title" className="border-b border-line">
       <div className="mx-auto max-w-[1180px] px-5 py-20 sm:px-8 md:py-24 lg:px-10">
-        <SectionHeading id="steps-title" title="From first conversation to hand-over" />
-        <ol className="mt-12 grid gap-10 md:grid-cols-2 lg:grid-cols-4">
+        <SectionHeading id="steps-title" title="From first conversation to continuous improvement" />
+        <ol className="mt-12 grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {howWeWorkSteps.map((step, index) => (
             <li key={step.title} className="border-t-2 border-ink pt-5">
               <span className="font-display text-[1.5rem] font-bold text-accent tabular-nums">{index + 1}</span>
