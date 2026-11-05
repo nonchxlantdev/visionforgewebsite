@@ -5,7 +5,7 @@ import test from "node:test";
 const root = new URL("../", import.meta.url);
 const read = (path: string) => readFileSync(new URL(path, root), "utf8");
 
-test("the intro is the logo on navy, with a gold line, and it leaves on a timer", () => {
+test("the intro is the logo on near-black, with a light-blue line, and it leaves on a timer", () => {
   const screen = read("components/layout/LoadingScreen.tsx");
   const css = read("app/globals.css");
   assert.match(screen, /"use client"/);
@@ -30,8 +30,8 @@ test("the intro is the logo on navy, with a gold line, and it leaves on a timer"
   assert.doesNotMatch(screen, /\.focus\(/);
   assert.doesNotMatch(screen, /sessionStorage|localStorage/);
   assert.doesNotMatch(screen, /usePathname|onLoad|onError|skip|spinner|animate-spin/);
-  assert.match(css, /--ink: #0b1626/);
-  assert.match(css, /--gold: #e7b54a/);
+  assert.match(css, /--ink: #0a0f1c/);
+  assert.match(css, /\.vf-intro-line[\s\S]*background: var\(--gold\)/);
   assert.match(css, /@keyframes vf-line/);
   assert.match(css, /@keyframes vf-logo/);
   assert.match(css, /@keyframes vf-fade/);

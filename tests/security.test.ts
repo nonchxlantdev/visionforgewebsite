@@ -78,8 +78,8 @@ test("only on-site paths, the site's own https and the sales mailto are navigabl
 test("mailto helper rejects header injection and non-addresses", () => {
   assert.equal(mailtoHref("sales@visionforgestudio.app"), "mailto:sales@visionforgestudio.app");
   assert.equal(
-    mailtoHref("sales@visionforgestudio.app", "New project enquiry"),
-    "mailto:sales@visionforgestudio.app?subject=New%20project%20enquiry",
+    mailtoHref("sales@visionforgestudio.app", "New project inquiry"),
+    "mailto:sales@visionforgestudio.app?subject=New%20project%20inquiry",
   );
   assert.equal(mailtoHref("not an email"), undefined);
   assert.equal(mailtoHref("sales@visionforgestudio.app", "hello\r\nBcc:a@b.c"), undefined);
@@ -105,10 +105,10 @@ test("application source does not reference private environment variables", () =
 });
 
 test("mailto body is encoded, length-capped and rejects header injection", () => {
-  const href = mailtoHref("sales@visionforgestudio.app", "Project enquiry", "Hi Vision Forge! (shop) budget: BZ$500");
+  const href = mailtoHref("sales@visionforgestudio.app", "Project inquiry", "Hi Vision Forge! (shop) budget: BZ$500");
   assert.ok(href);
   assert.equal(isSafeNavigationHref(href), true);
   assert.equal(decodeURIComponent(href.split("&body=")[1]), "Hi Vision Forge! (shop) budget: BZ$500");
-  assert.equal(mailtoHref("sales@visionforgestudio.app", "Project enquiry", "hi\r\nBcc:a@b.c"), undefined);
-  assert.equal(mailtoHref("sales@visionforgestudio.app", "Project enquiry", "a".repeat(501)), undefined);
+  assert.equal(mailtoHref("sales@visionforgestudio.app", "Project inquiry", "hi\r\nBcc:a@b.c"), undefined);
+  assert.equal(mailtoHref("sales@visionforgestudio.app", "Project inquiry", "a".repeat(501)), undefined);
 });

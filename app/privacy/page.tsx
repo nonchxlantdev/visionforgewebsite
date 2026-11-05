@@ -52,7 +52,7 @@ const sections: LegalSection[] = [
     heading: "How we use it",
     body: (
       <ul>
-        <li>to reply to your enquiry and prepare quotes and proposals;</li>
+        <li>to reply to your inquiry and prepare quotes and proposals;</li>
         <li>to deliver, support and invoice the work we agree on;</li>
         <li>to meet legal, tax and accounting obligations;</li>
         <li>to keep our website and systems secure.</li>

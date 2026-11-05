@@ -19,7 +19,7 @@ export default function AboutPage() {
 
       <section aria-labelledby="story-title" className="border-b border-line">
         <div className="mx-auto grid max-w-[1180px] gap-10 px-5 py-20 sm:px-8 md:py-24 lg:grid-cols-[0.8fr_1.2fr] lg:px-10">
-          <SectionHeading id="story-title" title="Why Vision Forge exists" />
+          <SectionHeading id="story-title" title="Why Vision Forge exists" className="lg:sticky lg:top-[calc(var(--nav-h)+2.5rem)] lg:self-start" />
           <div className="max-w-[62ch] space-y-5 text-body">
             {about.story.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
@@ -45,8 +45,12 @@ export default function AboutPage() {
       <WhyUs />
 
       <section aria-labelledby="owned-title" className="border-b border-line">
-        <div className="mx-auto max-w-[1180px] px-5 py-20 sm:px-8 md:py-24 lg:px-10">
-          <SectionHeading id="owned-title" title="Belizean-owned" lede={about.owned} />
+        <div className="mx-auto flex max-w-[720px] flex-col items-center px-5 py-20 text-center sm:px-8 md:py-28">
+          <span aria-hidden className="mb-5 h-1.5 w-1.5 rounded-full bg-success" />
+          <h2 id="owned-title" className="font-display text-[clamp(2rem,4vw,3.25rem)] leading-[1.02] font-semibold tracking-[-0.04em] text-balance text-ink">
+            Belizean-owned
+          </h2>
+          <p className="mt-5 max-w-[48ch] text-[17px] leading-relaxed text-balance text-body">{about.owned}</p>
         </div>
       </section>
 

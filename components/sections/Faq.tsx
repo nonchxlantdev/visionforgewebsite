@@ -8,7 +8,7 @@ export function Faq({ items, title = "Questions people ask" }: { items: readonly
   return (
     <section aria-labelledby="faq-title" className="border-b border-line">
       <div className="mx-auto grid max-w-[1180px] gap-10 px-5 py-20 sm:px-8 lg:grid-cols-[0.8fr_1.2fr] lg:px-10">
-        <SectionHeading id="faq-title" title={title} />
+        <SectionHeading id="faq-title" title={title} className="lg:sticky lg:top-[calc(var(--nav-h)+2.5rem)] lg:self-start" />
         <div className="border-t border-line">
           {items.map((item) => (
             <details key={item.q} className="group border-b border-line">

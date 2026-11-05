@@ -8,16 +8,23 @@ import { LOGO_SIZE } from "@/lib/logo-variants";
 import { site } from "@/lib/site";
 import "./globals.css";
 
-const manrope = localFont({
-  src: "./fonts/manrope-var.woff2",
-  variable: "--font-manrope",
-  weight: "200 800",
+// Geist by Vercel, SIL Open Font License 1.1 (see ./fonts/GEIST-LICENSE.txt).
+const geist = localFont({
+  src: "./fonts/geist-var.woff2",
+  variable: "--font-geist",
+  weight: "100 900",
   display: "swap",
 });
 
+const geistMono = localFont({
+  src: "./fonts/geist-mono-var.woff2",
+  variable: "--font-geist-mono",
+  weight: "100 900",
+  display: "swap",
+});
 
 export const viewport: Viewport = {
-  themeColor: "#0b1626",
+  themeColor: "#ffffff",
   colorScheme: "light",
   width: "device-width",
   initialScale: 1,
@@ -92,12 +99,12 @@ const jsonLd = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${manrope.variable} h-full antialiased`}>
+    <html lang="en" className={`${geist.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="min-h-full bg-cream pb-[calc(4.75rem+env(safe-area-inset-bottom))] font-sans text-body antialiased md:pb-0">
         <div id="site">
           <a
             href="#main"
-            className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[70] focus:rounded-md focus:bg-gold focus:px-4 focus:py-3 focus:text-ink"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[70] focus:rounded-full focus:bg-ink focus:px-4 focus:py-3 focus:text-paper"
           >
             Skip to content
           </a>

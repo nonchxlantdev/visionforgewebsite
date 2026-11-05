@@ -16,10 +16,9 @@ test("how we work: steps, the new FAQ with structured data, and the closing band
   assert.doesNotMatch(page, /Timeline|Promises/);
 });
 
-test("numbered steps, then training and support set apart as optional", () => {
+test("the full scroll-driven steps, then training and support set apart as optional", () => {
   const steps = read("components/sections/ProcessSteps.tsx");
-  assert.match(steps, /<ol/);
-  assert.match(steps, /howWeWorkSteps\.map/);
+  assert.match(steps, /<ProcessScroll variant="full" \/>/);
   assert.match(steps, /afterLaunch\.title/);
   assert.match(steps, /<aside/);
 });

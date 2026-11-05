@@ -22,7 +22,7 @@ export async function verifyTurnstile(
   return data.success === true;
 }
 
-/** Sends the enquiry to the sales inbox through Resend. Returns false instead of throwing on an API error. */
+/** Sends the inquiry to the sales inbox through Resend. Returns false instead of throwing on an API error. */
 export async function sendWithResend(email: OutgoingEmail, apiKey: string | undefined, fetchImpl: FetchLike = fetch): Promise<boolean> {
   if (!apiKey) return false;
   const response = await fetchImpl(RESEND_URL, {

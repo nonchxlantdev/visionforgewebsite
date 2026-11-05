@@ -86,8 +86,8 @@ export const pains = [
   },
   {
     id: "followups",
-    quote: "Enquiries and follow-ups fall through the cracks.",
-    answer: "Every enquiry is captured, assigned and tracked, so nothing waits on memory.",
+    quote: "Inquiries and follow-ups fall through the cracks.",
+    answer: "Every inquiry is captured, assigned and tracked, so nothing waits on memory.",
   },
 ] as const;
 
@@ -236,7 +236,7 @@ export const workflowExamples: readonly WorkflowExample[] = [
   {
     id: "sales",
     title: "Sales and customer management",
-    steps: ["New enquiry captured", "Lead record created", "Right person notified", "Follow-up task scheduled"],
+    steps: ["New inquiry captured", "Lead record created", "Right person notified", "Follow-up task scheduled"],
     outcome: "Leads get a timely response instead of going cold in an inbox.",
   },
   {
@@ -254,7 +254,7 @@ export const workflowExamples: readonly WorkflowExample[] = [
   {
     id: "service",
     title: "Customer service and communications",
-    steps: ["Enquiry on a supported channel", "Captured and routed", "Tracked until resolved"],
+    steps: ["Inquiry on a supported channel", "Captured and routed", "Tracked until resolved"],
     outcome: "Fewer requests lost in inboxes or message threads.",
   },
 ];

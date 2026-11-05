@@ -102,12 +102,12 @@ export function isLikelyBot(raw: unknown): boolean {
 
 export type OutgoingEmail = { to: string; replyTo: string; subject: string; text: string };
 
-export function buildEnquiryEmail(data: ContactData): OutgoingEmail {
+export function buildInquiryEmail(data: ContactData): OutgoingEmail {
   const lane = LANE_OPTIONS.find((option) => option.id === data.lane)?.label ?? data.lane;
   return {
     to: SALES_INBOX,
     replyTo: data.email,
-    subject: `New enquiry from ${data.business}`,
+    subject: `New inquiry from ${data.business}`,
     text: [
       `Name: ${data.name}`,
       `Business: ${data.business}`,
@@ -154,7 +154,7 @@ export async function handleContact(raw: unknown, deps: ContactDeps): Promise<{ 
   if (!verified) return { status: 403, body: { ok: false, reason: "verification" } };
 
   try {
-    if (!(await deps.send(buildEnquiryEmail(result.data)))) return { status: 502, body: { ok: false, reason: "failed" } };
+    if (!(await deps.send(buildInquiryEmail(result.data)))) return { status: 502, body: { ok: false, reason: "failed" } };
   } catch {
     return { status: 502, body: { ok: false, reason: "failed" } };
   }

@@ -4,7 +4,7 @@ import { sendWithResend, verifyTurnstile } from "@/lib/contact-delivery";
 
 type ContactEnv = { RESEND_API_KEY?: string; TURNSTILE_SECRET_KEY?: string };
 
-/** The form sends a few KB at most; anything bigger is not a real enquiry. */
+/** The form sends a few KB at most; anything bigger is not a real inquiry. */
 const MAX_BODY_BYTES = 16_000;
 
 const json = (body: unknown, status: number) => Response.json(body, { status, headers: { "Cache-Control": "no-store" } });

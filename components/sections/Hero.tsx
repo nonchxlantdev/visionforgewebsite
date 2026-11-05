@@ -1,72 +1,58 @@
-import { Check } from "lucide-react";
-import type { ReactNode } from "react";
-import { HubScene } from "@/components/sections/HubScene";
+import { HubPanel } from "@/components/sections/HubPanel";
 import { CtaLink } from "@/components/ui/CtaLink";
 import { home } from "@/lib/site";
 
-/** Wraps each listed phrase in `text` so it reads brighter than the sentence around it. */
-function highlight(text: string, phrases: readonly string[]): ReactNode[] {
-  const pattern = new RegExp(`(${phrases.map((p) => p.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")).join("|")})`);
-  return text.split(pattern).map((part, i) =>
-    phrases.includes(part) ? (
-      <span key={i} className="font-semibold text-paper">
-        {part}
-      </span>
-    ) : (
-      part
-    ),
-  );
+/** The last two words of the headline ("business forward.") are set in reef blue. */
+function splitHeadline(text: string): [string, string] {
+  const words = text.split(" ");
+  return [words.slice(0, -2).join(" "), words.slice(-2).join(" ")];
 }
 
+/**
+ * Option B hero: one short screen (trust pill, headline, one line, two buttons),
+ * then the hub panel and the three things we do. The longer intro copy lives
+ * in <Intro /> just below, so the first screen stays light.
+ */
 export function Hero() {
+  const [lead, tail] = splitHeadline(home.headline);
   return (
-    <section
-      aria-labelledby="hero-title"
-      className="on-dark relative overflow-hidden bg-ink bg-[radial-gradient(70%_60%_at_50%_70%,#1d2c46_0%,#0b1626_70%)]"
-    >
-      <div className="mx-auto max-w-[1180px] px-5 pt-14 sm:px-8 md:pt-20 lg:px-10">
-        <div className="mx-auto max-w-3xl text-center">
-          <p className="mb-6 flex flex-col items-center justify-center gap-x-3 gap-y-1 sm:flex-row sm:flex-wrap text-[12px] font-semibold tracking-[0.14em] text-gold uppercase sm:text-[13px]">
-            {home.eyebrow.map((item, i) => (
-              <span key={item} className="flex items-center gap-x-3">
-                {i > 0 ? <span aria-hidden className="hidden h-1 w-1 rounded-full bg-gold/60 sm:block" /> : null}
-                {item}
-              </span>
-            ))}
-          </p>
-          <h1
-            id="hero-title"
-            className="bg-gradient-to-b from-paper via-paper to-[#c9d1dc] bg-clip-text font-display text-[clamp(2.4rem,5.6vw,4.25rem)] leading-[1.04] font-extrabold tracking-[-0.035em] text-balance text-transparent"
-          >
-            {home.headline}
-          </h1>
-          <span aria-hidden className="mx-auto mt-7 block h-px w-24 bg-gradient-to-r from-transparent via-gold to-transparent" />
-          <p className="mx-auto mt-7 max-w-[40ch] font-display text-[1.25rem] leading-snug font-bold text-balance text-paper md:text-[1.5rem]">{home.lede}</p>
-          <p className="mx-auto mt-4 max-w-[62ch] text-[1rem] leading-relaxed text-on-ink-2 md:text-[1.0625rem]">
-            {highlight(home.detail, home.capabilities)}
-          </p>
-          <p className="mx-auto mt-3 hidden max-w-[62ch] text-[1rem] leading-relaxed text-on-ink-2 sm:block md:text-[1.0625rem]">{home.detailMore}</p>
-          <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
-            <CtaLink href={home.primary.href} variant="gold">
-              {home.primary.label}
-            </CtaLink>
-            <CtaLink href={home.secondary.href} variant="ghostLight">
-              {home.secondary.label}
-            </CtaLink>
-          </div>
-          <ul className="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 text-[15px] text-on-ink-2">
-            {home.trust.map((item) => (
-              <li key={item} className="flex items-center gap-2">
-                <Check aria-hidden className="h-4 w-4 text-gold" strokeWidth={2.25} />
-                {item}
-              </li>
-            ))}
-          </ul>
+    <section aria-labelledby="hero-title" className="px-5 pt-16 sm:px-8 md:pt-24">
+      <div className="mx-auto flex max-w-[1120px] flex-col items-center text-center">
+        <ul className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1 rounded-full border border-line bg-mist px-4 py-1.5 text-[13px] font-medium text-ink">
+          {home.trust.map((item, i) => (
+            <li key={item} className="flex items-center gap-2">
+              {i === 0 ? <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-success" /> : null}
+              {item}
+            </li>
+          ))}
+        </ul>
+
+        <h1
+          id="hero-title"
+          className="mt-7 max-w-[16ch] font-display text-[clamp(2.75rem,7.4vw,6rem)] leading-[0.98] font-semibold tracking-[-0.05em] text-balance text-ink"
+        >
+          {lead} <span className="text-brand">{tail}</span>
+        </h1>
+
+        <p className="mt-7 max-w-[40ch] text-[1.125rem] leading-snug text-balance text-body md:text-[1.25rem]">{home.lede}</p>
+
+        <div className="mt-8 flex w-full flex-col justify-center gap-2.5 sm:w-auto sm:flex-row">
+          <CtaLink href={home.primary.href} variant="gold">
+            {home.primary.label}
+          </CtaLink>
+          <CtaLink href={home.secondary.href} variant="secondary">
+            {home.secondary.label}
+          </CtaLink>
         </div>
       </div>
-      <div className="mx-auto max-w-[1280px] px-2 pb-10 sm:px-6">
-        <HubScene />
-      </div>
+
+      <HubPanel />
+
+      <ul className="mx-auto mt-14 flex max-w-[1120px] flex-wrap justify-around gap-x-8 gap-y-3 border-y border-line py-7 font-mono text-[13px] tracking-[0.04em] text-ink uppercase">
+        {home.eyebrow.map((item) => (
+          <li key={item}>{item}</li>
+        ))}
+      </ul>
     </section>
   );
 }

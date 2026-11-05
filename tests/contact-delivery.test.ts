@@ -14,7 +14,7 @@ function fakeFetch(status: number, json: unknown) {
   return { calls, impl };
 }
 
-const email = { to: "sales@visionforgestudio.app", replyTo: "maria@example.bz", subject: "New enquiry from Chan's", text: "hi" };
+const email = { to: "sales@visionforgestudio.app", replyTo: "maria@example.bz", subject: "New inquiry from Chan's", text: "hi" };
 
 test("turnstile: posts token, secret and ip, and trusts only success === true", async () => {
   const ok = fakeFetch(200, { success: true });
@@ -46,7 +46,7 @@ test("resend: sends from the website address to sales with reply-to", async () =
     from: FROM_ADDRESS,
     to: ["sales@visionforgestudio.app"],
     reply_to: "maria@example.bz",
-    subject: "New enquiry from Chan's",
+    subject: "New inquiry from Chan's",
     text: "hi",
   });
   assert.equal(FROM_ADDRESS, "Vision Forge Studio website <website@visionforgestudio.app>");

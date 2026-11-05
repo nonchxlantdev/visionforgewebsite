@@ -1,22 +1,32 @@
 @import "tailwindcss";
 
+/*
+ * "Option B" theme (November 2026): white and near-black with reef blue.
+ * --gold keeps its old name so existing classes still work; it is now a light
+ * reef blue, used for text and focus rings on dark panels.
+ */
 :root {
-  --ink: #0b1626;
-  --ink-hover: #1b2a42;
-  --gold: #e7b54a;
-  --gold-hover: #f0c467;
-  --accent: #8a5f0f;
-  --coral: #b23a22;
-  --body: #3f4756;
-  --muted: #5a6372;
-  --cream: #faf8f3;
-  --mist: #f2eee5;
+  --ink: #0a0f1c;
+  --ink-hover: #1c2335;
+  --ink-raised: #151b2b;
+  --ink-line: #2a3245;
+  --brand: #0d63f3;
+  --brand-hover: #0a4fc2;
+  --brand-soft: #eaf1ff;
+  --gold: #7fb0ff;
+  --gold-hover: #a3c6ff;
+  --accent: #0d63f3;
+  --coral: #c2410c;
+  --body: #4b5565;
+  --muted: #636c7d;
+  --cream: #ffffff;
+  --mist: #f3f5f8;
   --paper: #ffffff;
-  --line: #e2ddd2;
-  --on-ink-2: #c3cad5;
-  --success: #1a7a4f;
-  --danger: #b23a22;
-  --nav-h: 4.5rem;
+  --line: #e5e8ee;
+  --on-ink-2: #b7bfcc;
+  --success: #11805f;
+  --danger: #c2410c;
+  --nav-h: 4rem;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   color-scheme: light;
 }
@@ -24,6 +34,11 @@
 @theme inline {
   --color-ink: var(--ink);
   --color-ink-hover: var(--ink-hover);
+  --color-ink-raised: var(--ink-raised);
+  --color-ink-line: var(--ink-line);
+  --color-brand: var(--brand);
+  --color-brand-hover: var(--brand-hover);
+  --color-brand-soft: var(--brand-soft);
   --color-gold: var(--gold);
   --color-gold-hover: var(--gold-hover);
   --color-accent: var(--accent);
@@ -37,12 +52,13 @@
   --color-on-ink-2: var(--on-ink-2);
   --color-success: var(--success);
   --color-danger: var(--danger);
-  --font-display: var(--font-manrope), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-geist), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
 }
 
 html {
-  scroll-padding-top: var(--nav-h);
+  scroll-padding-top: calc(var(--nav-h) + 1.5rem);
 }
 
 html,
@@ -66,7 +82,7 @@ body {
 }
 
 ::selection {
-  background: var(--gold);
+  background: var(--brand-soft);
   color: var(--ink);
 }
 
@@ -90,9 +106,36 @@ body {
 
 /* ---------- header ---------- */
 
+.nav-shell {
+  background: rgb(255 255 255 / 0.9);
+  backdrop-filter: blur(12px);
+}
+
 .site-header[data-scrolled="true"] .nav-shell {
-  background: rgb(11 22 38 / 0.94);
-  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 30px -12px rgb(10 15 28 / 0.18);
+}
+
+/* ---------- hub panel ---------- */
+
+/* A short bright dash that runs once along a connection line (paths use pathLength="100"). */
+@keyframes vf-pulse {
+  from { stroke-dashoffset: 12; }
+  to { stroke-dashoffset: -100; }
+}
+
+.vf-pulse {
+  stroke-dasharray: 12 100;
+  stroke-dashoffset: 12;
+  animation: vf-pulse 0.85s cubic-bezier(0.45, 0, 0.55, 1) forwards;
+}
+
+@keyframes vf-badge {
+  from { opacity: 0; transform: scale(0.8); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.vf-badge {
+  animation: vf-badge 0.3s ease-out;
 }
 
 /* ---------- legal ---------- */
@@ -163,8 +206,8 @@ body {
 }
 
 @media (prefers-reduced-transparency: reduce) {
-  .site-header[data-scrolled="true"] .nav-shell {
-    background: var(--ink);
+  .nav-shell {
+    background: var(--paper);
     backdrop-filter: none;
   }
 }

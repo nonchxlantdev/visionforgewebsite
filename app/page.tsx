@@ -3,6 +3,7 @@ import { Capabilities } from "@/components/sections/Capabilities";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { Hero } from "@/components/sections/Hero";
 import { Industries } from "@/components/sections/Industries";
+import { Intro } from "@/components/sections/Intro";
 import { Lanes } from "@/components/sections/Lanes";
 import { MoreServices } from "@/components/sections/MoreServices";
 import { Pains } from "@/components/sections/Pains";
@@ -13,11 +14,12 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-/** Order follows the October 2026 website direction brief. */
+/** Order follows the October 2026 brief; look is the November 2026 "Option B" redesign. */
 export default function Home() {
   return (
     <>
       <Hero />
+      <Intro />
       <Pains />
       <Capabilities />
       <Workflows />

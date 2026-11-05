@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import {
-  buildEnquiryEmail,
+  buildInquiryEmail,
   CONTACT_FIELDS,
   handleContact,
   HONEYPOT_FIELD,
@@ -82,13 +82,13 @@ test("the honeypot flags bots", () => {
   assert.equal(isLikelyBot(null), false);
 });
 
-test("the enquiry email goes to sales with reply-to set to the visitor", () => {
+test("the inquiry email goes to sales with reply-to set to the visitor", () => {
   const result = validateContact(good);
   assert.ok(result.ok);
-  const email = buildEnquiryEmail(result.data);
+  const email = buildInquiryEmail(result.data);
   assert.equal(email.to, "sales@visionforgestudio.app");
   assert.equal(email.replyTo, "maria@chanshardware.bz");
-  assert.equal(email.subject, "New enquiry from Chan's Hardware");
+  assert.equal(email.subject, "New inquiry from Chan's Hardware");
   assert.match(email.text, /Which fits best: Small business/);
   assert.match(email.text, /What's slowing them down:\nWe take orders/);
 });

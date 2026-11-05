@@ -5,17 +5,17 @@ import { isSafeNavigationHref } from "@/lib/safe-href";
 type Variant = "primary" | "secondary" | "link" | "gold" | "ghostLight";
 
 const looks: Record<Variant, string> = {
-  primary: "min-h-12 rounded-md bg-ink px-6 text-paper hover:bg-ink-hover",
-  secondary: "min-h-12 rounded-md border border-ink px-6 text-ink hover:bg-mist",
-  link: "min-h-11 text-accent underline decoration-accent/40 underline-offset-4 hover:decoration-accent",
-  // For dark bands: gold like the logo, and a light outline beside it.
-  gold: "min-h-12 rounded-md bg-gold px-6 font-semibold text-ink hover:bg-gold-hover",
-  ghostLight: "min-h-12 rounded-md border border-white/35 px-6 text-paper hover:bg-white/10",
+  primary: "min-h-12 rounded-full bg-ink px-6 font-semibold text-paper hover:bg-ink-hover",
+  secondary: "min-h-12 rounded-full border border-line bg-mist px-6 font-semibold text-ink hover:bg-line",
+  link: "min-h-11 font-semibold text-accent underline decoration-accent/30 underline-offset-4 hover:decoration-accent",
+  // The main call to action: solid reef blue. (Kept the old "gold" name so callers don't change.)
+  gold: "min-h-12 rounded-full bg-brand px-6 font-semibold text-paper hover:bg-brand-hover",
+  ghostLight: "min-h-12 rounded-full border border-white/30 px-6 font-semibold text-paper hover:bg-white/10",
 };
 
 /** Shared look for links and buttons that act as calls to action. */
 export function ctaClassName(variant: Variant = "primary", extra = ""): string {
-  return `inline-flex items-center justify-center gap-2 text-[16px] font-medium whitespace-nowrap transition-colors duration-200 ${looks[variant]} ${extra}`.trim();
+  return `inline-flex items-center justify-center gap-2 text-[16px] whitespace-nowrap transition-colors duration-200 ${looks[variant]} ${extra}`.trim();
 }
 
 type CtaLinkProps = {

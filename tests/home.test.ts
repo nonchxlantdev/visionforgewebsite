@@ -15,19 +15,25 @@ test("home follows the brief's order", () => {
   assert.doesNotMatch(page, /<ClosingBand|<PageIndex|<AutomateList|<Workbench/);
 });
 
-test("hero: centred copy, one h1, then the 3D hub", () => {
+test("hero: short first screen (trust pill, one h1, one line, two buttons), then the hub panel", () => {
   const hero = read("components/sections/Hero.tsx");
   assert.match(hero, /home\.headline/);
   assert.match(hero, /<h1/);
   assert.match(hero, /home\.trust\.map/);
   assert.match(hero, /text-center/);
-  assert.ok(hero.indexOf("<h1") < hero.indexOf("<HubScene"));
+  assert.ok(hero.indexOf("<h1") < hero.indexOf("<HubPanel"));
   assert.match(hero, /home\.lede/);
   assert.match(hero, /home\.eyebrow\.map/);
-  assert.match(hero, /home\.detailMore/);
-  assert.match(hero, /highlight\(home\.detail, home\.capabilities\)/);
-  assert.match(hero, /bg-clip-text/);
+  assert.doesNotMatch(hero, /home\.detail/, "the long copy lives in <Intro />");
   assert.doesNotMatch(hero, /Label|goldWord|emblem-glint|className="label|<Logo/);
+});
+
+test("intro: the hero's longer copy, with the three capabilities highlighted", () => {
+  const intro = read("components/sections/Intro.tsx");
+  assert.match(intro, /highlight\(home\.detail, home\.capabilities\)/);
+  assert.match(intro, /home\.detailMore/);
+  const page = read("app/page.tsx");
+  assert.ok(page.indexOf("<Hero") < page.indexOf("<Intro") && page.indexOf("<Intro") < page.indexOf("<Pains"));
 });
 
 test("retired home parts are gone", () => {
@@ -42,11 +48,25 @@ test("retired home parts are gone", () => {
   }
 });
 
-test("how-we-work summary is numbered and links to the full page", () => {
+test("how-we-work summary uses the compact scroll-driven steps and links to the full page", () => {
   const src = read("components/sections/Stages.tsx");
-  assert.match(src, /howWeWorkSteps\.map/);
+  assert.match(src, /<ProcessScroll variant="compact" \/>/);
   assert.match(src, /href="\/how-we-work"/);
-  assert.match(src, /<ol/);
+  const scroll = read("components/sections/process/ProcessScroll.tsx");
+  assert.match(scroll, /<ol/);
+  assert.match(scroll, /howWeWorkSteps\.map/);
+  assert.match(scroll, /aria-current=\{isActive \? "step"/);
+  assert.match(scroll, /IntersectionObserver/);
+  assert.match(scroll, /lg:hidden/, "phones get a still picture per step");
+  assert.match(scroll, /sticky/, "desktop pins the picture");
+});
+
+test("the process picture is decorative, eases between steps and respects reduced motion", () => {
+  const scene = read("components/sections/process/ProcessScene.tsx");
+  assert.match(scene, /aria-hidden className=\{`relative overflow-hidden/);
+  assert.match(scene, /processScene\(step, HUB_TOOLS, shape\)/);
+  assert.match(scene, /small \? "narrow" : "wide"/, "phone cards use the two-column pictures");
+  assert.match(scene, /motion-reduce:transition-none/);
 });
 
 test("capabilities lead with automation and integration; workflows carry the feasibility note", () => {
@@ -56,8 +76,13 @@ test("capabilities lead with automation and integration; workflows carry the fea
   assert.match(wf, /workflowNote/);
 });
 
-test("the hub visual stays in the hero", () => {
-  assert.match(read("components/sections/Hero.tsx"), /<HubScene \/>/);
+test("the hub visual stays in the hero: work flows from source tools, through Vision Forge, to target tools", () => {
+  assert.match(read("components/sections/Hero.tsx"), /<HubPanel \/>/);
+  const panel = read("components/sections/HubPanel.tsx");
+  assert.match(panel, /FLOW_SOURCES/);
+  assert.match(panel, /FLOW_TARGETS/);
+  assert.match(panel, /<figcaption/);
+  assert.match(panel, /prefers-reduced-motion: reduce/);
 });
 
 test("who we help: three audiences, sectors named in one sentence, no marquee", () => {

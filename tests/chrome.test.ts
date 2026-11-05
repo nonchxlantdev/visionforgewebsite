@@ -29,7 +29,7 @@ test("the phone bar is now a single Get started button", () => {
   const bar = read("components/layout/GetStartedBar.tsx");
   assert.match(bar, /href="\/get-started"/);
   assert.match(bar, /md:hidden/);
-  assert.match(bar, /bg-ink/);
+  assert.match(bar, /bg-paper/);
   assert.match(bar, /ctaClassName\("gold"/);
   const layout = read("app/layout.tsx");
   assert.match(layout, /<GetStartedBar \/>/);
@@ -79,12 +79,16 @@ test("inside a labelled home link the logo is decorative, so the name isn't read
   }
 });
 
-test("dark showcase bands: nav, page headers, closing band and footer sit on navy", () => {
-  for (const file of ["components/layout/Navbar.tsx", "components/layout/PageHeader.tsx", "components/layout/ClosingBand.tsx", "components/layout/Footer.tsx", "components/sections/Hero.tsx"]) {
+test("option B: light floating nav and hero; page headers, closing band and footer are dark panels", () => {
+  for (const file of ["components/layout/PageHeader.tsx", "components/layout/ClosingBand.tsx", "components/layout/Footer.tsx", "components/sections/Workflows.tsx", "components/sections/ContactSection.tsx"]) {
     const src = read(file);
     assert.match(src, /bg-ink/, file);
     assert.match(src, /on-dark/, file);
   }
+  for (const file of ["components/layout/Navbar.tsx", "components/sections/Hero.tsx"]) {
+    assert.doesNotMatch(read(file), /bg-ink\b(?!-)|on-dark/, `${file} should be light`);
+  }
+  assert.match(read("components/layout/Navbar.tsx"), /nav-shell[^"]*rounded-full/);
   assert.match(read("components/ui/CtaLink.tsx"), /gold: "/);
   assert.match(read("components/ui/CtaLink.tsx"), /ghostLight: "/);
   for (const file of ["components/layout/Navbar.tsx", "components/layout/ClosingBand.tsx", "components/sections/Hero.tsx"]) {
@@ -93,7 +97,7 @@ test("dark showcase bands: nav, page headers, closing band and footer sit on nav
 });
 
 test("reading sections stay light", () => {
-  for (const file of ["components/sections/Pains.tsx", "components/sections/WhyUs.tsx", "components/sections/ContactSection.tsx", "components/sections/Lanes.tsx"]) {
+  for (const file of ["components/sections/Pains.tsx", "components/sections/WhyUs.tsx", "components/sections/Lanes.tsx", "components/sections/Intro.tsx"]) {
     assert.doesNotMatch(read(file), /bg-ink\b/, file);
   }
 });
