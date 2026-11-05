@@ -107,6 +107,17 @@ test("body text is 17px on phones and 18px from tablet up", () => {
 });
 
 test("only the hub-panel and load-intro keyframes; reduced motion is handled", () => {
-  assert.deepEqual(css.match(/@keyframes [\w-]+/g), ["@keyframes vf-pulse", "@keyframes vf-badge", "@keyframes vf-line", "@keyframes vf-logo", "@keyframes vf-fade"]);
+  assert.deepEqual(css.match(/@keyframes [\w-]+/g), [
+    "@keyframes vf-pulse",
+    "@keyframes vf-badge",
+    "@keyframes vf-forge-in",
+    "@keyframes vf-hammer",
+    "@keyframes vf-jolt",
+    "@keyframes vf-spark",
+    "@keyframes vf-flash",
+    "@keyframes vf-forge-out",
+    "@keyframes vf-logo",
+    "@keyframes vf-fade",
+  ]);
   assert.match(css, /@media \(prefers-reduced-motion: reduce\)/);
 });
