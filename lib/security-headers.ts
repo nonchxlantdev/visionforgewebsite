@@ -17,17 +17,24 @@
  * - https://challenges.cloudflare.com in script-src and frame-src: Cloudflare
  *   Turnstile, the spam check on the contact form, loads its script from there
  *   and runs its check in an iframe from the same origin.
+ * - https://static.cloudflareinsights.com in script-src and
+ *   https://cloudflareinsights.com in connect-src: Cloudflare Web Analytics.
+ *   Cloudflare injects its beacon into every page; without these the CSP
+ *   blocks it and no visits are recorded.
  */
 
 export type SecurityHeader = { key: string; value: string };
 
 const TURNSTILE_ORIGIN = "https://challenges.cloudflare.com";
+/** Cloudflare Web Analytics: Cloudflare injects the beacon script and it reports back to this origin. */
+const CF_ANALYTICS_SCRIPT = "https://static.cloudflareinsights.com";
+const CF_ANALYTICS_REPORT = "https://cloudflareinsights.com";
 
 export function contentSecurityPolicy(isProduction: boolean): string {
-  const scriptSrc = ["'self'", "'unsafe-inline'", TURNSTILE_ORIGIN];
+  const scriptSrc = ["'self'", "'unsafe-inline'", TURNSTILE_ORIGIN, CF_ANALYTICS_SCRIPT];
   if (!isProduction) scriptSrc.push("'unsafe-eval'");
 
-  const connectSrc = ["'self'"];
+  const connectSrc = ["'self'", CF_ANALYTICS_REPORT];
   if (!isProduction) {
     connectSrc.push("ws://localhost:*", "ws://127.0.0.1:*");
   }

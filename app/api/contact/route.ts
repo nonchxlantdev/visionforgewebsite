@@ -1,5 +1,5 @@
 import { getCloudflareContext } from "@opennextjs/cloudflare";
-import { handleContact } from "@/lib/contact";
+import { handleContact, TURNSTILE_HOSTNAMES } from "@/lib/contact";
 import { sendWithResend, verifyTurnstile } from "@/lib/contact-delivery";
 
 type ContactEnv = { RESEND_API_KEY?: string; TURNSTILE_SECRET_KEY?: string };
@@ -28,7 +28,7 @@ export async function POST(request: Request): Promise<Response> {
   const ip = request.headers.get("cf-connecting-ip") ?? undefined;
 
   const { status, body } = await handleContact(raw, {
-    verifyToken: (token) => verifyTurnstile(token, env.TURNSTILE_SECRET_KEY, ip),
+    verifyToken: (token) => verifyTurnstile(token, env.TURNSTILE_SECRET_KEY, ip, fetch, TURNSTILE_HOSTNAMES),
     send: (email) => sendWithResend(email, env.RESEND_API_KEY),
   });
   return json(body, status);

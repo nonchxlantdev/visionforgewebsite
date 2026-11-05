@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
 import { FROM_ADDRESS, RESEND_URL, sendWithResend, TURNSTILE_VERIFY_URL, verifyTurnstile } from "../lib/contact-delivery.ts";
+import { TURNSTILE_HOSTNAMES, TURNSTILE_SITE_KEY, TURNSTILE_TEST_SITE_KEY, turnstileSiteKeyFor } from "../lib/contact.ts";
 
 type Call = { url: string; init: RequestInit };
 
@@ -67,4 +68,32 @@ test("the route reads secrets from the Cloudflare context and caps the body size
   assert.match(route, /TURNSTILE_SECRET_KEY/);
   assert.match(route, /MAX_BODY_BYTES/);
   assert.match(route, /"Cache-Control": "no-store"/);
+});
+
+test("turnstile: with a real secret, tokens solved on another hostname are rejected", async () => {
+  const hosts = TURNSTILE_HOSTNAMES;
+  const ours = fakeFetch(200, { success: true, hostname: "visionforgestudio.app" });
+  assert.equal(await verifyTurnstile("tok", "0x4real-secret", undefined, ours.impl, hosts), true);
+  const theirs = fakeFetch(200, { success: true, hostname: "evil.example" });
+  assert.equal(await verifyTurnstile("tok", "0x4real-secret", undefined, theirs.impl, hosts), false);
+  const missing = fakeFetch(200, { success: true });
+  assert.equal(await verifyTurnstile("tok", "0x4real-secret", undefined, missing.impl, hosts), false);
+});
+
+test("turnstile: Cloudflare test secrets skip the hostname check so local previews work", async () => {
+  const f = fakeFetch(200, { success: true, hostname: "example.com" });
+  assert.equal(await verifyTurnstile("tok", "1x0000000000000000000000000000000AA", undefined, f.impl, TURNSTILE_HOSTNAMES), true);
+});
+
+test("site key: production key on the live site, test key on localhost", () => {
+  assert.match(TURNSTILE_SITE_KEY, /^0x/);
+  assert.equal(turnstileSiteKeyFor("visionforgestudio.app"), TURNSTILE_SITE_KEY);
+  assert.equal(turnstileSiteKeyFor("www.visionforgestudio.app"), TURNSTILE_SITE_KEY);
+  assert.equal(turnstileSiteKeyFor("localhost"), TURNSTILE_TEST_SITE_KEY);
+  assert.equal(turnstileSiteKeyFor("127.0.0.1"), TURNSTILE_TEST_SITE_KEY);
+});
+
+test("the route checks the Turnstile hostname", () => {
+  const route = readFileSync(new URL("../app/api/contact/route.ts", import.meta.url), "utf8");
+  assert.match(route, /TURNSTILE_HOSTNAMES/);
 });

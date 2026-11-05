@@ -25,12 +25,15 @@ test("production CSP stays restrictive", () => {
   assert.match(policy, /form-action 'self'/);
   assert.match(policy, /frame-ancestors 'none'/);
   assert.match(policy, /frame-src https:\/\/challenges\.cloudflare\.com(;|$)/);
-  assert.match(policy, /script-src 'self' 'unsafe-inline' https:\/\/challenges\.cloudflare\.com(;|$)/);
+  assert.match(
+    policy,
+    /script-src 'self' 'unsafe-inline' https:\/\/challenges\.cloudflare\.com https:\/\/static\.cloudflareinsights\.com(;|$)/,
+  );
+  assert.match(policy, /connect-src 'self' https:\/\/cloudflareinsights\.com(;|$)/);
   assert.match(policy, /upgrade-insecure-requests/);
   assert.doesNotMatch(policy, /unsafe-eval/);
   assert.doesNotMatch(policy, /script-src [^;]*\*/);
   assert.doesNotMatch(policy, /connect-src [^;]*\*/);
-  assert.match(policy, /connect-src 'self'/);
   assert.match(policy, /font-src 'self'/);
 });
 
@@ -111,4 +114,12 @@ test("mailto body is encoded, length-capped and rejects header injection", () =>
   assert.equal(decodeURIComponent(href.split("&body=")[1]), "Hi Vision Forge! (shop) budget: BZ$500");
   assert.equal(mailtoHref("sales@visionforgestudio.app", "Project inquiry", "hi\r\nBcc:a@b.c"), undefined);
   assert.equal(mailtoHref("sales@visionforgestudio.app", "Project inquiry", "a".repeat(501)), undefined);
+});
+
+test("security.txt points researchers to the sales inbox and has not expired", () => {
+  const text = readFileSync(new URL("public/.well-known/security.txt", root), "utf8");
+  assert.match(text, /^Contact: mailto:sales@visionforgestudio\.app$/m);
+  const expires = text.match(/^Expires: (.+)$/m);
+  assert.ok(expires, "security.txt needs an Expires line");
+  assert.ok(new Date(expires[1]).getTime() > Date.now(), "security.txt Expires date has passed; bump it");
 });

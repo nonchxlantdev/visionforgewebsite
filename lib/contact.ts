@@ -3,8 +3,21 @@
  * No imports, so node --test can load it directly.
  */
 
-/** Public Turnstile site key. Cloudflare's always-pass test key until launch (see the plan's Task 14). */
-export const TURNSTILE_SITE_KEY = "1x00000000000000000000AA";
+/** Public Turnstile site key for the production widget (hostname: visionforgestudio.app). Safe to ship. */
+export const TURNSTILE_SITE_KEY = "0x4AAAAAAF0TwTuxETOXKkAY";
+
+/** Cloudflare's always-pass test site key, used on localhost where the production widget would refuse to load. */
+export const TURNSTILE_TEST_SITE_KEY = "1x00000000000000000000AA";
+
+/** Hostnames the production widget is registered for. Tokens solved anywhere else are rejected by the server. */
+export const TURNSTILE_HOSTNAMES = ["visionforgestudio.app", "www.visionforgestudio.app"] as const;
+
+const LOCAL_HOSTS = new Set(["localhost", "127.0.0.1", "[::1]", "::1"]);
+
+/** Picks the site key for the page's hostname: test key locally, production key everywhere else. */
+export function turnstileSiteKeyFor(hostname: string): string {
+  return LOCAL_HOSTS.has(hostname) || hostname.endsWith(".localhost") ? TURNSTILE_TEST_SITE_KEY : TURNSTILE_SITE_KEY;
+}
 
 export const SALES_INBOX = "sales@visionforgestudio.app";
 

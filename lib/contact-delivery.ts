@@ -6,20 +6,35 @@ export const FROM_ADDRESS = "Vision Forge Studio website <website@visionforgestu
 
 type FetchLike = (input: string, init: RequestInit) => Promise<Response>;
 
-/** Asks Cloudflare whether the Turnstile token is genuine. Anything other than an explicit success is a fail. */
+/** Cloudflare's published Turnstile test secrets start like this (always pass / always fail / token spent). */
+export function isTurnstileTestSecret(secret: string): boolean {
+  return /^[123]x0{20,}/.test(secret);
+}
+
+/**
+ * Asks Cloudflare whether the Turnstile token is genuine. Anything other than an explicit success is a fail.
+ * With allowedHostnames, the token must also have been solved on one of those hostnames, so a token from
+ * another site using the same widget can't be replayed here. Test secrets skip that check (they report a
+ * dummy hostname) so local previews still work.
+ */
 export async function verifyTurnstile(
   token: string,
   secret: string | undefined,
   ip: string | undefined,
   fetchImpl: FetchLike = fetch,
+  allowedHostnames?: readonly string[],
 ): Promise<boolean> {
   if (!secret) return false;
   const form = new URLSearchParams({ secret, response: token });
   if (ip) form.set("remoteip", ip);
   const response = await fetchImpl(TURNSTILE_VERIFY_URL, { method: "POST", body: form });
   if (!response.ok) return false;
-  const data = (await response.json()) as { success?: unknown };
-  return data.success === true;
+  const data = (await response.json()) as { success?: unknown; hostname?: unknown };
+  if (data.success !== true) return false;
+  if (allowedHostnames && !isTurnstileTestSecret(secret)) {
+    return typeof data.hostname === "string" && allowedHostnames.includes(data.hostname);
+  }
+  return true;
 }
 
 /** Sends the inquiry to the sales inbox through Resend. Returns false instead of throwing on an API error. */

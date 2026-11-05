@@ -7,7 +7,7 @@ import {
   FIELD_LIMITS,
   HONEYPOT_FIELD,
   LANE_OPTIONS,
-  TURNSTILE_SITE_KEY,
+  turnstileSiteKeyFor,
   validateContact,
   type ContactErrors,
   type ContactField,
@@ -80,7 +80,7 @@ export function ContactForm() {
       .then((api) => {
         if (cancelled || !widgetRef.current || widgetId.current) return;
         widgetId.current = api.render(widgetRef.current, {
-          sitekey: TURNSTILE_SITE_KEY,
+          sitekey: turnstileSiteKeyFor(window.location.hostname),
           theme: "light",
           appearance: "interaction-only",
           callback: (value: string) => setToken(value),

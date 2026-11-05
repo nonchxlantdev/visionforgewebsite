@@ -1,0 +1,4 @@
+Contact: mailto:sales@visionforgestudio.app
+Expires: 2027-11-04T00:00:00.000Z
+Preferred-Languages: en, es
+Canonical: https://visionforgestudio.app/.well-known/security.txt
